@@ -23,7 +23,10 @@ box-shadow: 0 0 10px 1px red;
 opacity: 0.5;
 }
 #logo1 {
-  height: 100%;
+  position: absolute;
+  top: 20px;
+  left: 0;
+  height: 50px;
   width: auto;
   padding-left: 100px;
   /* filter: drop-shadow(5px 5px 5px red); */
@@ -35,7 +38,11 @@ opacity: 0.5;
   gap: 50px;
   padding-right: 100px;
   height: 100%;
+  width: 100%;
   align-items: center;
+  justify-content: center;
+  gap: 100px;
+  padding-top: 20px;
 }
 #listp > div {
   position: relative;
@@ -70,10 +77,10 @@ opacity: 0.5;
 }
 .darkcorner{
   position: absolute;
-  top: 10%;
+  top: 0%;
   left: 0;
   z-index: -1;
-height: 90%;
+height: 100%;
 
 width: 100%;
 }
@@ -86,7 +93,7 @@ width: 100%;
   
   width: 100%;
   height: 100%;
-  background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.1));
+ background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2));
   pointer-events: none;
    z-index: 1;
 }
@@ -95,7 +102,7 @@ width: 100%;
 
 height: 100%;
 width: 100%;
-object-fit: cover;
+object-fit:cover;
 
 }
 .detes{
@@ -112,10 +119,24 @@ font-size: 60px;
 margin: 0;
 
 }
+.starwithnum{
+  display: flex;
+  width: 100px;
+  
+  align-items: center;
+  gap: 5px;
+}
+.starwithnum > svg{
+  margin-top: -5px;
+}
+.starwithnum >div{
+  font-size: 18px;
+}
+.starwithnum > 
 .detes >div > p{
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-size: 27px;
-  font-weight:lighter;
+  font-family: sans-serif;
+  font-size: 17px;
+  font-weight: lighter;
   opacity: 0.8;
 }
 .ratin > svg{
@@ -135,8 +156,9 @@ margin: 0;
   border-radius: 50px;
   background-color: red;
   box-shadow: 0 0 10px 1px red;
-  font-size: 20px;
+  font-size: 18px;
   cursor: pointer;;
+  font-weight: bold;
 }
 #watchbt{
   height: 5vh;
@@ -145,12 +167,19 @@ margin: 0;
   justify-content: center;
   align-items: center;
   border-radius: 50px;
-  background-color: RGB(41,156,224);
-  box-shadow: 0 0 10px 1px RGB(41,156,224);
-  font-size: 20px;
+  background-color: black;
+  font-size: 16px;
   cursor: pointer;
+  gap: 5%;
 
+font-weight: bold;
 }
+#watchbt2{transition: all 0.5s;}
+  
+#watchbt:hover > #watchbt2{
+  rotate: 180deg;
+}
+
 .secpage{
   height: 100vh;
   width: 100%;
@@ -172,26 +201,52 @@ margin: 0;
 
 }
 #trengallary{
-
   height: 400px;
   width: 200px;
   font-family: system-ui;
-  
+  cursor: pointer;
 }
-#trengallary > img{
+#trengallary >div{
+  position: relative;
+  transition: transform 0.5s;
+  z-index: 0;
+  
+
+}
+#tdots {
+opacity: 0;
+  position: absolute;
+  top: 1%;
+  left: 85%;
+  transition: opacity 0.2s;
+}
+#trengallary >div > img{
 height: 75%;
 width: 100%;
   object-fit: cover;
   border-radius: 20px;
+  z-index: 0;
+
 }
+
+#trengallary:hover > #outimg {
+transform: scale(1.5);
+z-index: 1;
+}
+#trengallary:hover >div > svg{
+opacity: 1;
+}
+
 .trndetes{
   display: flex;
- 
+  opacity: 1;
   height: 10%;
   justify-content: space-between;
   padding-left: 10px;
   padding-right: 10px;
+  z-index: 0;
 }
+
 #listcon{
   display: flex;
   flex-direction: column;
@@ -199,6 +254,7 @@ width: 100%;
 }
 #year{
   opacity: 0.5;
+  z-index: 1;
 }
 #starstrn{
   display: flex;
@@ -220,7 +276,7 @@ scroll-behavior: smooth;
   cursor: pointer;  
 }
 .overlay{
-  position: fixed;
+  position: absolute;
   background-color: black;
   height: 0vh;
   width: 100%;
@@ -255,6 +311,36 @@ opacity: 0.5;
   rotate: 90deg;
   
 }
+.overlay1{
+  position: fixed;
+  background-color: black;
+  height: 100vh;
+  width: 100%;
+transition: all 0.5s;
+top: 0;
+left: 0;
+z-index: 2;
+}
+
+.overlay1inner{
+height: 100%;
+width: 100%;
+}
+.ov1ih1{
+height: 10%;
+
+display: flex;
+justify-content: space-between;
+padding-left: 100px;
+padding-right: 100px;
+align-items: center;
+font-size: 50px;
+font-weight: 500;
+font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.ov1ih1 >svg{
+  cursor: pointer;
+}
 .overlayinner{
 height: 100%;
 width: 100%;
@@ -262,6 +348,13 @@ width: 100%;
 display: flex;
 flex-direction: column;
 
+}
+.ov1box{
+  display: flex;
+  flex-wrap: wrap;
+gap: 100px;
+  justify-content: center;
+  
 }
 .ovainput{
 position: relative;
