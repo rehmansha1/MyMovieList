@@ -3,6 +3,8 @@ import cors from 'cors';
 import  mongoose from "mongoose";
 
 import { MongoClient } from "mongodb";
+import dotenv from "dotenv";
+dotenv.config();
 const app = express();
 
 
@@ -12,7 +14,7 @@ app.use(cors());
 
 
 mongoose.connect(
-    "mongodb+srv://rehmnshs27:Norc4fZixqnKp5FN@cluster1.n5blfjm.mongodb.net/post?retryWrites=true&w=majority",
+    process.env.SERVER_FMID_KEY ,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
