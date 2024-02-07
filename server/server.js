@@ -14,7 +14,7 @@ app.use(cors());
 
 
 mongoose.connect(
-    process.env.SERVER_FMID_KEY ,
+    process.env.SERVER_FMID_KEY,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,

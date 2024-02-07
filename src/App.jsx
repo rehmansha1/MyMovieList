@@ -23,7 +23,7 @@ function App() {
   const handleInputChange = (event) => {
     setMovieName(event.target.value);
   };
-
+ 
   const searchmovies = async () => {
     const url = "https://api.themoviedb.org/3/search/movie";
 
@@ -50,7 +50,7 @@ function App() {
     }
   };
   const fetchData = async () => {
-    const urlfortrnd = "https://api.themoviedb.org/3/trending/movie/week";
+    const urlfortrnd = "https://api.themoviedb.org/3/trending/movie/day";
     const urlfortrndS = "https://api.themoviedb.org/3/tv/popular";
 
     const params = {
@@ -77,7 +77,7 @@ function App() {
       console.error("error:", error);
     }
   };
-  
+
   const mylistimpl = async () => {
     const options = {
       headers: {
@@ -110,11 +110,10 @@ function App() {
     console.log("pressed");
     try {
       const resp = await axios.post("http://localhost:3001/putID", {
-        username: 'Rehman',
-        postText: id ,
+        username: "Rehman",
+        postText: id,
       });
       console.log(resp.data);
-  
     } catch (error) {
       console.error("Error:", error);
     }
@@ -130,9 +129,25 @@ function App() {
   useEffect(() => {
     getIds();
     fetchData();
-  }, []);
 
+  }, []);
+  useEffect(() => {
+    gsap.from("#ovai", { opacity: 0, duration: 0.5, delay: 0.5 });
+
+    console.log("heu4");
+  }, [overlay]);
+  useEffect(() => {
+    gsap.fromTo(".searchdisplay",{opacity:0}, { opacity: 1, duration: 0.5, delay: 0.5 });
+
+    console.log("heu3");
+  }, [searchList]);
+  useEffect(() => {
   
+    gsap.fromTo(".ov1box",{opacity:0}, { opacity: 1, duration: 0.5, delay: 0.5 });
+
+    console.log("heu2");
+  }, [overlay1]);
+
   return (
     <>
       <div className="wholeweb">
@@ -143,18 +158,21 @@ function App() {
                 <div>
                   {" "}
                   <input
+                    id="inputbox"
+                    autocomplete="off"
                     placeholder="Enter movie name"
                     value={movieName}
                     onChange={handleInputChange}
                   />
                   <svg
+                    id="nextsymbol"
                     xmlns="http://www.w3.org/2000/svg"
                     onClick={() => {
                       const c = document.getElementById("oy");
-                      const c1 = document.getElementById("ovai");
-                      c1.style.height = "60vh";
-                      c.style.height = "300vh";
-                      searchmovies();
+                      const inputbix = document.getElementById("ovai");
+                      inputbix.style.height = "20vh";
+                      c.style.height = '100vh';
+                                            searchmovies();
                     }}
                     fill="white"
                     opacity="0.5"
@@ -165,12 +183,15 @@ function App() {
                     <path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" />
                   </svg>
                   <svg
+                    id="close"
                     className="ovapart1"
                     onClick={() => {
                       setoverlay(false);
                       const c = document.getElementById("oy");
-                      c.style.height = "0vh";
-                      setsl([]);
+
+                        c.style.height = "0vh";
+                        setsl("");
+                    
                     }}
                     xmlns="http://www.w3.org/2000/svg"
                     height="27"
@@ -212,7 +233,7 @@ function App() {
                   </svg>
                 </div>
                 <div className="ov1box">
-                  <List tren={mylistfinal} putindb={putindb}/>
+                  <List tren={mylistfinal} putindb={putindb} />
                 </div>
               </div>
             </>
@@ -223,14 +244,13 @@ function App() {
             <img src={logo} id="logo1" />
 
             <div
-              onClick={async() => {
-                 getIds();
-               mylistimpl();
+              onClick={async () => {
+                getIds();
+                mylistimpl();
 
                 setoverlay1(true);
                 const c = document.getElementById("oy");
-                c.style.height = "300vh";
-               
+                c.style.height = "100%";
               }}
             >
               {" "}
@@ -242,10 +262,13 @@ function App() {
               onClick={() => {
                 setoverlay(true);
                 const c = document.getElementById("oy");
+
                 c.style.height = "50vh";
+
               }}
             >
               <svg
+                id="searchsymbol"
                 xmlns="http://www.w3.org/2000/svg"
                 height="24"
                 viewBox="0 -960 960 960"
@@ -290,7 +313,12 @@ function App() {
 
             <div className="btlist">
               <div id="viewbt">VIEW</div>{" "}
-              <div id="watchbt" onClick={()=>{putindb(tren.results[randomNumber].id)}}>
+              <div
+                id="watchbt"
+                onClick={() => {
+                  putindb(tren.results[randomNumber].id);
+                }}
+              >
                 <svg
                   fill="white"
                   id="watchbt2"
@@ -306,7 +334,8 @@ function App() {
             </div>
           </div>
         </div>
-        <div className="secpage">
+       {!overlay && !overlay1 && <div className="secpage">
+        <div id="blackcover"></div>
           <div className="trndingpage">
             <div id="trenheader">
               <svg
@@ -321,7 +350,7 @@ function App() {
               <div>Trending Movies</div>
             </div>
             <div className="trenlist">
-              <List tren={tren} putindb={putindb}/>
+              <List tren={tren} putindb={putindb} />
             </div>
             <div>
               <div id="trenheader">
@@ -337,7 +366,7 @@ function App() {
                 <div>Trending Series</div>
               </div>
               <div className="trenlist">
-                <List tren={tren1} putindb={putindb}/>
+                <List tren={tren1} putindb={putindb} />
               </div>
             </div>
             <div>
@@ -354,11 +383,12 @@ function App() {
                 <div>All time classics</div>
               </div>
               <div className="trenlist">
-                <List tren={tren1} putindb={putindb}/>
+                <List tren={tren1} putindb={putindb} />
               </div>
             </div>
           </div>
         </div>
+       }
       </div>
     </>
   );

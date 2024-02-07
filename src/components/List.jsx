@@ -13,19 +13,17 @@ export default function List({ tren, putindb }) {
                   <svg
                     onClick={() => putindb(item.id)}
                     xmlns="http://www.w3.org/2000/svg"
-                   
-                    
                     id="tdots"
                     height="24"
                     viewBox="0 -960 960 960"
                     width="24"
-                    
                   >
-                    <path  
-  fill="white"
-                    d="M200-120v-640q0-33 23.5-56.5T280-840h400q33
+                    <path
+                      fill="white"
+                      d="M200-120v-640q0-33 23.5-56.5T280-840h400q33
                      0 56.5 23.5T760-760v640L480-240 200-120Zm80-122 
-                     200-86 200 86v-518H280v518Zm0-518h400-400Z" />
+                     200-86 200 86v-518H280v518Zm0-518h400-400Z"
+                    />
                   </svg>
                   <img
                     src={`https://image.tmdb.org/t/p/w600_and_h900_bestv2${item.poster_path}`}
@@ -34,7 +32,7 @@ export default function List({ tren, putindb }) {
                 </div>
                 <div className="trndetes">
                   <div id="listcon">
-                    4<div>{item.title || item.name || "none"}</div>
+                    <div>{item.title || item.name || "none"}</div>
                     <div id="year">
                       {item.release_date ? item.release_date.slice(0, 4) : ""}
                     </div>
