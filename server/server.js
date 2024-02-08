@@ -82,6 +82,32 @@ app.get("/getIDS", async (req, res) => {
       res.status(500).send("Internal Server Error");
     }
   });
+  app.delete("/delete", async (req, res) => {
+    try {
+      const postText = req.body.postText;
+      const username = req.body.username;
+  
+      // Find the user by username
+      const user = await User.findOne({ username });
+  
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+  
+      // Remove the specified ID from the user's data array
+      user.data = user.data.filter((id) => id !== postText);
+      await user.save();
+      console.log("Deleted " + postText);
+      return res.json({ message: "ID deleted successfully" });
+
+      // If the user has one postText left, delete the user
+    
+      
+   
+  }catch (error) {
+    console.error("Error:", error);
+    return res.status(500).json({ message: "An error occurred" });
+  }});
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

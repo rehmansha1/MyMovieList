@@ -3,11 +3,16 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import logo from "./assets/Logonetflix.png";
+import imdb from "./assets/imdb.png";
+
 import bg from "./assets/p2.jpg";
 import pic1 from "./assets/jaws.jpg";
 import axios from "axios";
 import List from "./components/List";
 import { gsap } from "gsap";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Carousel } from "react-responsive-carousel";
+
 function App() {
   const [tren, settrend] = useState([]);
   const [tren1, settrend1] = useState([]);
@@ -20,10 +25,12 @@ function App() {
   const [userName, setusername] = useState("Rehman");
   const [mylist, setmylist] = useState([]);
   const [mylistfinal, setmylistfinal] = useState({ results: [] });
+  const [menu, setmenu] = useState(false);
+
   const handleInputChange = (event) => {
     setMovieName(event.target.value);
   };
- 
+
   const searchmovies = async () => {
     const url = "https://api.themoviedb.org/3/search/movie";
 
@@ -73,6 +80,7 @@ function App() {
 
       settrend(response.data);
       settrend1(response1.data);
+      console.log(tren);
     } catch (error) {
       console.error("error:", error);
     }
@@ -96,12 +104,14 @@ function App() {
         const movieData = {
           poster_path: resp.data.poster_path,
           title: resp.data.title,
+          id: mylist[i]
         };
 
         updatedList.push(movieData);
       }
 
       setmylistfinal({ results: updatedList });
+      console.log(mylistfinal);
     } catch (error) {
       console.error("error:", error);
     }
@@ -119,6 +129,21 @@ function App() {
     }
     getIds();
   };
+  const deleteindb = async (id) => {
+    console.log("pressed");
+    try {
+      const resp = await axios.delete("http://localhost:3001/delete", {
+        data: {
+          username: "Rehman",
+          postText: id,
+        },
+      });
+      console.log(resp.data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+  
   const getIds = async () => {
     const response = await axios.get(
       `http://localhost:3001/getIDS?username=${userName}`
@@ -129,7 +154,6 @@ function App() {
   useEffect(() => {
     getIds();
     fetchData();
-
   }, []);
   useEffect(() => {
     gsap.from("#ovai", { opacity: 0, duration: 0.5, delay: 0.5 });
@@ -137,13 +161,20 @@ function App() {
     console.log("heu4");
   }, [overlay]);
   useEffect(() => {
-    gsap.fromTo(".searchdisplay",{opacity:0}, { opacity: 1, duration: 0.5, delay: 0.5 });
+    gsap.fromTo(
+      ".searchdisplay",
+      { opacity: 0 },
+      { opacity: 1, duration: 0.5, delay: 0.5 }
+    );
 
     console.log("heu3");
   }, [searchList]);
   useEffect(() => {
-  
-    gsap.fromTo(".ov1box",{opacity:0}, { opacity: 1, duration: 0.5, delay: 0.5 });
+    gsap.fromTo(
+      ".ov1box",
+      { opacity: 0 },
+      { opacity: 1, duration: 0.5, delay: 0.5 }
+    );
 
     console.log("heu2");
   }, [overlay1]);
@@ -152,6 +183,59 @@ function App() {
     <>
       <div className="wholeweb">
         <div className="overlay" id="oy">
+          <div id="menu">
+            {menu && (
+              <div className="menuinner">
+                <svg
+                  id="close1"
+                  onClick={() => {
+                    setmenu(false);
+                    const c = document.getElementById("menu");
+
+                    c.style.width = "0%";
+                  }}
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="27"
+                  fill="white"
+                  viewBox="0 -960 960 960"
+                  width="27"
+                >
+                  <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+                </svg>
+               
+                <div
+                className="sbt"
+                  onClick={() => {
+                    setmenu(false);
+                    const c1 = document.getElementById("menu");
+                    c1.style.width = "0%";
+                    setoverlay(true);
+                    const c = document.getElementById("oy");
+                    c.style.height = "50vh";
+                  }}
+                >
+                  Search
+                </div>
+                <div
+                className="sbt"
+                  onClick={async () => {
+                    setmenu(false);
+                    const c1 = document.getElementById("menu");
+                    c1.style.width = "0%";
+                    getIds();
+                    mylistimpl();
+
+                    setoverlay1(true);
+                    const c = document.getElementById("oy");
+                    c.style.height = "100%";
+                  }}
+                >
+                  MyList
+                </div>
+              </div>
+            )}
+          </div>
+
           {overlay && (
             <div className="overlayinner">
               <div className="ovainput" id="ovai">
@@ -171,8 +255,8 @@ function App() {
                       const c = document.getElementById("oy");
                       const inputbix = document.getElementById("ovai");
                       inputbix.style.height = "20vh";
-                      c.style.height = '100vh';
-                                            searchmovies();
+                      c.style.height = "100vh";
+                      searchmovies();
                     }}
                     fill="white"
                     opacity="0.5"
@@ -189,9 +273,8 @@ function App() {
                       setoverlay(false);
                       const c = document.getElementById("oy");
 
-                        c.style.height = "0vh";
-                        setsl("");
-                    
+                      c.style.height = "0vh";
+                      setsl("");
                     }}
                     xmlns="http://www.w3.org/2000/svg"
                     height="27"
@@ -233,17 +316,16 @@ function App() {
                   </svg>
                 </div>
                 <div className="ov1box">
-                  <List tren={mylistfinal} putindb={putindb} />
+                  <List tren={mylistfinal} putindb={putindb} mylist = {true} deleteindb={deleteindb}/>
                 </div>
               </div>
             </>
           )}
         </div>
         <div className="header1">
-          <div id="listp">
-            <img src={logo} id="logo1" />
+          <img src={logo} id="logo1" />
 
-            <div
+          {/*    <div
               onClick={async () => {
                 getIds();
                 mylistimpl();
@@ -256,15 +338,13 @@ function App() {
               {" "}
               MyList
             </div>
-            <div> Movies</div>
-            <div> Series</div>
+      
             <div
               onClick={() => {
                 setoverlay(true);
                 const c = document.getElementById("oy");
 
                 c.style.height = "50vh";
-
               }}
             >
               <svg
@@ -278,6 +358,19 @@ function App() {
                 <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
               </svg>
             </div>
+            */}
+
+          <div
+            className="options"
+            onClick={() => {
+              const c = document.getElementById("menu");
+              c.style.width = "100%";
+              setmenu(true);
+            }}
+          >
+            <div></div>
+            <div></div>
+            <div></div>
           </div>
         </div>
         <div className="darkcorner">
@@ -290,9 +383,42 @@ function App() {
             id="bgimg"
           />
         </div>
+      { /* <Carousel className="carousal">
+          <div>
+          <img
+          id="imgcard"
+            src={
+              tren.results
+                ? `https://image.tmdb.org/t/p/w600_and_h900_bestv2${tren.results[randomNumber].poster_path}`
+                : ""
+            }
+          />
+          </div>
+          <div>
+          <img
+                    id="imgcard"
+
+            src={
+              tren.results
+                ? `https://image.tmdb.org/t/p/w600_and_h900_bestv2${tren.results[randomNumber +1].poster_path}`
+                : ""
+            }
+          />          </div>
+          <div>
+          <img
+                    id="imgcard"
+
+            src={
+              tren.results
+                ? `https://image.tmdb.org/t/p/w600_and_h900_bestv2${tren.results[randomNumber +2].poster_path}`
+                : ""
+            }
+          />          </div>
+        </Carousel>
+        */}
         <div className="detes">
           <div>
-            <div className="starwithnum">
+            {/*  <div className="starwithnum">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="gold"
@@ -307,12 +433,38 @@ function App() {
                   ? tren.results[randomNumber].vote_average.toFixed(1)
                   : "null"}
               </div>
-            </div>
+            </div> */}
+
             <h1>{tren.results ? tren.results[randomNumber].title : "null"}</h1>
-            <p>{tren.results ? tren.results[randomNumber].overview : ""}</p>
+            <div className="detesdetes1">
+              <div id="imdbrating">
+                <img src={imdb} />
+                <div>
+                  {tren.results
+                    ? tren.results[randomNumber].vote_average.toFixed(1) > 0 ?  tren.results[randomNumber].vote_average.toFixed(1) : 'Not rated'
+                    : "null"}
+                </div>
+              </div>
+              <div id="randommyear">
+                {" "}
+                {tren.results
+                  ? tren.results[randomNumber].release_date.slice(0, 4)
+                  : "null"}{" "}
+              </div>
+              <div id="randomm18">
+                {tren.results
+                  ? tren.results[randomNumber].adult
+                    ? "18+"
+                    : ""
+                  : ""}
+              </div>
+            </div>
+            <p id="moviedetes1">
+              {tren.results ? tren.results[randomNumber].overview : ""}
+            </p>
 
             <div className="btlist">
-              <div id="viewbt">VIEW</div>{" "}
+              <div id="viewbt">Watch now</div>{" "}
               <div
                 id="watchbt"
                 onClick={() => {
@@ -329,30 +481,15 @@ function App() {
                 >
                   <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
                 </svg>{" "}
-                ADD LIST
+                Watchlist
               </div>
             </div>
           </div>
         </div>
-       {!overlay && !overlay1 && <div className="secpage">
-        <div id="blackcover"></div>
-          <div className="trndingpage">
-            <div id="trenheader">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="red"
-                height="55"
-                viewBox="0 -960 960 960"
-                width="55"
-              >
-                <path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z" />
-              </svg>
-              <div>Trending Movies</div>
-            </div>
-            <div className="trenlist">
-              <List tren={tren} putindb={putindb} />
-            </div>
-            <div>
+        {!overlay && !overlay1 && (
+          <div className="secpage">
+            <div id="blackcover"></div>
+            <div className="trndingpage">
               <div id="trenheader">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -363,32 +500,48 @@ function App() {
                 >
                   <path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z" />
                 </svg>
-                <div>Trending Series</div>
+                <div>Trending Movies</div>
               </div>
               <div className="trenlist">
-                <List tren={tren1} putindb={putindb} />
+                <List tren={tren} putindb={putindb} />
               </div>
-            </div>
-            <div>
-              <div id="trenheader">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="red"
-                  height="55"
-                  viewBox="0 -960 960 960"
-                  width="55"
-                >
-                  <path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z" />
-                </svg>
-                <div>All time classics</div>
+              <div>
+                <div id="trenheader">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="red"
+                    height="55"
+                    viewBox="0 -960 960 960"
+                    width="55"
+                  >
+                    <path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z" />
+                  </svg>
+                  <div>Trending Series</div>
+                </div>
+                <div className="trenlist">
+                  <List tren={tren1} putindb={putindb} />
+                </div>
               </div>
-              <div className="trenlist">
-                <List tren={tren1} putindb={putindb} />
+              <div>
+                <div id="trenheader">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="red"
+                    height="55"
+                    viewBox="0 -960 960 960"
+                    width="55"
+                  >
+                    <path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z" />
+                  </svg>
+                  <div>All time classics</div>
+                </div>
+                <div className="trenlist">
+                  <List tren={tren1} putindb={putindb} />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-       }
+        )}
       </div>
     </>
   );

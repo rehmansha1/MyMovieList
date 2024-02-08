@@ -1,0 +1,26 @@
+.revsectin{
+    color: white;
+    border: 1px solid white;
+    padding: 25px;
+    width: 30%;
+border-radius: 15px;
+background: rgba( 255, 213, 213, 0.1 );
+backdrop-filter: blur( 3.5px );
+-webkit-backdrop-filter: blur( 3.5px );
+border: 1px solid rgba( 255, 255, 255, 0.18 );
+align-self: flex-start; /* This prevents the items from stretching to the container's height */
+
+}
+.ratingrv{
+    display: flex;
+    align-items: center;
+    padding-top: 10px;
+    gap: 5px;
+}
+.rvsec2{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+
+    
+  }

@@ -12,57 +12,49 @@
   justify-content: space-between;
 
 }
-.header::after {
-content: '';
-height: 1px;
-width: 100%;
-position: absolute;
-top: 110%;
-background-color: red;
-box-shadow: 0 0 10px 1px red;
-opacity: 0.5;
+.header1 {
+display: flex;
+height: 100px;
+width: 100vw;
+justify-content: space-between;
+
 }
 #logo1 {
-  position: absolute;
   top: 20px;
   left: 0;
   height: 50px;
   width: auto;
   padding-left: 100px;
   /* filter: drop-shadow(5px 5px 5px red); */
-}
-#listp {
-  font-size: 20px;
-  font-family: sans-serif;
-  display: flex;
-  gap: 50px;
-  padding-right: 100px;
-  height: 100%;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  gap: 100px;
   padding-top: 20px;
 }
-#listp > div {
-  position: relative;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-}
-#listp > div:not(:last-child)::after {
-  position: absolute;
-  height: 1px;
-  top: 110%;
-  width: 0%;
-  content: "";
-  background-color: red;
-  transition: all 0.5s;
-  box-shadow: 0 0 10px 1px red;
+#listp {
 
+  padding-top: 20px;
 }
-#listp > div:not(:last-child):hover::after {
-  width: 100%;
+.options{
+  height: 50px;
+  width: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  margin-right: 50px;
+  position: relative;
+  top: 20px;
+  border-radius: 10px;
+  background: rgba( 255, 213, 213, 0.02 );
+  backdrop-filter: blur( 3.5px );
+  -webkit-backdrop-filter: blur( 3.5px );
+  border: 1px solid rgba( 255, 255, 255, 0.18 );
+  cursor: pointer;
+}
+.options > div{
+width: 55%;
+height: 1px;
+background-color: grey;
 
 }
 #signinbt {
@@ -106,7 +98,7 @@ object-fit:cover;
 
 }
 .detes{
-  height: 90%;
+  height: 80%;
   width: 40%;
   display: flex;
   flex-direction: column;
@@ -114,65 +106,148 @@ object-fit:cover;
   font-family: sans-serif;
   padding-left: 100px;
 }
+@font-face {
+  font-family: 'Harabara';
+  src: url('./assets/Harabara.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 .detes >div > h1{
-font-size: 60px;
+
 margin: 0;
+font-family: 'Harabara', sans-serif; /* Use your font for the entire website or specific elements */
 
 }
-.starwithnum{
-  display: flex;
-  width: 100px;
-  
-  align-items: center;
-  gap: 5px;
-}
-.starwithnum > svg{
-  margin-top: -5px;
-}
-.starwithnum >div{
-  font-size: 18px;
-}
-.starwithnum > 
-.detes >div > p{
+
+
+
+#moviedetes1{
   font-family: sans-serif;
   font-size: 17px;
   font-weight: lighter;
-  opacity: 0.8;
+  opacity: 0.86;
+ 
+  padding-bottom: 40px;
+  margin-bottom: 0;
+  margin-top: 0;
 }
 .ratin > svg{
   filter: drop-shadow(0px 3 zpx 5px red);
 }
+.detes >div > h1{
+  font-size: 60px;
+  margin: 0;
+  font-family: 'Harabara', sans-serif; /* Use your font for the entire website or specific elements */
+padding-bottom: 40px; 
+  }  
+.detesdetes1{
+  height: 30px;
+  width: 600px;
+  padding-bottom: 40px;
+  display: flex;
+  gap: 20px;
+}
+#imdbrating{
+  display: flex;
+  height: 100%;
+  margin: 0;
+
+  
+}
+#imdbrating > div{
+  display: flex;
+  height: 100%;
+width: 100%;
+padding-left: 15px;
+font-size: 19px;
+  align-items: center;
+}
+
+#randommyear{
+  height: 100%;
+  display: flex;
+  align-items: center;
+  font-size: 19px;
+}
+#randomm18{
+  display: flex;
+  height: 100%;
+  align-items: center;
+  font-size: 19px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .btlist{
   display: flex;
   gap: 20px;
-  padding-top:30px;
+ 
 }
 #viewbt{
-  height: 5vh;
-  width: 8vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50px;
-  background-color: red;
-  box-shadow: 0 0 10px 1px red;
-  font-size: 18px;
-  cursor: pointer;;
-  font-weight: bold;
+height:6vh ;
+width: 8vw;
+display: flex;
+align-items: center;
+justify-content: center;
+background-color: white;
+color: black;
+font-weight: bold;
+border-radius: 30px;
+cursor: pointer;
 }
 #watchbt{
-  height: 5vh;
-  width: 8vw;
+  height:6vh ;
+width: 8vw;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 50px;
-  background-color: black;
+  
   font-size: 16px;
   cursor: pointer;
   gap: 5%;
-
-font-weight: bold;
+ font-weight: bold;
+ background: rgba( 255, 213, 213, 0.02 );
+ backdrop-filter: blur( 3.5px );
+ -webkit-backdrop-filter: blur( 3.5px );
+ border: 1px solid rgba( 255, 255, 255, 0.18 );
 }
 #watchbt2{transition: all 0.5s;}
   
@@ -207,6 +282,7 @@ position: relative;
   width: 200px;
   font-family: system-ui;
   cursor: pointer;
+  transition: all 0.5s;
 }
 #trengallary >div{
   position: relative;
@@ -441,4 +517,101 @@ justify-content: center;
 
 
 
+  #menu {
 
+    height: 100vh;
+    width: 0vw;
+    background-color: black;
+    position: fixed;
+right: -80%; /* Set right to 80% instead of left */
+
+    transition: width 0.5s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 100px;
+    font-size: 19px;
+    font-weight: bold;
+    font-family: harabara;
+  }
+  
+
+.menuinner{
+  display: flex;
+  flex-direction: column;
+  padding-left: 100px;
+  gap: 100px;
+}
+#menu >div{
+  cursor: pointer;
+}
+.sbt{
+  position: relative;
+}
+.sbt::after{
+  position: absolute;
+  top: 100%;
+  display: flex;
+  content: '';
+  height: 1px;
+  width: 0%;
+  background-color: wheat;
+  transition: all 0.5s;
+}
+
+.sbt:hover::after{
+  content: '';
+  position: absolute;
+  
+  display: flex;
+  height: 1px;
+  width: 50px;
+  background-color: white;
+  transition: all 0.5s;
+}
+#close1{
+  position: absolute;
+top: 10%;
+cursor: pointer;
+}
+.carousal{
+  position: absolute;
+  left: 85%;
+  top: 32%;
+  height: 100px;
+  width: 200px;
+}
+#imgcard{
+  border-radius: 20px;
+}
+.recomds{
+  height: 100vh;
+  width: 100vw;
+}
+.genres{
+  display: flex;
+  gap: 10px;
+  padding-bottom: 40px;
+}
+.genrebt{
+padding: 7px; 
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: normal;
+  font-weight: bold;
+  background: rgba( 255, 213, 213, 0.02 );
+  backdrop-filter: blur( 3.5px );
+  -webkit-backdrop-filter: blur( 3.5px );
+  border: 1px solid rgba( 255, 255, 255, 0.18 );
+  pointer-events: none;
+}
+.Revsec{
+  height: auto;
+  width: 100vw;
+  padding: 100px;
+  font-family: sans-serif;
+
+}
+.Revsec>h1{
+  color: white;
+}
