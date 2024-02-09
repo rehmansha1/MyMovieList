@@ -18,7 +18,7 @@ function App() {
   const [tren1, settrend1] = useState([]);
   const [overlay, setoverlay] = useState(false);
   const [overlay1, setoverlay1] = useState(false);
-
+  const [series, setseries] = useState(false);
   const [randomNumber, setrandom] = useState(Math.floor(Math.random() * 20));
   const [movieName, setMovieName] = useState("");
   const [searchList, setsl] = useState("");
@@ -32,8 +32,8 @@ function App() {
   };
 
   const searchmovies = async () => {
-    const url = "https://api.themoviedb.org/3/search/movie";
-
+    const urlForMovie = "https://api.themoviedb.org/3/search/movie";
+    const urlFortv = "https://api.themoviedb.org/3/search/tv";
     const params = {
       query: movieName,
       include_adult: false,
@@ -47,7 +47,7 @@ function App() {
         Authorization: import.meta.env.VITE_GAPI_KEY_ENV,
       },
     };
-
+    const url = series ? urlFortv : urlForMovie;
     try {
       const response = await axios.get(url, { params, ...options });
       console.log(response.data);
@@ -98,13 +98,18 @@ function App() {
       const updatedList = [];
 
       for (let i = 0; i < mylist.length; i++) {
-        const url = `https://api.themoviedb.org/3/movie/${mylist[i]}`;
+        let url;
+        if (mylist[i][mylist[i].length - 1] == "s") {
+          url = `https://api.themoviedb.org/3/tv/${mylist[i]}`;
+        } else {
+          url = `https://api.themoviedb.org/3/movie/${mylist[i]}`;
+        }
         const resp = await axios.get(url, options);
 
         const movieData = {
           poster_path: resp.data.poster_path,
           title: resp.data.title,
-          id: mylist[i]
+          id: mylist[i],
         };
 
         updatedList.push(movieData);
@@ -143,7 +148,7 @@ function App() {
       console.error("Error:", error);
     }
   };
-  
+
   const getIds = async () => {
     const response = await axios.get(
       `http://localhost:3001/getIDS?username=${userName}`
@@ -181,94 +186,67 @@ function App() {
 
   return (
     <>
-      <div className="wholeweb">
-        <div className="overlay" id="oy">
-          <div id="menu">
-            {menu && (
-              <div className="menuinner">
-                <svg
-                  id="close1"
-                  onClick={() => {
-                    setmenu(false);
-                    const c = document.getElementById("menu");
-
-                    c.style.width = "0%";
-                  }}
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="27"
-                  fill="white"
-                  viewBox="0 -960 960 960"
-                  width="27"
-                >
-                  <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-                </svg>
-               
-                <div
-                className="sbt"
-                  onClick={() => {
-                    setmenu(false);
-                    const c1 = document.getElementById("menu");
-                    c1.style.width = "0%";
-                    setoverlay(true);
-                    const c = document.getElementById("oy");
-                    c.style.height = "50vh";
-                  }}
-                >
-                  Search
-                </div>
-                <div
-                className="sbt"
-                  onClick={async () => {
-                    setmenu(false);
-                    const c1 = document.getElementById("menu");
-                    c1.style.width = "0%";
-                    getIds();
-                    mylistimpl();
-
-                    setoverlay1(true);
-                    const c = document.getElementById("oy");
-                    c.style.height = "100%";
-                  }}
-                >
-                  MyList
-                </div>
-              </div>
-            )}
-          </div>
-
-          {overlay && (
-            <div className="overlayinner">
-              <div className="ovainput" id="ovai">
-                <div>
-                  {" "}
-                  <input
-                    id="inputbox"
-                    autocomplete="off"
-                    placeholder="Enter movie name"
-                    value={movieName}
-                    onChange={handleInputChange}
-                  />
+      {tren && (
+        <div className="wholeweb">
+          <div className="overlay" id="oy">
+            <div id="menu">
+              {menu && (
+                <div className="menuinner">
                   <svg
-                    id="nextsymbol"
-                    xmlns="http://www.w3.org/2000/svg"
+                    id="close1"
                     onClick={() => {
-                      const c = document.getElementById("oy");
-                      const inputbix = document.getElementById("ovai");
-                      inputbix.style.height = "20vh";
-                      c.style.height = "100vh";
-                      searchmovies();
+                      setmenu(false);
+                      const c = document.getElementById("menu");
+
+                      c.style.width = "0%";
                     }}
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="27"
                     fill="white"
-                    opacity="0.5"
-                    height="24"
                     viewBox="0 -960 960 960"
-                    width="24"
+                    width="27"
                   >
-                    <path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" />
+                    <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
                   </svg>
+
+                  <div
+                    className="sbt"
+                    onClick={() => {
+                      setmenu(false);
+                      const c1 = document.getElementById("menu");
+                      c1.style.width = "0vw";
+                      setoverlay(true);
+                      const c = document.getElementById("oy");
+                      c.style.height = "50vh";
+                    }}
+                  >
+                    Search
+                  </div>
+                  <div
+                    className="sbt"
+                    onClick={async () => {
+                      setmenu(false);
+                      const c1 = document.getElementById("menu");
+                      c1.style.width = "0%";
+                      getIds();
+                      mylistimpl();
+
+                      setoverlay1(true);
+                      const c = document.getElementById("oy");
+                      c.style.height = "100%";
+                    }}
+                  >
+                    MyList
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {overlay && (
+              <div className="overlayinner">
+                <div className="ovainput" id="ovai">
                   <svg
                     id="close"
-                    className="ovapart1"
                     onClick={() => {
                       setoverlay(false);
                       const c = document.getElementById("oy");
@@ -284,48 +262,122 @@ function App() {
                   >
                     <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
                   </svg>
-                </div>
-              </div>
-              {searchList && (
-                <div className="displaysearch">
-                  <div className="searchdisplay">
-                    <List tren={searchList} putindb={putindb} />
+                  <div className="inputsearchbox">
+                    {" "}
+                    <input
+                      id="inputbox"
+                      autocomplete="off"
+                      placeholder="Enter movie or series name"
+                      value={movieName}
+                      onChange={handleInputChange}
+                    />
+                    <svg
+                      id="nextsymbol"
+                      xmlns="http://www.w3.org/2000/svg"
+                      onClick={() => {
+                        const c = document.getElementById("oy");
+                        const inputbix = document.getElementById("ovai");
+                        inputbix.style.height = "20vh";
+                        c.style.height = "100vh";
+                        searchmovies();
+                      }}
+                      fill="white"
+                      opacity="0.5"
+                      height="24"
+                      viewBox="0 -960 960 960"
+                      width="24"
+                    >
+                      <path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" />
+                    </svg>
+                    <div className="btmvser">
+                      <div
+                        id="mvbt"
+                        onClick={() => {
+                          setseries(false);
+                          let bt = document.getElementById("mvbt");
+                          bt.style.background = "white";
+                          bt.style.color = "black";
+                          let bt1 = document.getElementById("svbt");
+                          bt1.style.background = "black";
+                          bt1.style.color = "white";
+                        }}
+                      >
+                        movie
+                      </div>
+                      <div
+                        id="svbt"
+                        onClick={() => {
+                          setseries(true);
+                          let bt = document.getElementById("svbt");
+                          bt.style.background = "white";
+                          bt.style.color = "black";
+                          let bt1 = document.getElementById("mvbt");
+                          bt1.style.background = "black";
+                          bt1.style.color = "white";
+                        }}
+                      >
+                        series
+                      </div>
+                    </div>
                   </div>
                 </div>
-              )}
-            </div>
-          )}
-          {overlay1 && (
-            <>
-              <div className="overlay1inner">
-                <div className="ov1ih1">
-                  <div>My List</div>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    onClick={() => {
-                      setoverlay1(false);
-                      const c = document.getElementById("oy");
-                      c.style.height = "0vh";
-                    }}
-                    fill="white"
-                    height="24"
-                    viewBox="0 -960 960 960"
-                    width="24"
-                  >
-                    <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-                  </svg>
-                </div>
-                <div className="ov1box">
-                  <List tren={mylistfinal} putindb={putindb} mylist = {true} deleteindb={deleteindb}/>
-                </div>
+         
+                {searchList && (
+                  <div className="displaysearch">
+                    <div className="searchdisplay">
+                      <List tren={searchList} putindb={putindb} series={series} />
+                    </div>
+                  </div>
+                )}
               </div>
-            </>
-          )}
-        </div>
-        <div className="header1">
-          <img src={logo} id="logo1" />
+            )}
 
-          {/*    <div
+            {overlay1 && (
+              <>
+              
+                {!mylistfinal && (
+                  <div id="progressbar">
+                    <span id="loading"></span>
+                    <div id="load">LOADING..</div>
+                  </div>
+                )}
+              
+              { mylistfinal && 
+                <div className="overlay1inner">
+                  <div className="ov1ih1">
+                    <div>My List</div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      onClick={() => {
+                        setoverlay1(false);
+                        const c = document.getElementById("oy");
+                        c.style.height = "0vh";
+                      }}
+                      fill="white"
+                      height="24"
+                      viewBox="0 -960 960 960"
+                      width="24"
+                    >
+                      <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+                    </svg>
+                  </div>
+                  <div className="ov1box">
+                    <List
+                      tren={mylistfinal}
+                      putindb={putindb}
+                      mylist={true}
+                      deleteindb={deleteindb}
+                    />
+                  </div>
+                </div>
+              }
+              </>
+            )}
+          </div>
+          <div className="header1">
+            <img src={logo} id="logo1" />
+
+            {/*    <div
               onClick={async () => {
                 getIds();
                 mylistimpl();
@@ -360,30 +412,30 @@ function App() {
             </div>
             */}
 
-          <div
-            className="options"
-            onClick={() => {
-              const c = document.getElementById("menu");
-              c.style.width = "100%";
-              setmenu(true);
-            }}
-          >
-            <div></div>
-            <div></div>
-            <div></div>
+            <div
+              className="options"
+              onClick={() => {
+                const c = document.getElementById("menu");
+                c.style.width = "20vw";
+                setmenu(true);
+              }}
+            >
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
           </div>
-        </div>
-        <div className="darkcorner">
-          <img
-            src={
-              tren.results
-                ? `https://image.tmdb.org/t/p/original${tren.results[randomNumber].backdrop_path}`
-                : ""
-            }
-            id="bgimg"
-          />
-        </div>
-      { /* <Carousel className="carousal">
+          <div className="darkcorner">
+            <img
+              src={
+                tren.results
+                  ? `https://image.tmdb.org/t/p/original${tren.results[randomNumber].backdrop_path}`
+                  : ""
+              }
+              id="bgimg"
+            />
+          </div>
+          {/* <Carousel className="carousal">
           <div>
           <img
           id="imgcard"
@@ -416,9 +468,9 @@ function App() {
           />          </div>
         </Carousel>
         */}
-        <div className="detes">
-          <div>
-            {/*  <div className="starwithnum">
+          <div className="detes">
+            <div>
+              {/*  <div className="starwithnum">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="gold"
@@ -435,114 +487,119 @@ function App() {
               </div>
             </div> */}
 
-            <h1>{tren.results ? tren.results[randomNumber].title : "null"}</h1>
-            <div className="detesdetes1">
-              <div id="imdbrating">
-                <img src={imdb} />
-                <div>
+              <h1>
+                {tren.results ? tren.results[randomNumber].title : "null"}
+              </h1>
+              <div className="detesdetes1">
+                <div id="imdbrating">
+                  <img src={imdb} />
+                  <div>
+                    {tren.results
+                      ? tren.results[randomNumber].vote_average.toFixed(1) > 0
+                        ? tren.results[randomNumber].vote_average.toFixed(1)
+                        : "Not rated"
+                      : "null"}
+                  </div>
+                </div>
+                <div id="randommyear">
+                  {" "}
                   {tren.results
-                    ? tren.results[randomNumber].vote_average.toFixed(1) > 0 ?  tren.results[randomNumber].vote_average.toFixed(1) : 'Not rated'
-                    : "null"}
+                    ? tren.results[randomNumber].release_date.slice(0, 4)
+                    : "null"}{" "}
+                </div>
+                <div id="randomm18">
+                  {tren.results
+                    ? tren.results[randomNumber].adult
+                      ? "18+"
+                      : ""
+                    : ""}
                 </div>
               </div>
-              <div id="randommyear">
-                {" "}
-                {tren.results
-                  ? tren.results[randomNumber].release_date.slice(0, 4)
-                  : "null"}{" "}
-              </div>
-              <div id="randomm18">
-                {tren.results
-                  ? tren.results[randomNumber].adult
-                    ? "18+"
-                    : ""
-                  : ""}
-              </div>
-            </div>
-            <p id="moviedetes1">
-              {tren.results ? tren.results[randomNumber].overview : ""}
-            </p>
+              <p id="moviedetes1">
+                {tren.results ? tren.results[randomNumber].overview : ""}
+              </p>
 
-            <div className="btlist">
-              <div id="viewbt">Watch now</div>{" "}
-              <div
-                id="watchbt"
-                onClick={() => {
-                  putindb(tren.results[randomNumber].id);
-                }}
-              >
-                <svg
-                  fill="white"
-                  id="watchbt2"
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="24"
-                  viewBox="0 -960 960 960"
-                  width="24"
+              <div className="btlist">
+                <div id="viewbt">Watch now</div>{" "}
+                <div
+                  id="watchbt"
+                  onClick={() => {
+                    putindb(tren.results[randomNumber].id);
+                  }}
                 >
-                  <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
-                </svg>{" "}
-                Watchlist
+                  <svg
+                    fill="white"
+                    id="watchbt2"
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24"
+                    viewBox="0 -960 960 960"
+                    width="24"
+                  >
+                    <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                  </svg>{" "}
+                  Watchlist
+                </div>
               </div>
             </div>
           </div>
+          {!overlay && !overlay1 && (
+            <div className="secpage">
+              <div id="blackcover"></div>
+              <div className="trndingpage">
+                <div id="trenheader">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="red"
+                    height="55"
+                    viewBox="0 -960 960 960"
+                    width="55"
+                  >
+                    <path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z" />
+                  </svg>
+                  <div>Trending Movies</div>
+                </div>
+                <div className="trenlist">
+                  <List tren={tren} putindb={putindb} s={"false"} />
+                </div>
+                <div>
+                  <div id="trenheader">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="red"
+                      height="55"
+                      viewBox="0 -960 960 960"
+                      width="55"
+                    >
+                      <path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z" />
+                    </svg>
+                    <div>Trending Series</div>
+                  </div>
+                  <div className="trenlist">
+                    <List tren={tren1} putindb={putindb} s={"true"} />
+                  </div>
+                </div>
+                <div>
+                  <div id="trenheader">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="red"
+                      height="55"
+                      viewBox="0 -960 960 960"
+                      width="55"
+                    >
+                      <path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z" />
+                    </svg>
+                    <div>All time classics</div>
+                  </div>
+                  <div className="trenlist">
+                    <List tren={tren1} putindb={putindb} s={"true"} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-        {!overlay && !overlay1 && (
-          <div className="secpage">
-            <div id="blackcover"></div>
-            <div className="trndingpage">
-              <div id="trenheader">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="red"
-                  height="55"
-                  viewBox="0 -960 960 960"
-                  width="55"
-                >
-                  <path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z" />
-                </svg>
-                <div>Trending Movies</div>
-              </div>
-              <div className="trenlist">
-                <List tren={tren} putindb={putindb} />
-              </div>
-              <div>
-                <div id="trenheader">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="red"
-                    height="55"
-                    viewBox="0 -960 960 960"
-                    width="55"
-                  >
-                    <path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z" />
-                  </svg>
-                  <div>Trending Series</div>
-                </div>
-                <div className="trenlist">
-                  <List tren={tren1} putindb={putindb} />
-                </div>
-              </div>
-              <div>
-                <div id="trenheader">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="red"
-                    height="55"
-                    viewBox="0 -960 960 960"
-                    width="55"
-                  >
-                    <path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z" />
-                  </svg>
-                  <div>All time classics</div>
-                </div>
-                <div className="trenlist">
-                  <List tren={tren1} putindb={putindb} />
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
+      )}
     </>
   );
 }

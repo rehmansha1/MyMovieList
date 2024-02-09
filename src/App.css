@@ -10,14 +10,12 @@
   display: flex;
 
   justify-content: space-between;
-
 }
 .header1 {
-display: flex;
-height: 100px;
-width: 100vw;
-justify-content: space-between;
-
+  display: flex;
+  height: 100px;
+  width: 100vw;
+  justify-content: space-between;
 }
 #logo1 {
   top: 20px;
@@ -29,10 +27,9 @@ justify-content: space-between;
   padding-top: 20px;
 }
 #listp {
-
   padding-top: 20px;
 }
-.options{
+.options {
   height: 50px;
   width: 50px;
   display: flex;
@@ -45,17 +42,16 @@ justify-content: space-between;
   position: relative;
   top: 20px;
   border-radius: 10px;
-  background: rgba( 255, 213, 213, 0.02 );
-  backdrop-filter: blur( 3.5px );
-  -webkit-backdrop-filter: blur( 3.5px );
-  border: 1px solid rgba( 255, 255, 255, 0.18 );
+  background: rgba(255, 213, 213, 0.02);
+  backdrop-filter: blur(3.5px);
+  -webkit-backdrop-filter: blur(3.5px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   cursor: pointer;
 }
-.options > div{
-width: 55%;
-height: 1px;
-background-color: grey;
-
+.options > div {
+  width: 55%;
+  height: 1px;
+  background-color: grey;
 }
 #signinbt {
   height: 4vh;
@@ -67,14 +63,14 @@ background-color: grey;
   background-color: red;
   box-shadow: 0 0 10px 1px red;
 }
-.darkcorner{
+.darkcorner {
   position: absolute;
   top: 0%;
   left: 0;
   z-index: -1;
-height: 100%;
+  height: 100%;
 
-width: 100%;
+  width: 100%;
 }
 .darkcorner::before,
 .darkcorner::after {
@@ -82,22 +78,20 @@ width: 100%;
   position: absolute;
   top: 0%;
   left: 0;
-  
+
   width: 100%;
   height: 100%;
- background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2));
+  background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2));
   pointer-events: none;
-   z-index: 1;
+  z-index: 1;
 }
 
-#bgimg{
-
-height: 100%;
-width: 100%;
-object-fit:cover;
-
+#bgimg {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
 }
-.detes{
+.detes {
   height: 80%;
   width: 40%;
   display: flex;
@@ -107,215 +101,168 @@ object-fit:cover;
   padding-left: 100px;
 }
 @font-face {
-  font-family: 'Harabara';
-  src: url('./assets/Harabara.woff') format('woff');
+  font-family: "Harabara";
+  src: url("./assets/Harabara.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
-.detes >div > h1{
-
-margin: 0;
-font-family: 'Harabara', sans-serif; /* Use your font for the entire website or specific elements */
-
+.detes > div > h1 {
+  letter-spacing: 0px;
+  margin: 0;
+  font-family: "Harabara", sans-serif; /* Use your font for the entire website or specific elements */
 }
 
-
-
-#moviedetes1{
+#moviedetes1 {
   font-family: sans-serif;
   font-size: 17px;
   font-weight: lighter;
   opacity: 0.86;
- 
+
   padding-bottom: 40px;
   margin-bottom: 0;
   margin-top: 0;
 }
-.ratin > svg{
+.ratin > svg {
   filter: drop-shadow(0px 3 zpx 5px red);
 }
-.detes >div > h1{
+.detes > div > h1 {
   font-size: 60px;
   margin: 0;
-  font-family: 'Harabara', sans-serif; /* Use your font for the entire website or specific elements */
-padding-bottom: 40px; 
-  }  
-.detesdetes1{
+  font-family: "Harabara", sans-serif; /* Use your font for the entire website or specific elements */
+  padding-bottom: 40px;
+}
+.detesdetes1 {
   height: 30px;
   width: 600px;
   padding-bottom: 40px;
   display: flex;
   gap: 20px;
 }
-#imdbrating{
+#imdbrating {
   display: flex;
   height: 100%;
   margin: 0;
-
-  
 }
-#imdbrating > div{
+#imdbrating > div {
   display: flex;
   height: 100%;
-width: 100%;
-padding-left: 15px;
-font-size: 19px;
+  width: 100%;
+  padding-left: 15px;
+  font-size: 19px;
   align-items: center;
 }
 
-#randommyear{
+#randommyear {
   height: 100%;
   display: flex;
   align-items: center;
   font-size: 19px;
 }
-#randomm18{
+#randomm18 {
   display: flex;
   height: 100%;
   align-items: center;
   font-size: 19px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.btlist{
+.btlist {
   display: flex;
   gap: 20px;
- 
 }
-#viewbt{
-height:6vh ;
-width: 8vw;
-display: flex;
-align-items: center;
-justify-content: center;
-background-color: white;
-color: black;
-font-weight: bold;
-border-radius: 30px;
-cursor: pointer;
+#viewbt {
+  height: 6vh;
+  width: 8vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  border-radius: 30px;
+  cursor: pointer;
+  text-decoration: none;
 }
-#watchbt{
-  height:6vh ;
-width: 8vw;
+#watchbt {
+  height: 6vh;
+  width: 8vw;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 50px;
-  
+
   font-size: 16px;
   cursor: pointer;
   gap: 5%;
- font-weight: bold;
- background: rgba( 255, 213, 213, 0.02 );
- backdrop-filter: blur( 3.5px );
- -webkit-backdrop-filter: blur( 3.5px );
- border: 1px solid rgba( 255, 255, 255, 0.18 );
+  font-weight: bold;
+  background: rgba(255, 213, 213, 0.02);
+  backdrop-filter: blur(3.5px);
+  -webkit-backdrop-filter: blur(3.5px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
-#watchbt2{transition: all 0.5s;}
-  
-#watchbt:hover > #watchbt2{
+#watchbt2 {
+  transition: all 0.5s;
+}
+
+#watchbt:hover > #watchbt2 {
   rotate: 180deg;
 }
 
-.secpage{
+.secpage {
   height: 100vh;
   width: 100%;
   display: flex;
   flex-direction: row;
-position: relative;
-
+  position: relative;
 }
-.trndingpage{
+.trndingpage {
   margin-top: 100px;
   height: 50%;
 }
-#trenheader{
+#trenheader {
   height: 20%;
-  display:flex ;
+  display: flex;
   align-items: center;
   gap: 20px;
   font-size: 45px;
   font-family: system-ui;
   padding-left: 100px;
-
 }
-#trengallary{
+#trengallary {
   height: 400px;
   width: 200px;
   font-family: system-ui;
   cursor: pointer;
   transition: all 0.5s;
 }
-#trengallary >div{
+#trengallary > div {
   position: relative;
   transition: transform 0.5s;
   z-index: 0;
-  
-
 }
 #tdots {
-opacity: 0;
+  opacity: 0;
   position: absolute;
   top: 1%;
   left: 85%;
   transition: opacity 0.2s;
 }
-#trengallary >div > img{
-height: 75%;
-width: 100%;
+#trengallary > div > img {
+  height: 75%;
+  width: 100%;
   object-fit: cover;
   border-radius: 20px;
   z-index: 0;
-
 }
 
 #trengallary:hover > #outimg {
-transform: scale(1.5);
-z-index: 1;
+  transform: scale(1.5);
+  z-index: 1;
 }
-#trengallary:hover >div > svg{
-opacity: 1;
+#trengallary:hover > div > svg {
+  opacity: 1;
 }
 
-.trndetes{
+.trndetes {
   display: flex;
   opacity: 1;
   height: 10%;
@@ -325,184 +272,170 @@ opacity: 1;
   z-index: 0;
 }
 
-#listcon{
+#listcon {
   display: flex;
   flex-direction: column;
   gap: 5px;
 }
-#year{
+#year {
   opacity: 0.5;
   z-index: 1;
 }
-#starstrn{
+#starstrn {
   display: flex;
   align-items: center;
   gap: 5px;
 }
-.trenlist{
+.trenlist {
   padding-top: 50px;
   padding-left: 50px;
 }
 
-.trenlist{
+.trenlist {
   display: flex;
   gap: 100px;
   flex-direction: row;
   overflow-x: hidden;
   overflow-y: hidden;
-
-
 }
-.trenlist>div{
-  cursor: pointer;  
+.trenlist > div {
+  cursor: pointer;
 }
-.overlay{
+.overlay {
   position: absolute;
   background-color: black;
   height: 0vh;
   width: 100%;
-transition: all 0.5s;
-top: 0;
-left: 0;
-z-index: 2;
-
+  transition: all 0.5s;
+  top: 0;
+  left: 0;
+  z-index: 2;
 }
 
 @keyframes downslow {
-  0%{
+  0% {
     height: 0vh;
-
   }
-  20%{
+  20% {
     height: 20vh;
   }
-  60%{
+  60% {
     height: 30vh;
-
   }
-  80%{
+  80% {
     height: 100vh;
   }
-  100%{
+  100% {
     height: 300vh;
   }
 }
-.extendoverlay{
- 
+.extendoverlay {
   height: 60vh;
   z-index: 2;
 }
 
-.ovapart1{
+.ovapart1 {
   cursor: pointer;
-position: absolute;
-left: 110%;
-top: 30%;
+  position: absolute;
+  left: 110%;
+  top: 30%;
 
-
-opacity: 0.5;
+  opacity: 0.5;
 }
 .ovapart1 {
   background-color: black;
   border-radius: 15px;
   transition: all 0.5s;
   z-index: 5;
-
 }
-.ovapart1:hover{
+.ovapart1:hover {
   rotate: 90deg;
-  
 }
-.overlay1{
+.overlay1 {
   position: fixed;
   background-color: black;
   height: 100vh;
   width: 100%;
-transition: all 0.5s;
-top: 0;
-left: 0;
-z-index: 2;
+  transition: all 0.5s;
+  top: 0;
+  left: 0;
+  z-index: 2;
 }
 
-.overlay1inner{
-height: 100%;
-width: 100%;
+.overlay1inner {
+  height: 100%;
+  width: 100%;
 }
-.ov1ih1{
-height: 10%;
+.ov1ih1 {
+  height: 10%;
 
-display: flex;
-justify-content: space-between;
-padding-left: 100px;
-padding-right: 100px;
-align-items: center;
-font-size: 50px;
-font-weight: 500;
-font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 100px;
+  padding-right: 100px;
+  align-items: center;
+  font-size: 50px;
+  font-weight: 500;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
-.ov1ih1 >svg{
+.ov1ih1 > svg {
   cursor: pointer;
 }
-.overlayinner{
-height: 100%;
-width: 100%;
+.overlayinner {
+  height: 100%;
+  width: 100%;
 
-display: flex;
-flex-direction: column;
-
+  display: flex;
+  flex-direction: column;
 }
-.ov1box{
+.ov1box {
   opacity: 0;
   display: flex;
   flex-wrap: wrap;
-gap: 50px;
-padding: 100px;
+  gap: 50px;
+  padding: 100px;
   justify-content: center;
-  
 }
-.ovainput{
-position: relative;
-display: flex;
-align-items: center;
-height: 50vh;
-justify-content: center;
-width: 100%;
-flex-direction: column;
-
+.ovainput {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 50vh;
+  justify-content: center;
+  width: 100%;
+  flex-direction: column;
 }
-.ovainput>div>input{
+.ovainput > div > input {
   border: none;
   height: 100px;
   width: 350px;
   font-size: 18px;
   background-color: black;
   color: white;
-outline: none;
-
+  outline: none;
 }
-.ovainput>div{
+.ovainput > div {
   position: relative;
 }
-.ovainput>div:after{
-position: absolute;
-height: 1px;
-width: 100%;
-top: 80%;
-left: 0%;
-content: '';
-background-color: red;
-box-shadow: 0 0 10px 1px red;
-
-
+.ovainput > div:after {
+  position: absolute;
+  height: 1px;
+  width: 100%;
+  top: 80%;
+  left: 0%;
+  content: "";
+  background-color: red;
+  box-shadow: 0 0 10px 1px red;
 }
-.displaysearch{
-width:100%;
-height: 60%;
-display: flex;
-align-items: center;
-justify-content: center;
+.displaysearch {
+  width: 100%;
+  height: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.searchdisplay{
+.searchdisplay {
   opacity: 0;
   display: flex;
   flex-wrap: wrap;
@@ -513,105 +446,173 @@ justify-content: center;
   height: 90%;
 }
 
+#menu {
+  height: 100vh;
+  width: 00vw;
+  background-color: black;
+  position: fixed;
+  right: 0%;
+  top: 0%;
+  transition: width 0.5s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 100px;
+  font-size: 19px;
+  font-weight: bold;
+  font-family: harabara;
+}
 
-
-
-
-  #menu {
-
-    height: 100vh;
-    width: 0vw;
-    background-color: black;
-    position: fixed;
-right: -80%; /* Set right to 80% instead of left */
-
-    transition: width 0.5s;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 100px;
-    font-size: 19px;
-    font-weight: bold;
-    font-family: harabara;
-  }
-  
-
-.menuinner{
+.menuinner {
   display: flex;
   flex-direction: column;
   padding-left: 100px;
   gap: 100px;
 }
-#menu >div{
+#menu > div {
   cursor: pointer;
 }
-.sbt{
+.sbt {
   position: relative;
 }
-.sbt::after{
+.sbt::after {
   position: absolute;
   top: 100%;
   display: flex;
-  content: '';
+  content: "";
   height: 1px;
   width: 0%;
   background-color: wheat;
   transition: all 0.5s;
 }
 
-.sbt:hover::after{
-  content: '';
+.sbt:hover::after {
+  content: "";
   position: absolute;
-  
+
   display: flex;
   height: 1px;
   width: 50px;
   background-color: white;
   transition: all 0.5s;
 }
-#close1{
+#close1 {
   position: absolute;
-top: 10%;
-cursor: pointer;
+  top: 10%;
+  
+  cursor: pointer;
+
 }
-.carousal{
+#close {
+  position: absolute;
+  top: 10%;
+  left: 95%;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: all 0.5s;
+}
+#close:hover{
+  rotate: 90deg;
+}
+.carousal {
   position: absolute;
   left: 85%;
   top: 32%;
   height: 100px;
   width: 200px;
 }
-#imgcard{
+#imgcard {
   border-radius: 20px;
 }
-.recomds{
+.recomds {
   height: 100vh;
   width: 100vw;
 }
-.genres{
+.genres {
   display: flex;
   gap: 10px;
   padding-bottom: 40px;
 }
-.genrebt{
-padding: 7px; 
+.genrebt {
+  padding: 7px;
   border-radius: 20px;
   font-size: 11px;
   font-weight: normal;
   font-weight: bold;
-  background: rgba( 255, 213, 213, 0.02 );
-  backdrop-filter: blur( 3.5px );
-  -webkit-backdrop-filter: blur( 3.5px );
-  border: 1px solid rgba( 255, 255, 255, 0.18 );
+  background: rgba(255, 213, 213, 0.02);
+  backdrop-filter: blur(3.5px);
+  -webkit-backdrop-filter: blur(3.5px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   pointer-events: none;
 }
-.Revsec{
+.Revsec {
   height: auto;
   width: 100vw;
   padding: 100px;
   font-family: sans-serif;
+}
+.Revsec > h1 {
+  color: white;
+}
+.btmvser{
+  display: flex;
+  position: absolute;
+  top: 34%;
+  left: 110%;
+  gap: 10px;
+  font-family: sans-serif;
+  border: 1px solid white;
+  border-radius: 10px;
+opacity: 0.5;
+
 
 }
-.Revsec>h1{
-  color: white;
+.btmvser > div{
+  padding: 10px;
+  border-radius: 9px;
+
+  
+}
+.btmvser > div:hover{
+background: white;
+color: black;
+cursor: pointer;
+}
+#progressbar{
+  height: 26px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 200px;
+  background: black;
+  border-radius: 30px;
+  margin: -20px 0 0 -100px;
+  padding: 2px;
+}
+#loading{
+  transition: all 500ms ease;
+  height: 20px;
+  width: calc(100% - 10px);
+  border-radius: 10px;
+  background: white;
+  position: absolute;
+  margin: 3px;
+  display: inline-block;
+  animation: load 5s ease infinite;
+}
+#load{
+  font-family: 'Poppins', sans-serif;
+  font-size: 2rem;
+  text-align: center;
+  margin-top: 30px;
+  letter-spacing: 1px;
+}
+
+@keyframes load{
+  0%{
+    width: 2%;
+  }
+  10%{
+    width: 10%;
+  }
 }

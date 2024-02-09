@@ -2,11 +2,11 @@ import React from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-export default function List({ tren, putindb, mylist, deleteindb }) {
+export default function List({ tren, putindb, mylist, deleteindb, s,series }) {
   const navigate = useNavigate();
   const handleButtonClick = (id) => {
-    // Navigate to a different route
-    navigate(`/detes/${id}`);
+    
+    navigate(`/detes/${id}?s=${series}`);
     window.location.reload();
   };
   return (

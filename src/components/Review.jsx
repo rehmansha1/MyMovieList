@@ -5,7 +5,7 @@ export default function Review({ reviews }) {
   return (
     <div className="rvsec2">
       {reviews.results &&
-  reviews.results.slice(0, 2).map((item, index) => {
+  reviews.results.map((item, index) => {
     const words = item.content.split(/\s+/);
 
     if (words.length <= 150) {
