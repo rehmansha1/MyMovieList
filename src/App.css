@@ -295,8 +295,7 @@
   display: flex;
   gap: 100px;
   flex-direction: row;
-  overflow-x: hidden;
-  overflow-y: hidden;
+ 
 }
 .trenlist > div {
   cursor: pointer;
@@ -615,4 +614,39 @@ cursor: pointer;
   10%{
     width: 10%;
   }
+}
+.checksvg{
+  position: absolute;
+  opacity: 0;
+  padding: 5px;
+}
+.rvmybox{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  top: 10%;
+  left: 0;
+ 
+  display: flex;
+  justify-content: center;
+  align-items:center ;
+
+}
+.innerrvbox{
+  height: 500px;
+  width: 500px;
+  display: flex;
+  background-color: black;
+  z-index: 10;
+  border-radius: 15px;
+position: fixed;
+margin-top: -10%;
+
+}
+#myrvboxclose{
+  padding: 10px;
+  position: relative;
+left: 90%;
+cursor: pointer;
 }

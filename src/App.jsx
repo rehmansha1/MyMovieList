@@ -18,14 +18,17 @@ function App() {
   const [tren1, settrend1] = useState([]);
   const [overlay, setoverlay] = useState(false);
   const [overlay1, setoverlay1] = useState(false);
-  const [series, setseries] = useState(false);
+  const [series, setseries] = useState('false');
   const [randomNumber, setrandom] = useState(Math.floor(Math.random() * 20));
   const [movieName, setMovieName] = useState("");
   const [searchList, setsl] = useState("");
   const [userName, setusername] = useState("Rehman");
   const [mylist, setmylist] = useState([]);
+  const [clmovies, setclmov] = useState([]);
+
   const [mylistfinal, setmylistfinal] = useState({ results: [] });
   const [menu, setmenu] = useState(false);
+  
 
   const handleInputChange = (event) => {
     setMovieName(event.target.value);
@@ -47,7 +50,7 @@ function App() {
         Authorization: import.meta.env.VITE_GAPI_KEY_ENV,
       },
     };
-    const url = series ? urlFortv : urlForMovie;
+    const url = series == 'true' ? urlFortv : urlForMovie;
     try {
       const response = await axios.get(url, { params, ...options });
       console.log(response.data);
@@ -59,6 +62,7 @@ function App() {
   const fetchData = async () => {
     const urlfortrnd = "https://api.themoviedb.org/3/trending/movie/day";
     const urlfortrndS = "https://api.themoviedb.org/3/tv/popular";
+    const urlfortrndSforcl = "https://api.themoviedb.org/3/movie/top_rated";
 
     const params = {
       query: "drive",
@@ -77,9 +81,11 @@ function App() {
     try {
       const response = await axios.get(urlfortrnd, { ...options });
       const response1 = await axios.get(urlfortrndS, { ...options });
+      const response2 = await axios.get(urlfortrndSforcl, { ...options });
 
       settrend(response.data);
       settrend1(response1.data);
+      setclmov(response2.data);
       console.log(tren);
     } catch (error) {
       console.error("error:", error);
@@ -293,7 +299,7 @@ function App() {
                       <div
                         id="mvbt"
                         onClick={() => {
-                          setseries(false);
+                          setseries('false');
                           let bt = document.getElementById("mvbt");
                           bt.style.background = "white";
                           bt.style.color = "black";
@@ -307,7 +313,7 @@ function App() {
                       <div
                         id="svbt"
                         onClick={() => {
-                          setseries(true);
+                          setseries('true');
                           let bt = document.getElementById("svbt");
                           bt.style.background = "white";
                           bt.style.color = "black";
@@ -325,7 +331,7 @@ function App() {
                 {searchList && (
                   <div className="displaysearch">
                     <div className="searchdisplay">
-                      <List tren={searchList} putindb={putindb} series={series} />
+                      <List tren={searchList} putindb={putindb} series={series} series1={series}/>
                     </div>
                   </div>
                 )}
@@ -342,7 +348,8 @@ function App() {
                   </div>
                 )}
               
-              { mylistfinal && 
+              { mylistfinal &&
+
                 <div className="overlay1inner">
                   <div className="ov1ih1">
                     <div>My List</div>
@@ -367,6 +374,7 @@ function App() {
                       putindb={putindb}
                       mylist={true}
                       deleteindb={deleteindb}
+                      
                     />
                   </div>
                 </div>
@@ -592,7 +600,7 @@ function App() {
                     <div>All time classics</div>
                   </div>
                   <div className="trenlist">
-                    <List tren={tren1} putindb={putindb} s={"true"} />
+                    <List tren={clmovies} putindb={putindb} s={"false"} />
                   </div>
                 </div>
               </div>
