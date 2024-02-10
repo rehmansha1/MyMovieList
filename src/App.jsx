@@ -507,7 +507,7 @@ function App() {
                   <div>Trending Movies</div>
                 </div>
                 <div className="trenlist">
-                  <List tren={tren} putInDbMovies={putInDbMovies} s={"false"} />
+                  <List tren={tren} putInDbMovies={putInDbMovies}  movies={"true"}/>
                 </div>
                 <div>
                   <div id="trenheader">
@@ -523,7 +523,7 @@ function App() {
                     <div>Trending Series</div>
                   </div>
                   <div className="trenlist">
-                    <List tren={tren1} putInDbSeries={putInDbSeries} s={"true"} />
+                    <List tren={tren1} putInDbSeries={putInDbSeries} movies={"false"} />
                   </div>
                 </div>
                 <div>
@@ -540,7 +540,7 @@ function App() {
                     <div>All time classics</div>
                   </div>
                   <div className="trenlist">
-                    <List tren={clmovies} putInDbMovies={putInDbMovies} s={"false"} />
+                    <List tren={clmovies} putInDbMovies={putInDbMovies} movies={"true"} />
                   </div>
                 </div>
               </div>

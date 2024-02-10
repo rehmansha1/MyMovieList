@@ -251,7 +251,7 @@ export default function MovieDetails() {
                 </a>{" "}
                 <div
                   id="watchbt"
-                  onClick={() => {
+                  onClick={() => { 
                if(tren.name){
 putInDbSeries(tren.id,tren.poster_path,tren.name)
                }
@@ -297,7 +297,7 @@ putInDbSeries(tren.id,tren.poster_path,tren.name)
 
           <div className="recomds">
             <div id="remdstext">Recommendations</div>
-            <List tren={recomds} s={paramValue} />
+            <List tren={recomds} movies={paramValue} />
           </div>
           <div className="Revsec">
             <h1>Reviews</h1>
