@@ -31,44 +31,111 @@ mongoose.connect(
   });
   const UserSchema = new mongoose.Schema({
     username: String,
-    data: [String],
-  
+    Movies: [
+      {
+        title: String,
+        URL: String,
+        id: String,
+      }
+    ],
+    Series: [
+      {
+        name: String,
+        URL: String,
+        id: String,
+      }
+    ]
   });
+  
   const User = mongoose.model("post", UserSchema);
   app.get("/", async (req, res) => {
   res.send('nuh')
 });
-  app.post("/putID", async (req, res) => {
-    const username = req.body.username;
-    const data = req.body.postText;
-  
-    try {
-
-      const existingUser = await User.findOne({ username });
-  
-      if (existingUser) {
-        
-      if (!existingUser.data.includes(data))  {
-        
-          existingUser.data.push(data);
-          await existingUser.save();
-          console.log("Post added to the user's data");
-          res.status(200).json(existingUser);
-        } else {
-          console.log("user and postText already exists");
-          res.status(400).send("Post already exists in the user's data");
-        }
-      } else {
-        const newUser = new User({ username, data});
-        await newUser.save();
-        console.log("User created successfully");
-        res.status(201).json(newUser); 
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).send("Internal Server Error"); 
+app.post("/putIDSeries", async (req, res) => {
+  const username = req.body.username;
+  const id = req.body.id;
+  const url = req.body.url;
+  const name = req.body.name;
+  try {
+    let existingUser = await User.findOne({ username });
+    if (!existingUser) {
+      // If user doesn't exist, create a new user
+      existingUser = new User({
+        username: username,
+        Movies: [],
+        Series: [],
+      });
     }
-  });
+    if (existingUser) {
+      if (!existingUser.Series) {
+        existingUser.Series = [];
+      }
+
+  
+      const seriesExists = existingUser.Series.some(series => series.id.toString() === id.toString());
+
+      if (!seriesExists) {
+        
+
+        existingUser.Series.push({ name, URL: url, id }); // Use URL instead of url
+        await existingUser.save();
+        console.log("series is added to users db");
+        res.status(200).json({ message: 'Series added successfully' });
+      } else {
+        console.log("Series Already exists");
+      }
+
+    }}
+    catch (error) {
+     console.error(error);
+     res.status(500).json({ message: 'Internal Server Error' });
+   }
+ });
+
+app.post("/putIDMovies", async (req, res) => {
+  const username = req.body.username;
+  const title = req.body.title;
+  const url = req.body.url;
+  const id = req.body.id;
+  try {
+    let existingUser = await User.findOne({ username });
+
+    if (!existingUser) {
+      // If user doesn't exist, create a new user
+      existingUser = new User({
+        username: username,
+        Movies: [],
+        Series: [],
+      });
+    }
+
+    if (!existingUser.Movies) {
+      existingUser.Movies = [];
+    }
+
+    const movieExists = existingUser.Movies.some(movie => movie.id.toString() === id.toString());
+
+    if (!movieExists) {
+      existingUser.Movies.push({ title, URL: url, id }); // Use URL instead of url
+      await existingUser.save();
+      res.status(200).json({ message: 'Movie added successfully' });
+      console.log("Movie is added to users db");
+
+
+      } else {
+console.log('Movie Already exists');
+      }
+
+  
+    }
+   catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+
+
 
 app.get("/getIDS", async (req, res) => {
     try {

@@ -30,6 +30,7 @@
   padding-top: 20px;
 }
 .options {
+
   height: 50px;
   width: 50px;
   display: flex;
@@ -270,6 +271,7 @@
   padding-left: 10px;
   padding-right: 10px;
   z-index: 0;
+  color: white;
 }
 
 #listcon {
@@ -367,7 +369,7 @@
 }
 .ov1ih1 {
   height: 10%;
-
+padding-top:30px ;
   display: flex;
   justify-content: space-between;
   padding-left: 100px;
@@ -620,6 +622,10 @@ cursor: pointer;
   opacity: 0;
   padding: 5px;
 }
+.checksvg:hover{
+  fill: gold;
+}
+
 .rvmybox{
   position: absolute;
   height: 100%;
@@ -642,11 +648,187 @@ cursor: pointer;
   border-radius: 15px;
 position: fixed;
 margin-top: -10%;
+flex-direction: column;
+
+font-family: harabara;
+letter-spacing: 1px;
+
+}
+#ratinguser{
+height: 30%;
+padding-left: 50px;
+padding-top: 50px;
+
+}
+.ratinguserinner{
+  padding-top: 40px;
+  
+}
+.ratinguserinner > svg{
+  height: 30px;
+  width: 30px;
+cursor: pointer;
+}
+#reviewuser{
+  height: 70%;
+  padding-left: 50px;
+  padding-top: 50px;
+
 
 }
 #myrvboxclose{
   padding: 10px;
-  position: relative;
+  position: absolute;
 left: 90%;
+top: 0;
+cursor: pointer;
+}
+#rvinput {
+  height: 100%;
+  width: 100%;
+padding-top: 30px;  
+
+}
+#rvinput > textarea { 
+height: 50%;
+width: 80%;
+
+font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+background-color: transparent;
+border: none;
+resize: none; /* Disable resizing */
+border: none; /* Remove the border */
+outline: none;
+color: white;
+}
+
+
+
+
+
+.star-rating {
+  border:solid 1px #ccc;
+  display:flex;
+  flex-direction: row-reverse;
+  font-size:1.5em;
+  justify-content:space-around;
+  padding:0 .2em;
+  text-align:center;
+  width:5em;
+}
+
+.star-rating input {
+  display:none;
+}
+
+.star-rating label {
+  color:#ccc;
+  cursor:pointer;
+}
+
+.star-rating :checked ~ label {
+  color:#f90;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  color:#fc0;
+}
+
+/* explanation */
+
+article {
+  background-color:#ffe;
+  box-shadow:0 0 1em 1px rgba(0,0,0,.25);
+  color:#006;
+  font-family:cursive;
+  font-style:italic;
+  margin:4em;
+  max-width:30em;
+  padding:2em;
+}
+
+
+
+
+
+.sendsymbol{
+  position: absolute;
+  top: 90%;
+  left: 90%;
+  cursor: pointer;
+}
+
+.seasonssection{
+  height: 50vh;
+  color: white;
+  padding: 100px;
+  font-family: sans-serif;
+
+  
+}
+
+
+.ss{
+  color: white;
+}
+
+
+
+
+
+.seasonsarray{
+display: flex;
+gap: 100px;
+display: flex;
+padding-top: 30px;
+
+}
+.saih1{
+ padding: 10px; 
+ display: flex;
+ justify-content: center;
+ font-family: sans-serif;
+
+}
+.saimgs{
+  height: 300px;
+  width: 200px;
+border-radius: 15px;
+transition: all 0.5s;
+}
+.saimgs:hover{
+  transform: scale(1.5);
+}
+.displaylist{
+  color: white;
+}
+.wishlistbtms{
+  color: white;
+font-family: sans-serif;
+display: flex;
+gap: 15px;
+border: 1px solid white;
+width: auto;
+position: absolute;
+
+border-radius: 10px;
+top: 6%;
+left: 80%;
+}
+.wishlistbtms > div{
+  padding: 10px;
+  transition: color 0.5s;
+  border-radius: 9.5px;
+
+  font-size: 19px;
+}
+#moviebt{
+  background: white;
+  color: black;
+}
+.wishlistbtms  > div:hover{
+color: black;
+background: white;
 cursor: pointer;
 }

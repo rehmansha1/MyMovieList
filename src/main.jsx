@@ -4,12 +4,15 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import App from './App';
 import './index.css';
 import MovieDetails from './Pages/MovieDetails';
+import Mylist from './Pages/Mylist';
 
 const router = (
   <Router>
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/detes/:id" element={<MovieDetails />} />
+      <Route path="/mylist" element={<Mylist />} />
+
     </Routes>
   </Router>
 );

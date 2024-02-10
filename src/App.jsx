@@ -12,23 +12,23 @@ import List from "./components/List";
 import { gsap } from "gsap";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
+import { useNavigate } from "react-router-dom";
 
 function App() {
   const [tren, settrend] = useState([]);
   const [tren1, settrend1] = useState([]);
   const [overlay, setoverlay] = useState(false);
   const [overlay1, setoverlay1] = useState(false);
-  const [series, setseries] = useState('false');
+  const [movies, setmovies] = useState("true");
   const [randomNumber, setrandom] = useState(Math.floor(Math.random() * 20));
   const [movieName, setMovieName] = useState("");
   const [searchList, setsl] = useState("");
   const [userName, setusername] = useState("Rehman");
-  const [mylist, setmylist] = useState([]);
   const [clmovies, setclmov] = useState([]);
+  const navigate = useNavigate();
 
   const [mylistfinal, setmylistfinal] = useState({ results: [] });
   const [menu, setmenu] = useState(false);
-  
 
   const handleInputChange = (event) => {
     setMovieName(event.target.value);
@@ -50,7 +50,7 @@ function App() {
         Authorization: import.meta.env.VITE_GAPI_KEY_ENV,
       },
     };
-    const url = series == 'true' ? urlFortv : urlForMovie;
+    const url = movies == "true" ? urlForMovie : urlFortv;
     try {
       const response = await axios.get(url, { params, ...options });
       console.log(response.data);
@@ -92,53 +92,37 @@ function App() {
     }
   };
 
-  const mylistimpl = async () => {
-    const options = {
-      headers: {
-        accept: "application/json",
-        Authorization: import.meta.env.VITE_GAPI_KEY_ENV,
-      },
-    };
 
-    try {
-      const updatedList = [];
-
-      for (let i = 0; i < mylist.length; i++) {
-        let url;
-        if (mylist[i][mylist[i].length - 1] == "s") {
-          url = `https://api.themoviedb.org/3/tv/${mylist[i]}`;
-        } else {
-          url = `https://api.themoviedb.org/3/movie/${mylist[i]}`;
-        }
-        const resp = await axios.get(url, options);
-
-        const movieData = {
-          poster_path: resp.data.poster_path,
-          title: resp.data.title,
-          id: mylist[i],
-        };
-
-        updatedList.push(movieData);
-      }
-
-      setmylistfinal({ results: updatedList });
-      console.log(mylistfinal);
-    } catch (error) {
-      console.error("error:", error);
-    }
-  };
-  const putindb = async (id) => {
+  const putInDbSeries = async (id,url,name) => {
     console.log("pressed");
     try {
-      const resp = await axios.post("http://localhost:3001/putID", {
+      const resp = await axios.post("http://localhost:3001/putIDSeries", {
         username: "Rehman",
-        postText: id,
+        id: id,
+        url:url,
+        name:name
       });
       console.log(resp.data);
     } catch (error) {
       console.error("Error:", error);
     }
-    getIds();
+   
+  };
+  const putInDbMovies = async (id,url,title) => {
+    console.log("pressed");
+    try {
+      const resp = await axios.post("http://localhost:3001/putIDMovies", {
+        username: "Rehman",
+        id: id,
+        url: url,
+        title: title
+      });
+      
+      console.log(resp.data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+   
   };
   const deleteindb = async (id) => {
     console.log("pressed");
@@ -155,16 +139,9 @@ function App() {
     }
   };
 
-  const getIds = async () => {
-    const response = await axios.get(
-      `http://localhost:3001/getIDS?username=${userName}`
-    );
-    console.log(response.data[0].data);
-    setmylist(response.data[0].data);
-  };
+
   useEffect(() => {
-    getIds();
-    fetchData();
+   fetchData();
   }, []);
   useEffect(() => {
     gsap.from("#ovai", { opacity: 0, duration: 0.5, delay: 0.5 });
@@ -234,12 +211,13 @@ function App() {
                       setmenu(false);
                       const c1 = document.getElementById("menu");
                       c1.style.width = "0%";
-                      getIds();
-                      mylistimpl();
 
                       setoverlay1(true);
                       const c = document.getElementById("oy");
                       c.style.height = "100%";
+                      setTimeout(() => {
+                        navigate("/mylist");
+                      }, 500);
                     }}
                   >
                     MyList
@@ -299,7 +277,7 @@ function App() {
                       <div
                         id="mvbt"
                         onClick={() => {
-                          setseries('false');
+                          setmovies("true");
                           let bt = document.getElementById("mvbt");
                           bt.style.background = "white";
                           bt.style.color = "black";
@@ -313,7 +291,7 @@ function App() {
                       <div
                         id="svbt"
                         onClick={() => {
-                          setseries('true');
+                          setmovies("false");
                           let bt = document.getElementById("svbt");
                           bt.style.background = "white";
                           bt.style.color = "black";
@@ -327,60 +305,22 @@ function App() {
                     </div>
                   </div>
                 </div>
-         
+
                 {searchList && (
                   <div className="displaysearch">
                     <div className="searchdisplay">
-                      <List tren={searchList} putindb={putindb} series={series} series1={series}/>
+                      <List
+                        tren={searchList}
+                        
+                   movies={movies}
+                      />
                     </div>
                   </div>
                 )}
               </div>
             )}
 
-            {overlay1 && (
-              <>
-              
-                {!mylistfinal && (
-                  <div id="progressbar">
-                    <span id="loading"></span>
-                    <div id="load">LOADING..</div>
-                  </div>
-                )}
-              
-              { mylistfinal &&
-
-                <div className="overlay1inner">
-                  <div className="ov1ih1">
-                    <div>My List</div>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      onClick={() => {
-                        setoverlay1(false);
-                        const c = document.getElementById("oy");
-                        c.style.height = "0vh";
-                      }}
-                      fill="white"
-                      height="24"
-                      viewBox="0 -960 960 960"
-                      width="24"
-                    >
-                      <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-                    </svg>
-                  </div>
-                  <div className="ov1box">
-                    <List
-                      tren={mylistfinal}
-                      putindb={putindb}
-                      mylist={true}
-                      deleteindb={deleteindb}
-                      
-                    />
-                  </div>
-                </div>
-              }
-              </>
-            )}
+            
           </div>
           <div className="header1">
             <img src={logo} id="logo1" />
@@ -532,7 +472,7 @@ function App() {
                 <div
                   id="watchbt"
                   onClick={() => {
-                    putindb(tren.results[randomNumber].id);
+                    putInDbMovies(tren.results[randomNumber].id,tren.results[randomNumber].poster_path,tren.results[randomNumber].title);
                   }}
                 >
                   <svg
@@ -567,7 +507,7 @@ function App() {
                   <div>Trending Movies</div>
                 </div>
                 <div className="trenlist">
-                  <List tren={tren} putindb={putindb} s={"false"} />
+                  <List tren={tren} putInDbMovies={putInDbMovies} s={"false"} />
                 </div>
                 <div>
                   <div id="trenheader">
@@ -583,7 +523,7 @@ function App() {
                     <div>Trending Series</div>
                   </div>
                   <div className="trenlist">
-                    <List tren={tren1} putindb={putindb} s={"true"} />
+                    <List tren={tren1} putInDbSeries={putInDbSeries} s={"true"} />
                   </div>
                 </div>
                 <div>
@@ -600,7 +540,7 @@ function App() {
                     <div>All time classics</div>
                   </div>
                   <div className="trenlist">
-                    <List tren={clmovies} putindb={putindb} s={"false"} />
+                    <List tren={clmovies} putInDbMovies={putInDbMovies} s={"false"} />
                   </div>
                 </div>
               </div>

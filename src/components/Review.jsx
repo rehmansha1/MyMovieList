@@ -8,7 +8,7 @@ export default function Review({ reviews }) {
   reviews.results.map((item, index) => {
     const words = item.content.split(/\s+/);
 
-    if (words.length <= 150) {
+    if (words.length <= 550) {
       return (
         <div className="revsectin" key={index}>
           <div>Author: {item.author} </div>
