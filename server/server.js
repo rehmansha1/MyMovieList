@@ -151,8 +151,7 @@ app.get("/getIDS", async (req, res) => {
   });
   app.delete("/delete", async (req, res) => {
     try {
-      const postText = req.body.postText;
-      const username = req.body.username;
+      const { username, id, type } = req.body;
   
       // Find the user by username
       const user = await User.findOne({ username });
@@ -161,20 +160,31 @@ app.get("/getIDS", async (req, res) => {
         return res.status(404).json({ message: "User not found" });
       }
   
-      // Remove the specified ID from the user's data array
-      user.data = user.data.filter((id) => id !== postText);
+      // Define the array based on the type (Movies or Series)
+      const dataArray = type === "movies" ? user.Movies : user.Series;
+  
+      // Find the index of the object with the specified ID
+      const index = dataArray.findIndex((item) => item.id === id);
+  
+      if (index === -1) {
+        return res.status(404).json({ message: "ID not found" });
+      }
+  
+      // Remove the object from the array
+      dataArray.splice(index, 1);
+  
+      // Save the updated user
       await user.save();
-      console.log("Deleted " + postText);
-      return res.json({ message: "ID deleted successfully" });
-
-      // If the user has one postText left, delete the user
-    
       
-   
-  }catch (error) {
-    console.error("Error:", error);
-    return res.status(500).json({ message: "An error occurred" });
-  }});
+      console.log("Deleted " + id);
+      return res.json({ message: "ID deleted successfully" });
+    } catch (error) {
+      console.error("Error:", error);
+      return res.status(500).json({ message: "An error occurred" });
+    }
+  });
+  
+  
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

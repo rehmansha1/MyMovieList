@@ -108,7 +108,7 @@
   font-style: normal;
 }
 .detes > div > h1 {
-  letter-spacing: 0px;
+  letter-spacing: 1px;
   margin: 0;
   font-family: "Harabara", sans-serif; /* Use your font for the entire website or specific elements */
 }
@@ -544,7 +544,7 @@ padding-top:30px ;
   backdrop-filter: blur(3.5px);
   -webkit-backdrop-filter: blur(3.5px);
   border: 1px solid rgba(255, 255, 255, 0.18);
-  pointer-events: none;
+
 }
 .Revsec {
   height: auto;
@@ -831,4 +831,160 @@ left: 80%;
 color: black;
 background: white;
 cursor: pointer;
+}
+.mediasection{
+  height: 80vh;
+}
+.arrayofimgsback{
+  height: 300px;
+  width: 70vw;
+  display: flex;
+  gap: 10px;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+
+}
+.arrayofimgsback > img{
+  height: 100%;
+  width: auto;
+transition: all 0.5s;
+z-index: 1;
+}
+.arrayofimgsback >img:hover{
+
+}
+.arrayofimgsback > div{
+  height: 100%;
+  width: 100px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: sans-serif;
+  cursor: pointer;
+  opacity: 0.5;
+
+}
+.mediasection{
+  color: white;
+  padding-left: 100px;
+  padding-top: 100px;
+  display: flex;
+  
+}
+#mediapointer{
+  padding-bottom: 50px;
+  font-family: harabara;
+  font-size: 50px;
+  letter-spacing: 1px;
+  display: flex;
+  flex-direction: row;
+}
+.wholemedia{
+  color: white;
+}
+.keywords{
+
+  width: 200px;
+font-family: harabara;
+
+display: flex;
+gap: 10px;
+letter-spacing: 1px;
+height: 100px;
+display: flex;
+flex-wrap: wrap;
+position: relative;
+top: 20%;
+left: 10%;  
+
+
+}
+.keywords > div{
+  cursor: pointer;
+  opacity: 0.5;
+transition: all 0.2s;
+}
+.keywords > div:hover{
+  opacity: 1;
+transform: scale(1.1);
+}
+.wholepageofkeywordsearch{
+  color: white;
+}
+#titleks{
+  
+  font-size: 30px;
+  font-family: harabara;
+  letter-spacing: 1px;
+}
+.boxks{
+  display: flex;
+  gap: 100px;
+  flex-wrap: wrap;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+justify-content: center;
+}
+.boxthathastbt{
+  display: flex;
+  height: 30vh;
+  align-items: center;
+  padding-left: 100px;
+  justify-content: space-between;
+}
+.leftrightsym{
+  padding-left: 100px;
+  display: flex;
+  justify-content: space-between;
+  padding-right: 100px;
+  height: 100px;
+  align-items: center;
+  
+}
+.leftrightsym > svg{
+  cursor: pointer;
+  opacity: 0.5;
+  transition: all 0.5s;
+}
+.leftrightsym > svg:hover{
+  opacity: 1;
+  
+}
+.pagecountr{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  font-family: harabara;
+  pointer-events: none;
+}
+.clickthis{
+  position: absolute;
+}
+.mmpage{
+  color: white;
+}
+#mediapagetitle{
+  padding: 100px;
+  font-size: 50px;
+  font-family: harabara;
+
+}
+.mediaarraybox{
+  display: flex;
+gap: 50px;
+
+flex-wrap: wrap;
+justify-content: center;
+align-items: center;
+
+}
+.mediaarraybox  > img{
+height: 300px;
+width: auto;
+border-radius: 10px;
+transition: all 0.5s;
 }

@@ -7,6 +7,7 @@ import "./md.css";
 import List from "../components/List";
 import { useNavigate } from "react-router-dom";
 import Review from "../components/Review";
+import { gsap } from "gsap";
 
 export default function MovieDetails() {
   const [tren, settrend1] = useState();
@@ -15,11 +16,13 @@ export default function MovieDetails() {
   const navigate = useNavigate();
   const [menu, setmenu] = useState(false);
   const [seasons, setseasons] = useState({ results: [] });
+  const [media1, setmedia] = useState();
+  const [keywords, setkeywords] = useState([]);
+  const [isScaled, setIsScaled] = useState(false);
+
   const { id } = useParams();
   const urlParams = new URLSearchParams(window.location.search);
   let paramValue = urlParams.get("m");
-
-
 
   const fetchData = async (id) => {
     const urlformovie = `https://api.themoviedb.org/3/movie/${id}`;
@@ -45,11 +48,19 @@ export default function MovieDetails() {
     const urlmoviereviews = `https://api.themoviedb.org/3/movie/${id}/reviews`;
     const urltvseriesrecommds = `https://api.themoviedb.org/3/tv/${id}/recommendations`;
     const urltvseriesreviews = `https://api.themoviedb.org/3/tv/${id}/reviews`;
+    const media2 = `https://api.themoviedb.org/3/movie/${id}/images`;
+    const mediaforseries = `https://api.themoviedb.org/3/tv/${id}/images`;
+    const keywordsformovie = `https://api.themoviedb.org/3/movie/${id}/keywords`;
+    const keywordsforseries = `https://api.themoviedb.org/3/tv/${id}/keywords`;
 
     const UrlForReview =
       paramValue == "true" ? urlmoviereviews : urltvseriesreviews;
     const UrlForRecommds =
       paramValue == "true" ? urlmovierecommds : urltvseriesrecommds;
+    const media = paramValue == "true" ? media2 : mediaforseries;
+    const keywords =
+      paramValue == "true" ? keywordsformovie : keywordsforseries;
+
     const options = {
       headers: {
         accept: "application/json",
@@ -60,50 +71,64 @@ export default function MovieDetails() {
     try {
       const response1 = await axios.get(UrlForRecommds, { ...options });
       const response2 = await axios.get(UrlForReview, { ...options });
+      const mediares = await axios.get(media, { ...options });
+      const keywordsres = await axios.get(keywords, { ...options });
 
       setrecomds(response1.data);
       setrevies(response2.data);
-      console.log(reviews);
+      setmedia([
+        mediares.data.backdrops[0].file_path,
+        mediares.data.backdrops[1].file_path,
+      ]);
+      setkeywords(keywordsres.data.keywords || keywordsres.data.results);
+
+      console.log(keywordsres.data);
     } catch (error) {
       console.error("error:", error);
     }
   };
 
-  const putInDbMovies = async (id,url,title) => {
+  const putInDbMovies = async (id, url, title) => {
     console.log("pressed");
     try {
       const resp = await axios.post("http://localhost:3001/putIDMovies", {
         username: "Rehman",
         id: id,
         url: url,
-        title: title
+        title: title,
       });
-      
+
       console.log(resp.data);
     } catch (error) {
       console.error("Error:", error);
     }
-   
   };
-  const putInDbSeries = async (id,url,name) => {
+  const putInDbSeries = async (id, url, name) => {
     console.log("pressed");
     try {
       const resp = await axios.post("http://localhost:3001/putIDSeries", {
         username: "Rehman",
         id: id,
-        url:url,
-        name:name
+        url: url,
+        name: name,
       });
       console.log(resp.data);
     } catch (error) {
       console.error("Error:", error);
     }
-   
   };
   useEffect(() => {
+    settrend1();
+    setmedia();
+    setkeywords([]);
+    setrecomds([]);
+    setrevies([]); 
     getrecommds(id);
     fetchData(id);
-  }, []);
+
+ 
+  }, [id]);
+
 
   return (
     <>
@@ -212,9 +237,7 @@ export default function MovieDetails() {
         </div>
       </div> */}
 
-              <h1>
-                {tren.name || tren.title}
-              </h1>
+              <h1>{tren.name || tren.title}</h1>
               <div className="detesdetes1">
                 <div id="imdbrating">
                   <img src={imdb} />
@@ -251,14 +274,13 @@ export default function MovieDetails() {
                 </a>{" "}
                 <div
                   id="watchbt"
-                  onClick={() => { 
-               if(tren.name){
-putInDbSeries(tren.id,tren.poster_path,tren.name)
-               }
-               if(tren.title){
-                putInDbMovies(tren.id,tren.poster_path,tren.title)
-
-               }
+                  onClick={() => {
+                    if (tren.name) {
+                      putInDbSeries(tren.id, tren.poster_path, tren.name);
+                    }
+                    if (tren.title) {
+                      putInDbMovies(tren.id, tren.poster_path, tren.title);
+                    }
                   }}
                 >
                   <svg
@@ -276,33 +298,84 @@ putInDbSeries(tren.id,tren.poster_path,tren.name)
               </div>
             </div>
           </div>
-          {tren.seasons && 
-          <div className="seasonssection">
-            <h1>Seasons</h1>
-            <div className="seasonsarray">
-            {tren.seasons.map((item, index) => {
-              return (
-                <div >
-                  {" "}
-                  <img
-                  className="saimgs"
-                    src={`https://image.tmdb.org/t/p/w600_and_h900_bestv2${item.poster_path}`}
-                  />
-                  <div className="saih1">{item.name}</div>
-                </div>
-              );
-            })}
+          {tren.seasons && (
+            <div className="seasonssection">
+              <h1>Seasons</h1>
+              <div className="seasonsarray">
+                {tren.seasons.map((item, index) => {
+                  return (
+                    <div>
+                      {" "}
+                      <img
+                        className="saimgs"
+                        src={`https://image.tmdb.org/t/p/w600_and_h900_bestv2${item.poster_path}`}
+                      />
+                      <div className="saih1">{item.name}</div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>}
+          )}
+          {media1 && (
+            <div className="wholemedia">
+              <div className="mediasection">
+                <div>
+                  <div id="mediapointer">Media</div>
+                  <div className="arrayofimgsback">
+                    {media1.map((item, index) => (
+                      <img
+                        id="imgs"
+                        src={`https://image.tmdb.org/t/p/original${item}`}
+                        onClick={(event) => {
+                          const newTransform = isScaled ? 'scale(1)' : 'scale(2)';
+const zindex = isScaled ? 1 : 5;
+                          event.currentTarget.style.transform = newTransform;
+                          event.currentTarget.style.zIndex=zindex;
+                          
+                          setIsScaled(!isScaled);
 
-          <div className="recomds">
-            <div id="remdstext">Recommendations</div>
-            <List tren={recomds} movies={paramValue} />
-          </div>
-          <div className="Revsec">
-            <h1>Reviews</h1>
-            <Review reviews={reviews} />
-          </div>
+                        }}
+                      />
+                    ))}
+                    <div       onClick={() =>{
+                          navigate(
+                            `/media?id=${id}&m=${paramValue}`
+                          )
+                        console.log('ckuc');}
+                        }> {"->"}</div>
+                  </div>
+                </div>
+                {keywords && (
+                  <div className="keywords">
+                    {keywords.map((item, index) => (
+                      <div
+                        onClick={() =>
+                          navigate(
+                            `/searchbykeyword?id=${item.id}&name=${item.name}`
+                          )
+                        }
+                      >
+                        {item.name}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+          {recomds && (
+            <div className="recomds">
+              <div id="remdstext">Recommendations</div>
+              <List tren={recomds} movies={paramValue} />
+            </div>
+          )}
+          {reviews && (
+            <div className="Revsec">
+              <h1>Reviews</h1>
+              <Review reviews={reviews} />
+            </div>
+          )}
         </div>
       )}
     </>

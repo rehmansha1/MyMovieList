@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import List from "../components/List";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { gsap } from "gsap";
 
 export default function Mylist() {
   const [movies, setmylist] = useState({ results: [] });
@@ -35,7 +36,8 @@ export default function Mylist() {
       const resp = await axios.delete("http://localhost:3001/delete", {
         data: {
           username: "Rehman",
-          postText: id,
+          id: id,
+          type:btstate,
         },
       });
       console.log(resp.data);
@@ -44,6 +46,7 @@ export default function Mylist() {
     }
   };
   useEffect(() => {
+
     const fetchData = async () => {
       try {
         await getUserMovies();
@@ -53,6 +56,7 @@ export default function Mylist() {
     };
 
     fetchData();
+    gsap.from('.ov1box',{opacity:0,duration:1});
   }, []);
 
   return (

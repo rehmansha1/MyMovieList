@@ -5,6 +5,8 @@ import App from './App';
 import './index.css';
 import MovieDetails from './Pages/MovieDetails';
 import Mylist from './Pages/Mylist';
+import Searchkeyword from './Pages/Searchkeyword';
+import MoreImagesP from './Pages/MoreImagesP';
 
 const router = (
   <Router>
@@ -12,6 +14,10 @@ const router = (
       <Route path="/" element={<App />} />
       <Route path="/detes/:id" element={<MovieDetails />} />
       <Route path="/mylist" element={<Mylist />} />
+      <Route path="/searchbykeyword" element={<Searchkeyword />} />
+      <Route path="/media" element={<MoreImagesP />} />
+
+
 
     </Routes>
   </Router>

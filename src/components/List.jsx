@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -15,13 +15,13 @@ export default function List({
   const [reviewmy, setreviewmy] = useState(false);
 
   const handleButtonClick = (id) => {
-    if (movies == "true") {
-      navigate(`/detes/${id}?m=true`);
-    } else {
-      navigate(`/detes/${id}?m=false`);
-    }
-    window.location.reload();
+   
+      navigate(`/detes/${id}?m=${movies}`);
+
+ // window.location.href=`/detes/${id}?m=${movies}`;
+ 
   };
+
 
   return (
     <>
@@ -218,10 +218,15 @@ export default function List({
                   <img
                     onClick={() => {
                       handleButtonClick(item.id);
-                    }}
+
+                      
+                    }} 
+
+                    
                     src={`https://image.tmdb.org/t/p/w600_and_h900_bestv2${item.poster_path || item.URL}`}
                     alt={item.title || "Image Alt Text"}
                   />
+<a href={`http://localhost:5173/detes/${item.id}?m=${movies}`} id="clickthis"></a>
                 </div>
                 <div className="trndetes">
                   <div id="listcon">

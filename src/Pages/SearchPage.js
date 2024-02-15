@@ -1,6 +1,10 @@
 import React from 'react'
 
 export default function SearchPage() {
+    useEffect(() => {
+        getIds();
+        fetchData();
+      }, []);
   return (
     <>{searchList && (
         <div className="displaysearch">
