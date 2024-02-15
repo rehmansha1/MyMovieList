@@ -102,6 +102,11 @@ export default function Searchkeyword() {
             }
             else{
                 setcount((count - 1));
+                document.documentElement.scrollTo({
+  top: 0,
+  behavior: 'smooth'
+});
+                
 
             }
         
@@ -118,7 +123,10 @@ export default function Searchkeyword() {
           xmlns="http://www.w3.org/2000/svg"
           onClick={() => {
             setcount((count + 1));
-           
+            document.documentElement.scrollTo({
+  top: 0,
+  behavior: 'smooth'
+});           
           }}
           fill="white"
           height="34"

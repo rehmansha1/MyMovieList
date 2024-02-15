@@ -197,11 +197,74 @@ export default function MovieDetails() {
             <div
               className="options"
               onClick={() => {
-                const c = document.getElementById("menu");
+                /* const c = document.getElementById("menu");
                 c.style.width = "20vw";
-                setmenu(true);
+                setmenu(true); */
+                setmenu(!menu);
+                const c = document.getElementById("opexpan");
+                c.style.width = menu ? "250px" : "0px";
+                
               }}
             >
+              <div className="opexpand" id="opexpan">
+              <svg fill="white" onClick={() => navigate("/")} xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  onClick={() => {
+                    setmenu(false);
+                    const c1 = document.getElementById("menu");
+                    c1.style.width = "0vw";
+                    setoverlay(true);
+                    const c = document.getElementById("oy");
+                    c.style.height = "50vh";
+                  }}
+                  fill="white"
+                  height="24"
+                  viewBox="0 -960 960 960"
+                  width="24"
+                >
+                  <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
+                </svg>
+
+                <svg
+                      onClick={async () => {
+                      setmenu(false);
+                      const c1 = document.getElementById("menu");
+                      c1.style.width = "0%";
+
+                      setoverlay1(true);
+                      const c = document.getElementById("oy");
+                      c.style.height = "100%";
+                      setTimeout(() => {
+                        navigate("/mylist");
+                      }, 500);
+                    }}
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="white"
+                  height="24"
+                  viewBox="0 -960 960 960"
+                  width="24"
+                >
+                  <path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Z" />
+                </svg>
+                <svg
+                  
+                    onClick={() => {
+                      setmenu(false);
+                     
+                    }}
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="27"
+                    fill="white"
+                    viewBox="0 -960 960 960"
+                    width="27"
+                  
+                  >
+                    <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+                  </svg>
+
+              </div>
               <div></div>
               <div></div>
               <div></div>

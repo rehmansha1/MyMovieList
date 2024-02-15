@@ -45,27 +45,42 @@ position: relative;
   border-radius: 10px;
   background: rgba(255, 213, 213, 0.02);
   backdrop-filter: blur(3.5px);
-  -webkit-backdrop-filter: blur(3.5px);
+  -webkit-backdrop-filter: blur(3.5px); 
+ 
   border: 1px solid rgba(255, 255, 255, 0.18);
-  cursor: pointer;
+  
   z-index: 1;
 }
 .options > div:not(:first-child) {
   width: 55%;
   height: 1px;
-  background-color: grey;
-  z-index: 1;
+  background-color: white;
+  z-index: -1;
+ 
 }
 .opexpand{
   position: absolute;
-  height: 100%;
+  height: 105%;
   width: 0px;
-right: 0;
+right: -1px;
   background-color: black;
-  z-index: 0;
-  
-  transition: all 0.5s;
+  z-index: 1;
+  border-radius: 10px;
+  transition: all 0.1s;
+display: flex;
+align-items: center;
+justify-content: space-around;
 
+
+}
+.opexpand > svg{
+  
+  cursor: pointer;
+transition: all 0.5s;
+}
+.opexpand > svg:hover{
+  
+  transform: scale(1.2);
 
 }
 #signinbt {
