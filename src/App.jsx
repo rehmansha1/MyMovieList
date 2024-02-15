@@ -363,9 +363,8 @@ function App() {
             <div
               className="options"
               onClick={() => {
-                const c = document.getElementById("menu");
-                c.style.width = "20vw";
-                setmenu(true);
+             
+               
               }}
             >
               <div></div>
