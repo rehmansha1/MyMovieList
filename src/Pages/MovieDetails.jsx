@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import logo from "../assets/Logonetflix.png";
 import imdb from "../assets/imdb.png";
+import ec from "../assets/ec.png";
+
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import "./md.css";
@@ -19,6 +21,9 @@ export default function MovieDetails() {
   const [media1, setmedia] = useState();
   const [keywords, setkeywords] = useState([]);
   const [isScaled, setIsScaled] = useState(false);
+  const [credits, setcredits] = useState([]);
+  const [video, setvideo] = useState();
+
 
   const { id } = useParams();
   const urlParams = new URLSearchParams(window.location.search);
@@ -52,6 +57,11 @@ export default function MovieDetails() {
     const mediaforseries = `https://api.themoviedb.org/3/tv/${id}/images`;
     const keywordsformovie = `https://api.themoviedb.org/3/movie/${id}/keywords`;
     const keywordsforseries = `https://api.themoviedb.org/3/tv/${id}/keywords`;
+    const creditsurlformovie = `https://api.themoviedb.org/3/movie/${id}/credits`;
+    const creditsurlfortv = `https://api.themoviedb.org/3/tv/${id}/credits`;
+    const videourlfortv = `https://api.themoviedb.org/3/tv/${id}/videos`;
+    const videourlformovie = `https://api.themoviedb.org/3/movie/${id}/videos`    ;
+
 
     const UrlForReview =
       paramValue == "true" ? urlmoviereviews : urltvseriesreviews;
@@ -60,6 +70,10 @@ export default function MovieDetails() {
     const media = paramValue == "true" ? media2 : mediaforseries;
     const keywords =
       paramValue == "true" ? keywordsformovie : keywordsforseries;
+    const creditsUrl =
+      paramValue == "true" ? creditsurlformovie : creditsurlfortv;
+      const videourl =
+      paramValue == "true" ? videourlformovie : videourlfortv;
 
     const options = {
       headers: {
@@ -73,6 +87,8 @@ export default function MovieDetails() {
       const response2 = await axios.get(UrlForReview, { ...options });
       const mediares = await axios.get(media, { ...options });
       const keywordsres = await axios.get(keywords, { ...options });
+      const creditsres = await axios.get(creditsUrl, { ...options });
+      const videosres = await axios.get(videourl, { ...options });
 
       setrecomds(response1.data);
       setrevies(response2.data);
@@ -81,8 +97,9 @@ export default function MovieDetails() {
         mediares.data.backdrops[1].file_path,
       ]);
       setkeywords(keywordsres.data.keywords || keywordsres.data.results);
-
-      console.log(keywordsres.data);
+      setcredits(creditsres.data.cast);
+setvideo(videosres.data.results[0].key);
+      console.log(videosres.data);
     } catch (error) {
       console.error("error:", error);
     }
@@ -122,14 +139,12 @@ export default function MovieDetails() {
     setmedia();
     setkeywords([]);
     setrecomds([]);
-    setrevies([]); 
+    setrevies([]);
+    setcredits([]);
+    setvideo();
     getrecommds(id);
     fetchData(id);
-
- 
   }, [id]);
-
-
   return (
     <>
       {tren && (
@@ -201,13 +216,22 @@ export default function MovieDetails() {
                 c.style.width = "20vw";
                 setmenu(true); */
                 setmenu(!menu);
+                let value = !menu;
                 const c = document.getElementById("opexpan");
-                c.style.width = menu ? "250px" : "0px";
-                
+                c.style.width = value ? "290px" : "0px";
               }}
             >
               <div className="opexpand" id="opexpan">
-              <svg fill="white" onClick={() => navigate("/")} xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg>
+                <svg
+                  fill="white"
+                  onClick={() => navigate("/")}
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24"
+                  viewBox="0 -960 960 960"
+                  width="24"
+                >
+                  <path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z" />
+                </svg>
 
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -228,18 +252,18 @@ export default function MovieDetails() {
                 </svg>
 
                 <svg
-                      onClick={async () => {
-                      setmenu(false);
-                      const c1 = document.getElementById("menu");
-                      c1.style.width = "0%";
+                  onClick={async () => {
+                    setmenu(false);
+                    const c1 = document.getElementById("menu");
+                    c1.style.width = "0%";
 
-                      setoverlay1(true);
-                      const c = document.getElementById("oy");
-                      c.style.height = "100%";
-                      setTimeout(() => {
-                        navigate("/mylist");
-                      }, 500);
-                    }}
+                    setoverlay1(true);
+                    const c = document.getElementById("oy");
+                    c.style.height = "100%";
+                    setTimeout(() => {
+                      navigate("/mylist");
+                    }, 500);
+                  }}
                   xmlns="http://www.w3.org/2000/svg"
                   fill="white"
                   height="24"
@@ -249,21 +273,17 @@ export default function MovieDetails() {
                   <path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Z" />
                 </svg>
                 <svg
-                  
-                    onClick={() => {
-                      setmenu(false);
-                     
-                    }}
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="27"
-                    fill="white"
-                    viewBox="0 -960 960 960"
-                    width="27"
-                  
-                  >
-                    <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-                  </svg>
-
+                  onClick={() => {
+                    setmenu(false);
+                  }}
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="27"
+                  fill="white"
+                  viewBox="0 -960 960 960"
+                  width="27"
+                >
+                  <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+                </svg>
               </div>
               <div></div>
               <div></div>
@@ -391,42 +411,109 @@ export default function MovieDetails() {
                         id="imgs"
                         src={`https://image.tmdb.org/t/p/original${item}`}
                         onClick={(event) => {
-                          const newTransform = isScaled ? 'scale(1)' : 'scale(2)';
-const zindex = isScaled ? 1 : 5;
+                          const newTransform = isScaled
+                            ? "scale(1)"
+                            : "scale(2)";
+                          const zindex = isScaled ? 1 : 5;
                           event.currentTarget.style.transform = newTransform;
-                          event.currentTarget.style.zIndex=zindex;
-                          
-                          setIsScaled(!isScaled);
+                          event.currentTarget.style.zIndex = zindex;
 
+                          setIsScaled(!isScaled);
                         }}
                       />
                     ))}
-                    <div       onClick={() =>{
-                          navigate(
-                            `/media?id=${id}&m=${paramValue}`
-                          )
-                        console.log('ckuc');}
-                        }> {"->"}</div>
+                    <div
+                      onClick={() => {
+                        navigate(`/media?id=${id}&m=${paramValue}`);
+                        console.log("ckuc");
+                      }}
+                    >
+                      {" "}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        id="moreimgsvg"
+                        fill="white"
+                        height="27"
+                        viewBox="0 -960 960 960"
+                        width="27"
+                      >
+                        <path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" />
+                      </svg>
+                    </div>
                   </div>
                 </div>
-                {keywords && (
-                  <div className="keywords">
-                    {keywords.map((item, index) => (
-                      <div
-                        onClick={() =>
-                          navigate(
-                            `/searchbykeyword?id=${item.id}&name=${item.name}`
-                          )
-                        }
-                      >
-                        {item.name}
+                <div className="keysandcredits">
+                  <div>
+                    {keywords && (
+                      <div className="keywords">
+                        {keywords.map((item, index) => (
+                          <div
+                            onClick={() =>
+                              navigate(
+                                `/searchbykeyword?id=${item.id}&name=${item.name}`
+                              )
+                            }
+                          >
+                            {item.name}
+                          </div>
+                        ))}
                       </div>
-                    ))}
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+         
+            <div className="videoandcastsection">
+               <div className="videocontent">
+                <div className="videoheader">Video</div>
+                <div className="iframes">
+        <iframe
+                  width="560"
+                  height="315"
+                  src={`https://www.youtube.com/embed/${video}`}
+                  frameborder="0"
+                  allowfullscreen='1'
+                ></iframe>
+               {/* <iframe
+                  width="560"
+                  height="315"
+                  src={`https://www.youtube.com/embed/${video[1].key}`}
+                  frameborder="0"
+                  allowfullscreen='1'
+                ></iframe>*/}
+                </div>
+              </div>
+              <div>
+                {" "}
+                {credits && (
+                  <div className="CastSection">
+                    <div className="cardcontainer">
+                      {credits &&
+                        credits.map(
+                          (item, index) =>
+                            index <= 2 && (
+                              <div className="cardofcast">
+                                <div className="imgofcast">
+                                  <img
+                                    src={`https://media.themoviedb.org/t/p/w138_and_h175_face/${item.profile_path}`}
+                                  />
+                                </div>
+                                <div className="castname">
+                                  <div>{item.name}</div>
+                                  <div>{item.character}</div>
+                                </div>
+                              </div>
+                            )
+                        )}
+                    </div>
                   </div>
                 )}
               </div>
             </div>
-          )}
+      
+
           {recomds && (
             <div className="recomds">
               <div id="remdstext">Recommendations</div>

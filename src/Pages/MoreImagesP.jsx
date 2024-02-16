@@ -27,14 +27,18 @@ fetchData();
     
      
       }, []);
-    
+    function expandandcenter (event){
+const target = event.currentTarget;
+target.classList.toggle('expanded');
+
+    }
     return (
     <div className='mmpage'>
     <div id='mediapagetitle'>media</div>
     { result &&
     <div className='mediaarraybox'>
 {
-   result.backdrops.map((item,index)=><img src= {`https://image.tmdb.org/t/p/original${item.file_path}`} /> )
+   result.backdrops.map((item,index)=><img className='gimg' onClick={expandandcenter} src= {`https://image.tmdb.org/t/p/original${item.file_path}`} /> )
 }
     </div>}
     </div>

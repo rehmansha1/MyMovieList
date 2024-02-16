@@ -55,7 +55,7 @@ export default function List({
                         series
                       </div>
                     </div> */}
-      {/* {reviewmy && (
+       {reviewmy && (
         <div className="rvmybox">
           {" "}
           <div className="innerrvbox">
@@ -148,7 +148,7 @@ export default function List({
             </div>
           </div>
         </div>
-      )} */}
+      )} 
       {tren.results &&
         tren.results.map(
           (item, index) =>

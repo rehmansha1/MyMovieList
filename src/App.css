@@ -862,7 +862,7 @@ background: white;
 cursor: pointer;
 }
 .mediasection{
-  height: 80vh;
+  height: 50vh;
 }
 .arrayofimgsback{
   height: 300px;
@@ -925,10 +925,30 @@ height: 100px;
 display: flex;
 flex-wrap: wrap;
 position: relative;
-top: 20%;
-left: 10%;  
+
+left: 10%;
+height: auto;  
 
 
+}
+.keysandcredits{
+  position: relative;
+}
+/*.keysandcredits::after{
+  position: absolute;
+  content: 'Keywords';
+  font-family: harabara;
+  font-size: 45px;
+  
+  top: 0;
+  left: 30%;
+}*/
+.keysandcredits > :nth-child(1){
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin-left: 100px;
 }
 .keywords > div{
   cursor: pointer;
@@ -1016,4 +1036,110 @@ height: 300px;
 width: auto;
 border-radius: 10px;
 transition: all 0.5s;
+}
+.CastSection{
+
+
+  color: white;
+  font-family: harabara;
+}
+.castheader{
+  font-size: 50px;
+  height: 110px;
+
+
+
+}
+.cardcontainer{
+  display: flex;
+  flex-direction: column;
+ gap: 10px;
+padding-top: 150px;
+position: relative;
+left: 10%;
+}
+.cardofcast{
+  display: flex;
+  flex-direction: row;
+  gap: 25px;
+align-items: center;
+  
+  
+}
+.castname{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 10px;
+}
+.castname > div:nth-child(1){
+  font-size: 10px;
+}
+.castname > div:nth-child(2){
+  opacity: 0.5;
+}
+.imgofcast{
+  height: 40px;
+
+
+}
+
+.imgofcast > img{
+  height: 100%;
+  width: auto;
+border-radius: 10px;
+}
+.keysandcredits{
+  display: flex;
+  flex-direction: column;
+  
+ 
+}
+
+#moreimgsvg{
+transition: all 0.5s;
+}
+#moreimgsvg:hover{
+  transform: translateX(10px);
+}
+
+.expanded {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  margin: auto;
+  z-index: 2;
+  cursor: pointer;
+  transition: transform 0.5s;
+  transform: scale(2);
+  
+}
+.videoandcastsection{
+  display: flex;
+justify-content: space-between;
+height: 80vh;
+color: white;
+display: flex;
+align-items: center;
+padding-right: 200px;
+}
+.videocontent{
+  padding-left: 100px
+}
+.videoheader{
+  font-size: 50px;
+  font-family: harabara;
+  padding-bottom: 50px;
+
+}
+.videocontent > iframe{
+  padding-left: 80px;
+}
+.iframes{
+  display: flex;
+  gap: 10px;
+  padding-left: 70px;
 }

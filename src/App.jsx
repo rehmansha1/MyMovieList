@@ -29,6 +29,7 @@ function App() {
 
   const [mylistfinal, setmylistfinal] = useState({ results: [] });
   const [menu, setmenu] = useState(false);
+  const [menureal, setmenureal] = useState(false);
 
   const handleInputChange = (event) => {
     setMovieName(event.target.value);
@@ -356,9 +357,10 @@ function App() {
                 /* const c = document.getElementById("menu");
                 c.style.width = "20vw";
                 setmenu(true); */
+                setmenureal(!menureal);
+                let value = !menureal;
                 const c = document.getElementById("opexpan");
-                c.style.width = menu ? "200px" : "0px";
-                setmenu(!menu);
+                c.style.width = value ? "200px" : "0px";
               }}
             >
               <div className="opexpand" id="opexpan">
@@ -366,6 +368,7 @@ function App() {
                   xmlns="http://www.w3.org/2000/svg"
                   onClick={() => {
                     setmenu(false);
+
                     const c1 = document.getElementById("menu");
                     c1.style.width = "0vw";
                     setoverlay(true);
@@ -380,18 +383,18 @@ function App() {
                   <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
                 </svg>
                 <svg
-                      onClick={async () => {
-                      setmenu(false);
-                      const c1 = document.getElementById("menu");
-                      c1.style.width = "0%";
+                  onClick={async () => {
+                    setmenu(false);
+                    const c1 = document.getElementById("menu");
+                    c1.style.width = "0%";
 
-                      setoverlay1(true);
-                      const c = document.getElementById("oy");
-                      c.style.height = "100%";
-                      setTimeout(() => {
-                        navigate("/mylist");
-                      }, 500);
-                    }}
+                    setoverlay1(true);
+                    const c = document.getElementById("oy");
+                    c.style.height = "100%";
+                    setTimeout(() => {
+                      navigate("/mylist");
+                    }, 500);
+                  }}
                   xmlns="http://www.w3.org/2000/svg"
                   fill="white"
                   height="24"
@@ -401,21 +404,17 @@ function App() {
                   <path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Z" />
                 </svg>
                 <svg
-                  
-                    onClick={() => {
-                      setmenu(false);
-                     
-                    }}
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="27"
-                    fill="white"
-                    viewBox="0 -960 960 960"
-                    width="27"
-                  
-                  >
-                    <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-                  </svg>
-
+                  onClick={() => {
+                    setmenu(false);
+                  }}
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="27"
+                  fill="white"
+                  viewBox="0 -960 960 960"
+                  width="27"
+                >
+                  <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+                </svg>
               </div>
               <div></div>
               <div></div>
@@ -465,9 +464,10 @@ function App() {
           />          </div>
         </Carousel>
         */}
-          <div className="detes">
-            <div>
-              {/*  <div className="starwithnum">
+          {tren.results && (
+            <div className="detes">
+              <div>
+                {/*  <div className="starwithnum">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="gold"
@@ -484,66 +484,67 @@ function App() {
               </div>
             </div> */}
 
-              <h1>
-                {tren.results ? tren.results[randomNumber].title : "null"}
-              </h1>
-              <div className="detesdetes1">
-                <div id="imdbrating">
-                  <img src={imdb} />
-                  <div>
+                <h1>
+                  {tren.results ? tren.results[randomNumber].title : "null"}
+                </h1>
+                <div className="detesdetes1">
+                  <div id="imdbrating">
+                    <img src={imdb} />
+                    <div>
+                      {tren.results
+                        ? tren.results[randomNumber].vote_average.toFixed(1) > 0
+                          ? tren.results[randomNumber].vote_average.toFixed(1)
+                          : "Not rated"
+                        : "null"}
+                    </div>
+                  </div>
+                  <div id="randommyear">
+                    {" "}
                     {tren.results
-                      ? tren.results[randomNumber].vote_average.toFixed(1) > 0
-                        ? tren.results[randomNumber].vote_average.toFixed(1)
-                        : "Not rated"
-                      : "null"}
+                      ? tren.results[randomNumber].release_date.slice(0, 4)
+                      : "null"}{" "}
+                  </div>
+                  <div id="randomm18">
+                    {tren.results
+                      ? tren.results[randomNumber].adult
+                        ? "18+"
+                        : ""
+                      : ""}
                   </div>
                 </div>
-                <div id="randommyear">
-                  {" "}
-                  {tren.results
-                    ? tren.results[randomNumber].release_date.slice(0, 4)
-                    : "null"}{" "}
-                </div>
-                <div id="randomm18">
-                  {tren.results
-                    ? tren.results[randomNumber].adult
-                      ? "18+"
-                      : ""
-                    : ""}
-                </div>
-              </div>
-              <p id="moviedetes1">
-                {tren.results ? tren.results[randomNumber].overview : ""}
-              </p>
+                <p id="moviedetes1">
+                  {tren.results ? tren.results[randomNumber].overview : ""}
+                </p>
 
-              <div className="btlist">
-                <div id="viewbt">Watch now</div>{" "}
-                <div
-                  id="watchbt"
-                  onClick={() => {
-                    putInDbMovies(
-                      tren.results[randomNumber].id,
-                      tren.results[randomNumber].poster_path,
-                      tren.results[randomNumber].title
-                    );
-                  }}
-                >
-                  <svg
-                    fill="white"
-                    id="watchbt2"
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="24"
-                    viewBox="0 -960 960 960"
-                    width="24"
+                <div className="btlist">
+                  <div id="viewbt">Watch now</div>{" "}
+                  <div
+                    id="watchbt"
+                    onClick={() => {
+                      putInDbMovies(
+                        tren.results[randomNumber].id,
+                        tren.results[randomNumber].poster_path,
+                        tren.results[randomNumber].title
+                      );
+                    }}
                   >
-                    <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
-                  </svg>{" "}
-                  Watchlist
+                    <svg
+                      fill="white"
+                      id="watchbt2"
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="24"
+                      viewBox="0 -960 960 960"
+                      width="24"
+                    >
+                      <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                    </svg>{" "}
+                    Watchlist
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          {!overlay && !overlay1 && (
+          )}
+          {!overlay && !overlay1 && tren.results && (
             <div className="secpage">
               <div id="blackcover"></div>
               <div className="trndingpage">
