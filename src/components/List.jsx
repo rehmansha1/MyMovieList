@@ -13,6 +13,8 @@ export default function List({
 }) {
   const navigate = useNavigate();
   const [reviewmy, setreviewmy] = useState(false);
+  const [stars, setstars] = useState();
+
 
   const handleButtonClick = (id) => {
    
@@ -22,7 +24,40 @@ export default function List({
  
   };
 
+const sendcompletedidtodb = async()=>{
+  const urlformovies = "/completed/movies";
+  const urlforseries = '/completed/series'
 
+    const params = {
+      query: "drive",
+      include_adult: false,
+      language: "en-US",
+      page: 1,
+    };
+
+    const options = {
+      headers: {
+        accept: "application/json",
+        Authorization: import.meta.env.VITE_GAPI_KEY_ENV,
+      },
+    };
+const url = movies ? urlformovies : urlforseries
+    try {
+      const response = await axios.post(url,{
+        username: "Rehman",
+        id: id,
+        URL: url,
+        title: title,
+        content:content,
+        stars:stars,
+
+      });
+
+      console.log(response);
+    } catch (error) {
+      console.error("error:", error);
+    } 
+}
   return (
     <>
       {/* <div className="btmvser">
@@ -75,7 +110,7 @@ export default function List({
             <div id="ratinguser">
               <div>Your Rating</div>
               <div className="ratinguserinner">
-                <svg
+               {/* <svg
                 fill="gold"
                   xmlns="http://www.w3.org/2000/svg"
                   height="24"
@@ -122,7 +157,19 @@ export default function List({
                 >
                   <path d="m233-80 65-281L80-550l288-25 112-265 112 265 288 25-218 189 65 281-247-149L233-80Z" />
                 </svg>
-                
+                */}
+                <div class="star-rating">
+  <input type="radio" id="5-stars" name="rating" value="5" onClick={()=>setstars(5)}/>
+  <label for="5-stars" class="star">&#9733;</label>
+  <input type="radio" id="4-stars" name="rating" value="4"  onClick={()=>setstars(4)}/>
+  <label for="4-stars" class="star">&#9733;</label>
+  <input type="radio" id="3-stars" name="rating" value="3"  onClick={()=>setstars(3)}/>
+  <label for="3-stars" class="star">&#9733;</label>
+  <input type="radio" id="2-stars" name="rating" value="2"  onClick={()=>setstars(2)}/>
+  <label for="2-stars" class="star">&#9733;</label>
+  <input type="radio" id="1-star" name="rating" value="1"  onClick={()=>setstars(1)}/>
+  <label for="1-star" class="star">&#9733;</label>
+</div>
               </div>
             </div>
             <div id="reviewuser">
@@ -136,6 +183,7 @@ export default function List({
                       onClick={() => {
              
                         sendcompletedidtodb(ClickedCompledid);
+                        console.log(stars);
                       }}
                       fill="white"
                       opacity="1"

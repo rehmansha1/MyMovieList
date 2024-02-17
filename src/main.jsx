@@ -7,6 +7,7 @@ import MovieDetails from './Pages/MovieDetails';
 import Mylist from './Pages/Mylist';
 import Searchkeyword from './Pages/Searchkeyword';
 import MoreImagesP from './Pages/MoreImagesP';
+import CastDetes from './Pages/CastDetes';
 
 const router = (
   <Router>
@@ -16,6 +17,8 @@ const router = (
       <Route path="/mylist" element={<Mylist />} />
       <Route path="/searchbykeyword" element={<Searchkeyword />} />
       <Route path="/media" element={<MoreImagesP />} />
+      <Route path="/castdetes" element={<CastDetes />} />
+
 
 
 

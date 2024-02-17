@@ -48,32 +48,103 @@ export default function MovieDetails() {
       console.error("error:", error);
     }
   };
+  const getmedia = async (id) => {
+    const media2 = `https://api.themoviedb.org/3/movie/${id}/images`;
+    const mediaforseries = `https://api.themoviedb.org/3/tv/${id}/images`;
+    const media = paramValue == "true" ? media2 : mediaforseries;
+    const options = {
+      headers: {
+        accept: "application/json",
+        Authorization: import.meta.env.VITE_GAPI_KEY_ENV,
+      },
+    };
+    try {
+      const mediares = await axios.get(media, { ...options });
+      setmedia([
+        mediares.data.backdrops[0].file_path,
+        mediares.data.backdrops[1].file_path,
+      ]);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+  const getkeywords = async (id) => {
+    const keywordsformovie = `https://api.themoviedb.org/3/movie/${id}/keywords`;
+    const keywordsforseries = `https://api.themoviedb.org/3/tv/${id}/keywords`;
+    const keywords =
+      paramValue == "true" ? keywordsformovie : keywordsforseries;
+          const options = {
+      headers: {
+        accept: "application/json",
+        Authorization: import.meta.env.VITE_GAPI_KEY_ENV,
+      },
+    };
+    try {
+      const keywordsres = await axios.get(keywords, { ...options });
+      setkeywords(keywordsres.data.keywords || keywordsres.data.results);
+
+
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+  const getcredits = async (id) => {
+    const creditsurlformovie = `https://api.themoviedb.org/3/movie/${id}/credits`;
+    const creditsurlfortv = `https://api.themoviedb.org/3/tv/${id}/credits`;
+    const creditsUrl =
+      paramValue == "true" ? creditsurlformovie : creditsurlfortv;
+          const options = {
+      headers: {
+        accept: "application/json",
+        Authorization: import.meta.env.VITE_GAPI_KEY_ENV,
+      },
+    };
+    try {
+      const creditsres = await axios.get(creditsUrl, { ...options });
+      setcredits(creditsres.data.cast);
+
+
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+  const getvideo = async (id) => {
+    const videourlfortv = `https://api.themoviedb.org/3/tv/${id}/videos`;
+    const videourlformovie = `https://api.themoviedb.org/3/movie/${id}/videos`    ;
+    const videourl =
+    paramValue == "true" ? videourlformovie : videourlfortv;
+          const options = {
+      headers: {
+        accept: "application/json",
+        Authorization: import.meta.env.VITE_GAPI_KEY_ENV,
+      },
+    };
+    try {
+      const videosres = await axios.get(videourl, { ...options });
+      setvideo(videosres.data.results[0].key);
+
+
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
   const getrecommds = async (id) => {
     const urlmovierecommds = `https://api.themoviedb.org/3/movie/${id}/recommendations`;
     const urlmoviereviews = `https://api.themoviedb.org/3/movie/${id}/reviews`;
     const urltvseriesrecommds = `https://api.themoviedb.org/3/tv/${id}/recommendations`;
     const urltvseriesreviews = `https://api.themoviedb.org/3/tv/${id}/reviews`;
-    const media2 = `https://api.themoviedb.org/3/movie/${id}/images`;
-    const mediaforseries = `https://api.themoviedb.org/3/tv/${id}/images`;
-    const keywordsformovie = `https://api.themoviedb.org/3/movie/${id}/keywords`;
-    const keywordsforseries = `https://api.themoviedb.org/3/tv/${id}/keywords`;
-    const creditsurlformovie = `https://api.themoviedb.org/3/movie/${id}/credits`;
-    const creditsurlfortv = `https://api.themoviedb.org/3/tv/${id}/credits`;
-    const videourlfortv = `https://api.themoviedb.org/3/tv/${id}/videos`;
-    const videourlformovie = `https://api.themoviedb.org/3/movie/${id}/videos`    ;
+
+
+
 
 
     const UrlForReview =
       paramValue == "true" ? urlmoviereviews : urltvseriesreviews;
     const UrlForRecommds =
       paramValue == "true" ? urlmovierecommds : urltvseriesrecommds;
-    const media = paramValue == "true" ? media2 : mediaforseries;
-    const keywords =
-      paramValue == "true" ? keywordsformovie : keywordsforseries;
-    const creditsUrl =
-      paramValue == "true" ? creditsurlformovie : creditsurlfortv;
-      const videourl =
-      paramValue == "true" ? videourlformovie : videourlfortv;
+
+
+
 
     const options = {
       headers: {
@@ -85,21 +156,10 @@ export default function MovieDetails() {
     try {
       const response1 = await axios.get(UrlForRecommds, { ...options });
       const response2 = await axios.get(UrlForReview, { ...options });
-      const mediares = await axios.get(media, { ...options });
-      const keywordsres = await axios.get(keywords, { ...options });
-      const creditsres = await axios.get(creditsUrl, { ...options });
-      const videosres = await axios.get(videourl, { ...options });
 
       setrecomds(response1.data);
       setrevies(response2.data);
-      setmedia([
-        mediares.data.backdrops[0].file_path,
-        mediares.data.backdrops[1].file_path,
-      ]);
-      setkeywords(keywordsres.data.keywords || keywordsres.data.results);
-      setcredits(creditsres.data.cast);
-setvideo(videosres.data.results[0].key);
-      console.log(videosres.data);
+
     } catch (error) {
       console.error("error:", error);
     }
@@ -143,6 +203,10 @@ setvideo(videosres.data.results[0].key);
     setcredits([]);
     setvideo();
     getrecommds(id);
+    getmedia(id);
+    getkeywords(id);
+    getvideo(id);
+    getcredits(id);
     fetchData(id);
   }, [id]);
   return (
@@ -500,7 +564,7 @@ setvideo(videosres.data.results[0].key);
                                     src={`https://media.themoviedb.org/t/p/w138_and_h175_face/${item.profile_path}`}
                                   />
                                 </div>
-                                <div className="castname">
+                                <div className="castname" onClick={()=>{navigate(`/castdetes?p=${item.id}`)}}>
                                   <div>{item.name}</div>
                                   <div>{item.character}</div>
                                 </div>
