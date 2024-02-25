@@ -34,7 +34,14 @@ function App() {
   const handleInputChange = (event) => {
     setMovieName(event.target.value);
   };
-
+  function NumToTime(num) { 
+    var hours = Math.floor(num / 60);  
+    var minutes = num % 60;
+    if (minutes + ''.length < 2) {
+      minutes = '0' + minutes; 
+    }
+    return hours + "hr " + minutes+'m' ;
+  }
   const searchmovies = async () => {
     const urlForMovie = "https://api.themoviedb.org/3/search/movie";
     const urlFortv = "https://api.themoviedb.org/3/search/tv";
@@ -505,11 +512,8 @@ function App() {
                       : "null"}{" "}
                   </div>
                   <div id="randomm18">
-                    {tren.results
-                      ? tren.results[randomNumber].adult
-                        ? "18+"
-                        : ""
-                      : ""}
+                  {tren.release_date? NumToTime(tren.runtime):null}
+
                   </div>
                 </div>
                 <p id="moviedetes1">

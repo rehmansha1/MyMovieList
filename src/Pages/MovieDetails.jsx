@@ -24,10 +24,17 @@ export default function MovieDetails() {
   const [credits, setcredits] = useState([]);
   const [video, setvideo] = useState();
 
-
   const { id } = useParams();
   const urlParams = new URLSearchParams(window.location.search);
   let paramValue = urlParams.get("m");
+  function NumToTime(num) {
+    var hours = Math.floor(num / 60);
+    var minutes = num % 60;
+    if (minutes + "".length < 2) {
+      minutes = "0" + minutes;
+    }
+    return hours + "hr " + minutes + "m";
+  }
 
   const fetchData = async (id) => {
     const urlformovie = `https://api.themoviedb.org/3/movie/${id}`;
@@ -73,7 +80,7 @@ export default function MovieDetails() {
     const keywordsforseries = `https://api.themoviedb.org/3/tv/${id}/keywords`;
     const keywords =
       paramValue == "true" ? keywordsformovie : keywordsforseries;
-          const options = {
+    const options = {
       headers: {
         accept: "application/json",
         Authorization: import.meta.env.VITE_GAPI_KEY_ENV,
@@ -82,8 +89,6 @@ export default function MovieDetails() {
     try {
       const keywordsres = await axios.get(keywords, { ...options });
       setkeywords(keywordsres.data.keywords || keywordsres.data.results);
-
-
     } catch (error) {
       console.error("Error:", error);
     }
@@ -93,7 +98,7 @@ export default function MovieDetails() {
     const creditsurlfortv = `https://api.themoviedb.org/3/tv/${id}/credits`;
     const creditsUrl =
       paramValue == "true" ? creditsurlformovie : creditsurlfortv;
-          const options = {
+    const options = {
       headers: {
         accept: "application/json",
         Authorization: import.meta.env.VITE_GAPI_KEY_ENV,
@@ -102,18 +107,15 @@ export default function MovieDetails() {
     try {
       const creditsres = await axios.get(creditsUrl, { ...options });
       setcredits(creditsres.data.cast);
-
-
     } catch (error) {
       console.error("Error:", error);
     }
   };
   const getvideo = async (id) => {
     const videourlfortv = `https://api.themoviedb.org/3/tv/${id}/videos`;
-    const videourlformovie = `https://api.themoviedb.org/3/movie/${id}/videos`    ;
-    const videourl =
-    paramValue == "true" ? videourlformovie : videourlfortv;
-          const options = {
+    const videourlformovie = `https://api.themoviedb.org/3/movie/${id}/videos`;
+    const videourl = paramValue == "true" ? videourlformovie : videourlfortv;
+    const options = {
       headers: {
         accept: "application/json",
         Authorization: import.meta.env.VITE_GAPI_KEY_ENV,
@@ -121,9 +123,9 @@ export default function MovieDetails() {
     };
     try {
       const videosres = await axios.get(videourl, { ...options });
-      setvideo(videosres.data.results[0].key);
+      setvideo(videosres.data.results);
 
-
+      console.log(videosres.data.results[1].key);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -134,17 +136,10 @@ export default function MovieDetails() {
     const urltvseriesrecommds = `https://api.themoviedb.org/3/tv/${id}/recommendations`;
     const urltvseriesreviews = `https://api.themoviedb.org/3/tv/${id}/reviews`;
 
-
-
-
-
     const UrlForReview =
       paramValue == "true" ? urlmoviereviews : urltvseriesreviews;
     const UrlForRecommds =
       paramValue == "true" ? urlmovierecommds : urltvseriesrecommds;
-
-
-
 
     const options = {
       headers: {
@@ -159,7 +154,6 @@ export default function MovieDetails() {
 
       setrecomds(response1.data);
       setrevies(response2.data);
-
     } catch (error) {
       console.error("error:", error);
     }
@@ -208,6 +202,7 @@ export default function MovieDetails() {
     getvideo(id);
     getcredits(id);
     fetchData(id);
+    console.log(video);
   }, [id]);
   return (
     <>
@@ -215,63 +210,6 @@ export default function MovieDetails() {
         <div>
           <div className="header1">
             <img src={logo} id="logo1" />
-
-            {
-              <div id="menu">
-                {menu && (
-                  <div className="menuinner">
-                    <svg
-                      id="close1"
-                      onClick={() => {
-                        setmenu(false);
-                        const c = document.getElementById("menu");
-
-                        c.style.width = "0%";
-                      }}
-                      xmlns="http://www.w3.org/2000/svg"
-                      height="27"
-                      fill="white"
-                      viewBox="0 -960 960 960"
-                      width="27"
-                    >
-                      <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-                    </svg>
-                    <div className="sbt" onClick={() => navigate("/")}>
-                      Home
-                    </div>
-                    <div
-                      className="sbt"
-                      onClick={() => {
-                        setmenu(false);
-                        const c1 = document.getElementById("menu");
-                        c1.style.width = "0%";
-                        setoverlay(true);
-                        const c = document.getElementById("oy");
-                        c.style.height = "50vh";
-                      }}
-                    >
-                      Search
-                    </div>
-                    <div
-                      className="sbt"
-                      onClick={async () => {
-                        setmenu(false);
-                        const c1 = document.getElementById("menu");
-                        c1.style.width = "0%";
-                        getIds();
-                        mylistimpl();
-
-                        setoverlay1(true);
-                        const c = document.getElementById("oy");
-                        c.style.height = "100%";
-                      }}
-                    >
-                      MyList
-                    </div>
-                  </div>
-                )}
-              </div>
-            }
 
             <div
               className="options"
@@ -364,7 +302,6 @@ export default function MovieDetails() {
               id="bgimg"
             />
           </div>
-
           <div className="detes">
             <div>
               {/*  <div className="starwithnum">
@@ -392,10 +329,12 @@ export default function MovieDetails() {
                 </div>
                 <div id="randommyear">
                   {" "}
-                  {tren ? tren.release_date : "null"}{" "}
+                  {tren.release_date
+                    ? tren.release_date.slice(0, 4)
+                    : "Seasons: " + tren.number_of_seasons}{" "}
                 </div>
                 <div id="randomm18">
-                  {tren ? (tren.adult ? "18+" : "") : ""}
+                  {tren.release_date ? NumToTime(tren.runtime) : null}
                 </div>
               </div>
               {/* <p>{tren ?   `"${tren.tagline}"`     : null} </p> */}
@@ -450,15 +389,18 @@ export default function MovieDetails() {
               <h1>Seasons</h1>
               <div className="seasonsarray">
                 {tren.seasons.map((item, index) => {
+                  console.log(tren.seasons);
                   return (
-                    <div>
-                      {" "}
-                      <img
-                        className="saimgs"
-                        src={`https://image.tmdb.org/t/p/w600_and_h900_bestv2${item.poster_path}`}
-                      />
-                      <div className="saih1">{item.name}</div>
-                    </div>
+                    item.poster_path && (
+                      <div>
+                        {" "}
+                        <img
+                          className="saimgs"
+                          src={`https://image.tmdb.org/t/p/w600_and_h900_bestv2${item.poster_path}`}
+                        />
+                        <div className="saih1">{item.name}</div>
+                      </div>
+                    )
                   );
                 })}
               </div>
@@ -467,8 +409,8 @@ export default function MovieDetails() {
           {media1 && (
             <div className="wholemedia">
               <div className="mediasection">
-                <div>
-                  <div id="mediapointer">Media</div>
+                <div id="mediapointer">Media</div>
+                <div className="mediainner">
                   <div className="arrayofimgsback">
                     {media1.map((item, index) => (
                       <img
@@ -487,6 +429,7 @@ export default function MovieDetails() {
                       />
                     ))}
                     <div
+                      className="misvg"
                       onClick={() => {
                         navigate(`/media?id=${id}&m=${paramValue}`);
                         console.log("ckuc");
@@ -496,6 +439,7 @@ export default function MovieDetails() {
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         id="moreimgsvg"
+                        opacity="0.7"
                         fill="white"
                         height="27"
                         viewBox="0 -960 960 960"
@@ -505,9 +449,8 @@ export default function MovieDetails() {
                       </svg>
                     </div>
                   </div>
-                </div>
-                <div className="keysandcredits">
-                  <div>
+
+                  <div className="keysandcredits">
                     {keywords && (
                       <div className="keywords">
                         {keywords.map((item, index) => (
@@ -528,68 +471,115 @@ export default function MovieDetails() {
               </div>
             </div>
           )}
-         
-            <div className="videoandcastsection">
-               <div className="videocontent">
-                <div className="videoheader">Video</div>
-                <div className="iframes">
-        <iframe
+          <div className="videoandcastsection">
+            <div className="videocontent">
+              <div className="videoheader">VideoMedia</div>
+              <div className="iframes">
+                {video && video[0] ?  (
+                  <>
+                    {video[0] && (
+                      <iframe
+                        width="560"
+                        height="315"
+                        src={`https://www.youtube.com/embed/${video[0].key}`}
+                        frameborder="0"
+                        allowfullscreen="1"
+                      ></iframe>
+                    )}
+                    {video[1] && (
+                      <iframe
+                        width="560"
+                        height="315"
+                        src={`https://www.youtube.com/embed/${video[1].key}`}
+                        frameborder="0"
+                        allowfullscreen="1"
+                      ></iframe>
+                    )}
+                    <div
+                      className="misvg"
+                      onClick={() => {
+                        navigate(`/media?id=${id}&m=${paramValue}`);
+                        console.log("ckuc");
+                      }}
+                    >
+                      {" "}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        id="moreimgsvg1"
+                        opacity="0.5"
+                        fill="white"
+                        height="27"
+                        viewBox="0 -960 960 960"
+                        width="27"
+                      >
+                        <path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" />
+                      </svg>
+                    </div>
+                  </>
+                ) : (
+                  <div id="novideos" style={{color:'white'}}>No avaible videos to show</div>
+                )}
+                {/* <iframe
                   width="560"
                   height="315"
                   src={`https://www.youtube.com/embed/${video}`}
                   frameborder="0"
                   allowfullscreen='1'
-                ></iframe>
-               {/* <iframe
-                  width="560"
-                  height="315"
-                  src={`https://www.youtube.com/embed/${video[1].key}`}
-                  frameborder="0"
-                  allowfullscreen='1'
                 ></iframe>*/}
-                </div>
               </div>
-              <div>
-                {" "}
-                {credits && (
-                  <div className="CastSection">
-                    <div className="cardcontainer">
-                      {credits &&
-                        credits.map(
-                          (item, index) =>
-                            index <= 2 && (
-                              <div className="cardofcast">
-                                <div className="imgofcast">
-                                  <img
-                                    src={`https://media.themoviedb.org/t/p/w138_and_h175_face/${item.profile_path}`}
-                                  />
-                                </div>
-                                <div className="castname" onClick={()=>{navigate(`/castdetes?p=${item.id}`)}}>
-                                  <div>{item.name}</div>
-                                  <div>{item.character}</div>
-                                </div>
+            </div>
+            <div>
+              {" "}
+              {credits && (
+                <div className="CastSection">
+                  <div className="cardcontainer">
+                    {credits &&
+                      credits.map(
+                        (item, index) =>
+                          index <= 2 &&
+                          item.profile_path && (
+                            <div
+                              className="cardofcast"
+                              onClick={() => {
+                                navigate(`/castdetes?p=${item.id}`);
+                              }}
+                            >
+                              <div className="imgofcast">
+                                <img
+                                  src={`https://media.themoviedb.org/t/p/w138_and_h175_face/${item.profile_path}`}
+                                />
                               </div>
-                            )
-                        )}
-                    </div>
+                              <div className="castname">
+                                <div>{item.name}</div>
+                                <div>{item.character}</div>
+                              </div>
+                            </div>
+                          )
+                      )}
                   </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
-      
-
-          {recomds && (
-            <div className="recomds">
-              <div id="remdstext">Recommendations</div>
-              <List tren={recomds} movies={paramValue} />
-            </div>
-          )}
-          {reviews && (
+          </div>
+          (
+          {reviews.results && (
             <div className="Revsec">
               <h1>Reviews</h1>
               <Review reviews={reviews} />
             </div>
           )}
+          )
+          <div className="recomds">
+            <div id="remdstext">Recommendations</div>
+
+            {recomds.results && recomds.results.length > 0 ? (
+              <List tren={recomds} movies={paramValue} />
+            ) : (
+              <div style={{ color: "white", fontFamily: "sans-serif" }}>
+                No Recommendations available for this one
+              </div>
+            )}
+          </div>
         </div>
       )}
     </>

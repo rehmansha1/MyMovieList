@@ -93,7 +93,7 @@ export default function Searchkeyword() {
           <List tren={results2} movies="false" />
         )}
       </div>
-      <div className="leftrightsym">
+   {  results.results &&  <>   <div className="leftrightsym">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           onClick={() => {
@@ -136,7 +136,8 @@ export default function Searchkeyword() {
           <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" />
         </svg>
       </div>
-      <div className="pagecountr">Page {count}</div>
+     <div className="pagecountr">Page {count}</div></>
+     }
        </div>}
        
     </div>

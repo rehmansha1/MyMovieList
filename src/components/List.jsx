@@ -14,6 +14,8 @@ export default function List({
   const navigate = useNavigate();
   const [reviewmy, setreviewmy] = useState(false);
   const [stars, setstars] = useState();
+const [cid,setcid] = useState('');
+
 
 
   const handleButtonClick = (id) => {
@@ -24,7 +26,7 @@ export default function List({
  
   };
 
-const sendcompletedidtodb = async()=>{
+const sendcompletedidtodb = async(id,Ukl,title,content,name)=>{
   const urlformovies = "/completed/movies";
   const urlforseries = '/completed/series'
 
@@ -182,8 +184,8 @@ const url = movies ? urlformovies : urlforseries
                       xmlns="http://www.w3.org/2000/svg"
                       onClick={() => {
              
-                        sendcompletedidtodb(ClickedCompledid);
-                        console.log(stars);
+                        sendcompletedidtodb();
+                     
                       }}
                       fill="white"
                       opacity="1"
@@ -207,7 +209,9 @@ const url = movies ? urlformovies : urlforseries
                     <svg
                       onClick={(event) => {
                         deleteindb(item.id);
-                        event.target.parentElement.parentElement.parentElement.remove();
+                        event.target.parentElement.parentElement.parentElement.style.position = 'absolute';
+                        event.target.parentElement.parentElement.parentElement.style.opacity = 0;
+
                         console.log(
                           event.target.parentElement.parentElement.parentElement
                         );

@@ -1,15 +1,25 @@
 .revsectin{
     color: white;
-    border: 1px solid white;
+    border: 4px solid  grey;
     padding: 25px;
-    width: 30%;
-border-radius: 15px;
-background: rgba( 255, 213, 213, 0.1 );
-backdrop-filter: blur( 3.5px );
--webkit-backdrop-filter: blur( 3.5px );
-border: 1px solid rgba( 255, 255, 255, 0.18 );
-align-self: flex-start; /* This prevents the items from stretching to the container's height */
+    width: 25%;
+border-radius: 20px;
+margin-top: 50px;
+transition: all 0.5s;
+cursor: pointer;
 
+}
+.revsectin:hover{
+    transform: scale(1.1);
+}
+.revsectin > div:nth-child(1){
+    font-family: harabara;
+    font-size: 30px;
+    letter-spacing: 1px;
+}
+.revsectin > p{
+opacity: 0.9;
+font-family: sans-serif;
 }
 .ratingrv{
     display: flex;
@@ -18,9 +28,19 @@ align-self: flex-start; /* This prevents the items from stretching to the contai
     gap: 5px;
 }
 .rvsec2{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 50px;
-
+display: flex;
+flex-direction: row;
+gap: 10px;
     
+  }
+  .rvsec2 > svg{
+    opacity: 0.5;
+    cursor: pointer;
+  }
+  .rrehsvg{
+display: flex;
+  }
+  .rvsec3{
+    display: flex;
+    gap: 50px;
   }
