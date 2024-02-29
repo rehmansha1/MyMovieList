@@ -4,7 +4,6 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import logo from "./assets/Logonetflix.png";
 import imdb from "./assets/imdb.png";
-
 import bg from "./assets/p2.jpg";
 import pic1 from "./assets/jaws.jpg";
 import axios from "axios";
@@ -13,14 +12,22 @@ import { gsap } from "gsap";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import { useNavigate } from "react-router-dom";
-
+import SwiperList from "./components/SwiperList";
+import { Scrollbar, Navigation,Pagination,A11y } from "swiper/modules";
+import { useSwiper } from "swiper/react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/swiper-bundle.css";
 function App() {
   const [tren, settrend] = useState([]);
   const [tren1, settrend1] = useState([]);
   const [overlay, setoverlay] = useState(false);
   const [overlay1, setoverlay1] = useState(false);
   const [movies, setmovies] = useState("true");
-  const [randomNumber, setrandom] = useState(Math.floor(Math.random() * 20));
+  const [randomNumber, setrandom] = useState([
+    Math.floor(Math.random() * 20),
+    Math.floor(Math.random() * 20),
+    Math.floor(Math.random() * 20),
+  ]);
   const [movieName, setMovieName] = useState("");
   const [searchList, setsl] = useState("");
   const [userName, setusername] = useState("Rehman");
@@ -30,17 +37,18 @@ function App() {
   const [mylistfinal, setmylistfinal] = useState({ results: [] });
   const [menu, setmenu] = useState(false);
   const [menureal, setmenureal] = useState(false);
-
+  const [imageLoaded, setImageLoaded] = useState(false);
+const swipper = useSwiper();
   const handleInputChange = (event) => {
     setMovieName(event.target.value);
   };
-  function NumToTime(num) { 
-    var hours = Math.floor(num / 60);  
+  function NumToTime(num) {
+    var hours = Math.floor(num / 60);
     var minutes = num % 60;
-    if (minutes + ''.length < 2) {
-      minutes = '0' + minutes; 
+    if (minutes + "".length < 2) {
+      minutes = "0" + minutes;
     }
-    return hours + "hr " + minutes+'m' ;
+    return hours + "hr " + minutes + "m";
   }
   const searchmovies = async () => {
     const urlForMovie = "https://api.themoviedb.org/3/search/movie";
@@ -170,11 +178,18 @@ function App() {
 
     console.log("heu2");
   }, [overlay1]);
+  const handleImageLoad = () => {
+    console.log("Image loaded!");
+    setImageLoaded(true);
+  };
 
   return (
     <>
       {tren && (
-        <div className="wholeweb">
+        <div
+          className="wholeweb"
+          style={{ display: imageLoaded ? "block" : "none" }}
+        >
           <div className="overlay" id="oy">
             <div id="menu">
               {menu && (
@@ -428,126 +443,108 @@ function App() {
               <div></div>
             </div>
           </div>
-          <div className="darkcorner">
-            <img
-              src={
-                tren.results
-                  ? `https://image.tmdb.org/t/p/original${tren.results[randomNumber].backdrop_path}`
-                  : ""
-              }
-              id="bgimg"
-            />
+          <div className="dots">
+<div onClick={()=> swipper && swipper.slidePrev(2)}></div>
+<div nClick={()=> swipper.slideTo(1)}></div>
+<div nClick={()=> swipper.slideTo(2)}></div>
           </div>
-          {/* <Carousel className="carousal">
-          <div>
-          <img
-          id="imgcard"
-            src={
-              tren.results
-                ? `https://image.tmdb.org/t/p/w600_and_h900_bestv2${tren.results[randomNumber].poster_path}`
-                : ""
-            }
-          />
-          </div>
-          <div>
-          <img
-                    id="imgcard"
-
-            src={
-              tren.results
-                ? `https://image.tmdb.org/t/p/w600_and_h900_bestv2${tren.results[randomNumber +1].poster_path}`
-                : ""
-            }
-          />          </div>
-          <div>
-          <img
-                    id="imgcard"
-
-            src={
-              tren.results
-                ? `https://image.tmdb.org/t/p/w600_and_h900_bestv2${tren.results[randomNumber +2].poster_path}`
-                : ""
-            }
-          />          </div>
-        </Carousel>
-        */}
-          {tren.results && (
-            <div className="detes">
-              <div>
-                {/*  <div className="starwithnum">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="gold"
-                height="34"
-                viewBox="0 -960 960 960"
-                width="24"
-              >
-                <path d="m233-80 65-281L80-550l288-25 112-265 112 265 288 25-218 189 65 281-247-149L233-80Z" />
-              </svg>
-              <div>
-                {tren.results
-                  ? tren.results[randomNumber].vote_average.toFixed(1)
-                  : "null"}
-              </div>
-            </div> */}
-
-                <h1>
-                  {tren.results ? tren.results[randomNumber].title : "null"}
-                </h1>
-                <div className="detesdetes1">
-                  <div id="imdbrating">
-                    <img src={imdb} />
-                    <div>
-                      {tren.results
-                        ? tren.results[randomNumber].vote_average.toFixed(1) > 0
-                          ? tren.results[randomNumber].vote_average.toFixed(1)
-                          : "Not rated"
-                        : "null"}
+          <Swiper
+            spaceBetween={0}
+            slidesPerView={1}
+          >
+            {tren.results &&
+              randomNumber.map((num, index) => (
+                <>
+                  <SwiperSlide>
+                    <div className="darkcorner">
+                      <img
+                        src={
+                          tren.results
+                            ? `https://image.tmdb.org/t/p/original${
+                                tren.results[randomNumber[index]].backdrop_path
+                              }`
+                            : ""
+                        }
+                        onLoad={handleImageLoad}
+                        id="bgimg"
+                      />
                     </div>
-                  </div>
-                  <div id="randommyear">
-                    {" "}
-                    {tren.results
-                      ? tren.results[randomNumber].release_date.slice(0, 4)
-                      : "null"}{" "}
-                  </div>
-                  <div id="randomm18">
-                  {tren.release_date? NumToTime(tren.runtime):null}
 
-                  </div>
-                </div>
-                <p id="moviedetes1">
-                  {tren.results ? tren.results[randomNumber].overview : ""}
-                </p>
+                    {tren.results && (
+                      <div className="detes">
+                        <div>
+                          <h1>
+                            {tren.results
+                              ? tren.results[randomNumber[index]].title
+                              : "null"}
+                          </h1>
+                          <div className="detesdetes1">
+                            <div id="imdbrating">
+                              <img src={imdb} />
+                              <div>
+                                {tren.results
+                                  ? tren.results[
+                                      randomNumber[index]
+                                    ].vote_average.toFixed(1) > 0
+                                    ? tren.results[
+                                        randomNumber[index]
+                                      ].vote_average.toFixed(1)
+                                    : "Not rated"
+                                  : "null"}
+                              </div>
+                            </div>
+                            <div id="randommyear">
+                              {" "}
+                              {tren.results
+                                ? tren.results[
+                                    randomNumber[index]
+                                  ].release_date.slice(0, 4)
+                                : "null"}{" "}
+                            </div>
+                            <div id="randomm18">
+                              {tren.release_date
+                                ? NumToTime(tren.runtime)
+                                : null}
+                            </div>
+                          </div>
+                          <p id="moviedetes1">
+                            {tren.results
+                              ? tren.results[randomNumber[index]].overview
+                              : ""}
+                          </p>
 
-                <div className="btlist">
-                  <div id="viewbt">Watch now</div>{" "}
-                  <div
-                    id="watchbt"
-                    onClick={() => {
-                      putInDbMovies(
-                        tren.results[randomNumber].id,
-                        tren.results[randomNumber].poster_path,
-                        tren.results[randomNumber].title
-                      );
-                    }}
-                  >
-                    <svg
-                      fill="white"
-                      id="watchbt2"
-                      xmlns="http://www.w3.org/2000/svg"
-                      height="24"
-                      viewBox="0 -960 960 960"
-                      width="24"
-                    >
-                      <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
-                    </svg>{" "}
-                    Watchlist
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
+                          <div className="btlist">
+                            <div id="viewbt">Watch now</div>{" "}
+                            <div
+                              id="watchbt"
+                              onClick={() => {
+                                putInDbMovies(
+                                  tren.results[randomNumber[index]].id,
+                                  tren.results[randomNumber[index]].poster_path,
+                                  tren.results[randomNumber[index]].title
+                                );
+                              }}
+                            >
+                              <svg
+                                fill="white"
+                                id="watchbt2"
+                                xmlns="http://www.w3.org/2000/svg"
+                                height="24"
+                                viewBox="0 -960 960 960"
+                                width="24"
+                              >
+                                <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                              </svg>{" "}
+                              Watchlist
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </SwiperSlide>
+                </>
+              ))}
+          </Swiper>
           {!overlay && !overlay1 && tren.results && (
             <div className="secpage">
               <div id="blackcover"></div>
@@ -565,7 +562,7 @@ function App() {
                   <div>Trending Movies</div>
                 </div>
                 <div className="trenlist">
-                  <List
+                  <SwiperList
                     tren={tren}
                     putInDbMovies={putInDbMovies}
                     movies={"true"}
@@ -585,7 +582,7 @@ function App() {
                     <div>Trending Series</div>
                   </div>
                   <div className="trenlist">
-                    <List
+                    <SwiperList
                       tren={tren1}
                       putInDbSeries={putInDbSeries}
                       movies={"false"}
@@ -606,7 +603,7 @@ function App() {
                     <div>All time classics</div>
                   </div>
                   <div className="trenlist">
-                    <List
+                    <SwiperList
                       tren={clmovies}
                       putInDbMovies={putInDbMovies}
                       movies={"true"}

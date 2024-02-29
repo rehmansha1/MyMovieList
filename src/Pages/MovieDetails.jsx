@@ -10,7 +10,8 @@ import List from "../components/List";
 import { useNavigate } from "react-router-dom";
 import Review from "../components/Review";
 import { gsap } from "gsap";
-
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
 export default function MovieDetails() {
   const [tren, settrend1] = useState();
   const [recomds, setrecomds] = useState([]);
@@ -340,13 +341,15 @@ export default function MovieDetails() {
               {/* <p>{tren ?   `"${tren.tagline}"`     : null} </p> */}
               <p id="moviedetes1">{tren ? tren.overview : ""}</p>
               <div className="genres">
-                {tren
-                  ? tren.genres.map((item, index) => (
-                      <div className="genrebt" key={index}>
-                        {item.name}
-                      </div>
-                    ))
-                  : null}{" "}
+                
+                    {tren
+                      ? tren.genres.map((item, index) => (
+                            <div className="genrebt" key={index}>
+                              {item.name}
+                            </div>
+                        ))
+                      : null}
+                
               </div>
               <div className="btlist">
                 <a
@@ -387,11 +390,15 @@ export default function MovieDetails() {
           {tren.seasons && (
             <div className="seasonssection">
               <h1>Seasons</h1>
+              
               <div className="seasonsarray">
+              <Swiper spaceBetween={0} slidesPerView={tren.seasons.length > 5 ?  5 : tren.seasons.length } >
+
                 {tren.seasons.map((item, index) => {
-                  console.log(tren.seasons);
                   return (
                     item.poster_path && (
+                      <SwiperSlide>
+
                       <div>
                         {" "}
                         <img
@@ -400,9 +407,13 @@ export default function MovieDetails() {
                         />
                         <div className="saih1">{item.name}</div>
                       </div>
+                      </SwiperSlide>
+
                     )
                   );
                 })}
+                </Swiper>
+
               </div>
             </div>
           )}
@@ -475,7 +486,7 @@ export default function MovieDetails() {
             <div className="videocontent">
               <div className="videoheader">VideoMedia</div>
               <div className="iframes">
-                {video && video[0] ?  (
+                {video && video[0] ? (
                   <>
                     {video[0] && (
                       <iframe
@@ -517,7 +528,9 @@ export default function MovieDetails() {
                     </div>
                   </>
                 ) : (
-                  <div id="novideos" style={{color:'white'}}>No avaible videos to show</div>
+                  <div id="novideos" style={{ color: "white" }}>
+                    No avaible videos to show
+                  </div>
                 )}
                 {/* <iframe
                   width="560"
@@ -566,6 +579,7 @@ export default function MovieDetails() {
             <div className="Revsec">
               <h1>Reviews</h1>
               <Review reviews={reviews} />
+              <div></div>
             </div>
           )}
           )
