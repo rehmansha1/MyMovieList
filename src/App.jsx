@@ -13,10 +13,18 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import { useNavigate } from "react-router-dom";
 import SwiperList from "./components/SwiperList";
-import { Scrollbar, Navigation,Pagination,A11y } from "swiper/modules";
+import "swiper/css/pagination";
 import { useSwiper } from "swiper/react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { EffectFade,Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
+import { Autoplay } from 'swiper/modules';
+import 'swiper/css/effect-fade';
+
 import "swiper/swiper-bundle.css";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
 function App() {
   const [tren, settrend] = useState([]);
   const [tren1, settrend1] = useState([]);
@@ -38,7 +46,8 @@ function App() {
   const [menu, setmenu] = useState(false);
   const [menureal, setmenureal] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
-const swipper = useSwiper();
+  const swiper = useSwiper();
+
   const handleInputChange = (event) => {
     setMovieName(event.target.value);
   };
@@ -188,7 +197,7 @@ const swipper = useSwiper();
       {tren && (
         <div
           className="wholeweb"
-          style={{ display: imageLoaded ? "block" : "none" }}
+         
         >
           <div className="overlay" id="oy">
             <div id="menu">
@@ -281,7 +290,7 @@ const swipper = useSwiper();
                         const c = document.getElementById("oy");
                         const inputbix = document.getElementById("ovai");
                         inputbix.style.height = "20vh";
-                        c.style.height = "100vh";
+                        c.style.height = "110vh";
                         searchmovies();
                       }}
                       fill="white"
@@ -440,22 +449,64 @@ const swipper = useSwiper();
               </div>
               <div></div>
               <div></div>
-              <div></div>
             </div>
           </div>
           <div className="dots">
-<div onClick={()=> swipper && swipper.slidePrev(2)}></div>
-<div nClick={()=> swipper.slideTo(1)}></div>
-<div nClick={()=> swipper.slideTo(2)}></div>
+
           </div>
-          <Swiper
-            spaceBetween={0}
-            slidesPerView={1}
+        {/*  <Swiper
+      modules={[Navigation, Pagination, Scrollbar, A11y,Autoplay]}
+      spaceBetween={0}
+      slidesPerView={1}
+    //  navigation
+
+// Custom class for individual slides
+      autoplay={{
+          delay: 3500,
+          disableOnInteraction: false,
+        }}
           >
+           {tren.results &&
+              randomNumber.map((num, index) => (
+                
+                  <SwiperSlide>
+                      <img
+                        src={
+                          tren.results
+                            ? `https://image.tmdb.org/t/p/original${
+                                tren.results[randomNumber[index]].poster_path
+                              }`
+                            : ""
+                        }
+                        onLoad={handleImageLoad}
+                        id="posternext"
+                      />
+                  </SwiperSlide>
+              ))}
+              </Swiper>
+      */}
+          <Swiper
+      modules={[Navigation, Pagination, Scrollbar, A11y,Autoplay]}
+      spaceBetween={0}
+      slidesPerView={1}
+     className="mainwrapper"
+    //  navigation
+    containerClass="poster-1" // Set the main Swiper container class
+   pagination={{ clickable: true }}
+     paginationClassName="swiper-pagination" 
+
+      autoplay={{
+          delay: 3500,
+          disableOnInteraction: false,
+        }}
+        loop ={true}
+          >
+
+
             {tren.results &&
               randomNumber.map((num, index) => (
                 <>
-                  <SwiperSlide>
+                  <SwiperSlide >
                     <div className="darkcorner">
                       <img
                         src={
@@ -549,6 +600,7 @@ const swipper = useSwiper();
             <div className="secpage">
               <div id="blackcover"></div>
               <div className="trndingpage">
+              <div className="trnbox">
                 <div id="trenheader">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -568,7 +620,10 @@ const swipper = useSwiper();
                     movies={"true"}
                   />
                 </div>
+                </div>
                 <div>
+                <div className="trnbox">
+
                   <div id="trenheader">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -588,19 +643,13 @@ const swipper = useSwiper();
                       movies={"false"}
                     />
                   </div>
+                  </div>
                 </div>
-                <div>
+                <div className="trnbox">
                   <div id="trenheader">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="red"
-                      height="55"
-                      viewBox="0 -960 960 960"
-                      width="55"
-                    >
-                      <path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z" />
-                    </svg>
-                    <div>All time classics</div>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="red" height="55" viewBox="0 -960 960 960" width="55"><path d="m233-80 65-281L80-550l288-25 112-265 112 265 288 25-218 189 65 281-247-149L233-80Z"/></svg>
+
+                    <div>All Time Classics</div>
                   </div>
                   <div className="trenlist">
                     <SwiperList

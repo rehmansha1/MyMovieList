@@ -268,6 +268,7 @@ const url = movies ? urlformovies : urlforseries
                   )}
 
                   <img
+                  id="imgofthis"
                     onClick={() => {
                       handleButtonClick(item.id);
 

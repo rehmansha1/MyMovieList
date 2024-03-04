@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Scrollbar,Navigation } from 'swiper/modules';
-
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Scrollbar, Navigation } from "swiper/modules";
+import { Swiper, SwiperSlide} from 'swiper/react';
 import "swiper/swiper-bundle.css";
-
-
+import NavbuttonsSwi from "./NavbuttonsSwi";
+import 'swiper/css';
+import 'swiper/css/navigation';
 export default function SwiperList({
   tren,
   putInDbMovies,
@@ -236,14 +236,51 @@ export default function SwiperList({
           </div>
         </div>
       )}
-      <Swiper spaceBetween={0} slidesPerView={6}
-      modules={[Navigation,Scrollbar]}
-      navigation
-      scrollbar={{draggable: true}}>
+      <Swiper
+        spaceBetween={0}
+        slidesPerView={6}
+        modules={[Navigation, Scrollbar]}
+        className="swipercardwrapper"
+        navigation={{
+          nextEl: "swiper-button-next",
+          prevEl: "swiper-button-prev",
+        }}
+        freeMode={true}
+        
+        scrollbar={{ draggable: true }}
+      >
+      
+          <div className="swiper-button-prev" >
+            <div className="svgbackg">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="black"
+              height="24"
+              viewBox="0 -960 960 960"
+              width="24"
+            >
+              <path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" />
+            </svg>
+            </div>
+          </div>
+          <div className="swiper-button-next" >
+          <div className="svgbackg">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="black"
+              height="24"
+              viewBox="0 -960 960 960"
+              width="24"
+            >
+              <path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" />
+            </svg>
+            </div>
+          </div>
+      
         {tren.results &&
           tren.results.map(
             (item, index) =>
-              (item.poster_path || item.URL)  &&  (
+              (item.poster_path || item.URL) && (
                 <SwiperSlide>
                   <div key={index} id="trengallary">
                     <div id="outimg">

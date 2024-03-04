@@ -9,6 +9,7 @@ export default function Searchkeyword() {
 
   const [results, setresult] = useState([]);
   const [results2, setresult2] = useState([]);
+  const [inputValue, setInputValue] = useState("");
 
   const [type, setType] = useState("movies");
   const [count, setcount] = useState(1);
@@ -44,105 +45,112 @@ export default function Searchkeyword() {
   useEffect(() => {
     fetchData();
   }, [count]);
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
   return (
- 
     <div className="wholepageofkeywordsearch">
-       {results && 
-       <div>
-      <div className="boxthathastbt">
+      {results && (
+        <div>
+          <div className="boxthathastbt">
+            <div id="titleks">
+              Search {type} by keyword :{" "}
+              <input
+                className="searchkeywordinput"
+                value={inputValue}
+                onChange={handleInputChange}
+                placeholder={`"${name}"`}
+              />
+<svg xmlns="http://www.w3.org/2000/svg" id="svginfinite" fill="white" height="24" viewBox="0 -960 960 960" width="24"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></svg>
 
-        <div id="titleks">
-          Search {type} by keyword : "{name}"
-        </div>
-        <div className="wishlistbtms">
-          <div
-            id="moviebt"
-            onClick={() => {
-              setType("movies");
-              let bt = document.getElementById("moviebt");
-              bt.style.background = "white";
-              bt.style.color = "black";
-              let bt1 = document.getElementById("seriesbt");
-              bt1.style.background = "black";
-              bt1.style.color = "white";
-            }}
-          >
-            movies
+            </div>
+            
+            <div className="wishlistbtms">
+              <div
+                id="moviebt"
+                onClick={() => {
+                  setType("movies");
+                  let bt = document.getElementById("moviebt");
+                  bt.style.background = "white";
+                  bt.style.color = "black";
+                  let bt1 = document.getElementById("seriesbt");
+                  bt1.style.background = "black";
+                  bt1.style.color = "white";
+                }}
+              >
+                movies
+              </div>
+              <div
+                id="seriesbt"
+                onClick={() => {
+                  setType("series");
+                  let bt = document.getElementById("seriesbt");
+                  bt.style.background = "white";
+                  bt.style.color = "black";
+                  let bt1 = document.getElementById("moviebt");
+                  bt1.style.background = "black";
+                  bt1.style.color = "white";
+                }}
+              >
+                series
+              </div>
+            </div>
           </div>
-          <div
-            id="seriesbt"
-            onClick={() => {
-              setType("series");
-              let bt = document.getElementById("seriesbt");
-              bt.style.background = "white";
-              bt.style.color = "black";
-              let bt1 = document.getElementById("moviebt");
-              bt1.style.background = "black";
-              bt1.style.color = "white";
-            }}
-          >
-            series
+
+          <div className="boxks">
+            {type == "movies" ? (
+              <List tren={results} movies="true" />
+            ) : (
+              <List tren={results2} movies="false" />
+            )}
           </div>
+          {results.results && (
+            <>
+              {" "}
+              <div className="leftrightsym">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  onClick={() => {
+                    if (count == 1) {
+                      return null;
+                    } else {
+                      setcount(count - 1);
+                      document.documentElement.scrollTo({
+                        top: 0,
+                        behavior: "smooth",
+                      });
+                    }
+                  }}
+                  fill="white"
+                  height="34"
+                  viewBox="0 -960 960 960"
+                  width="34"
+                >
+                  <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z" />
+                </svg>
+
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  onClick={() => {
+                    setcount(count + 1);
+                    document.documentElement.scrollTo({
+                      top: 0,
+                      behavior: "smooth",
+                    });
+                  }}
+                  fill="white"
+                  height="34"
+                  viewBox="0 -960 960 960"
+                  width="34"
+                >
+                  <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" />
+                </svg>
+              </div>
+              <div className="pagecountr">Page {count}</div>
+            </>
+          )}
         </div>
-      </div>
-      
-      <div className="boxks">
-        {type == "movies" ? (
-          <List tren={results} movies="true" />
-        ) : (
-          <List tren={results2} movies="false" />
-        )}
-      </div>
-   {  results.results &&  <>   <div className="leftrightsym">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          onClick={() => {
-            if (count == 1 ){
-                return null
-            }
-            else{
-                setcount((count - 1));
-                document.documentElement.scrollTo({
-  top: 0,
-  behavior: 'smooth'
-});
-                
-
-            }
-        
-          }}
-          fill="white"
-          height="34"
-          viewBox="0 -960 960 960"
-          width="34"
-        >
-          <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z" />
-        </svg>
-
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          onClick={() => {
-            setcount((count + 1));
-            document.documentElement.scrollTo({
-  top: 0,
-  behavior: 'smooth'
-});           
-          }}
-          fill="white"
-          height="34"
-          viewBox="0 -960 960 960"
-          width="34"
-        >
-          <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" />
-        </svg>
-      </div>
-     <div className="pagecountr">Page {count}</div></>
-     }
-       </div>}
-       
+      )}
     </div>
-
-        
   );
-
 }
