@@ -449,6 +449,7 @@ export default function MovieDetails() {
           nextEl: "swiper-button-next",
           prevEl: "swiper-button-prev",
         }}
+        className="seasons123swiper"
                   >
                             <div className="swiper-button-prev" >
             <div className="svgbackg">
@@ -508,18 +509,18 @@ export default function MovieDetails() {
                         {media1.map((item, index) => (
                           <img
                             id="imgs"
-                            src={`https://image.tmdb.org/t/p/original${item}`}
+                            src={`https://image.tmdb.org/t/p/w533_and_h300_bestv2${item}`}
                             onClick={(event) => {
-                              expandandcenter(index);
+                             // expandandcenter(index);
                               //zoom in effect now is reduntant cause expandcenter func exists
-                              /*const newTransform = isScaled
+                              const newTransform = isScaled
                             ? "scale(1)"
-                            : "scale(2)";
+                            : "scale(1.5)";
                           const zindex = isScaled ? 1 : 5;
                           event.currentTarget.style.transform = newTransform;
                           event.currentTarget.style.zIndex = zindex;
 
-                          setIsScaled(!isScaled);*/
+                          setIsScaled(!isScaled);
                             }}
                           />
                         ))}

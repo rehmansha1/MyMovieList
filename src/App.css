@@ -1101,8 +1101,8 @@ article {
 .misvg {
   display: flex;
   align-items: center;
-
   opacity: 0.7;
+justify-content: center;
 }
 #moreimgsvg {
   transition: all 0.5s;
@@ -1333,7 +1333,6 @@ article {
   height: 25px;
   width: 25px;
   border-radius: 50%;
-  position: absolute;
   padding: 10px;
 }
 
@@ -1442,6 +1441,7 @@ article {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 }
 #novideos{
 font-family: sans-serif;
@@ -1479,4 +1479,8 @@ padding-left: 10px;
   top: 0;
   left: 0;
   opacity: 0;
+}
+.seasons123swiper{
+  margin: 0px !important;
+margin-left: 20px !important; 
 }

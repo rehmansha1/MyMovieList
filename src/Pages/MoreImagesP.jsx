@@ -55,7 +55,7 @@ export default function MoreImagesP() {
             <img
               className="gimg"
               onClick={()=>expandandcenter(index)}
-              src={`https://image.tmdb.org/t/p/original${item.file_path}`}
+              src={`https://image.tmdb.org/t/p/w533_and_h300_bestv2${item.file_path}`}
             />
           ))}
         </div>
