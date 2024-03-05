@@ -31,11 +31,7 @@ function App() {
   const [overlay, setoverlay] = useState(false);
   const [overlay1, setoverlay1] = useState(false);
   const [movies, setmovies] = useState("true");
-  const [randomNumber, setrandom] = useState([
-    Math.floor(Math.random() * 20),
-    Math.floor(Math.random() * 20),
-    Math.floor(Math.random() * 20),
-  ]);
+  const [randomNumber, setrandom] = useState();
   const [movieName, setMovieName] = useState("");
   const [searchList, setsl] = useState("");
   const [userName, setusername] = useState("Rehman");
@@ -47,7 +43,20 @@ function App() {
   const [menureal, setmenureal] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const swiper = useSwiper();
-
+  function generateRandomNumbers() {
+    var numbers = [];
+    
+    while (numbers.length < 3) {
+      var randomNumber = Math.floor(Math.random() * 20); 
+      
+      if (numbers.indexOf(randomNumber) === -1) {
+        numbers.push(randomNumber);
+      }
+    }
+    console.log("worked");
+    return numbers;
+    
+  }
   const handleInputChange = (event) => {
     setMovieName(event.target.value);
   };
@@ -162,7 +171,11 @@ function App() {
   };
 
   useEffect(() => {
+   
+    var ran = generateRandomNumbers();
+    setrandom(ran);
     fetchData();
+
   }, []);
   useEffect(() => {
     gsap.from("#ovai", { opacity: 0, duration: 0.5, delay: 0.5 });
