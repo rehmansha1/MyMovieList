@@ -54,13 +54,13 @@ export default function Searchkeyword() {
         <div>
           <div className="boxthathastbt">
             <div id="titleks">
-              Search {type} by keyword :{" "}
-              <input
+              Search {type} by keyword : {name}
+              {/* <input
                 className="searchkeywordinput"
                 value={inputValue}
                 onChange={handleInputChange}
                 placeholder={`"${name}"`}
-              />
+              /> */}
 <svg xmlns="http://www.w3.org/2000/svg" id="svginfinite" fill="white" height="24" viewBox="0 -960 960 960" width="24"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></svg>
 
             </div>

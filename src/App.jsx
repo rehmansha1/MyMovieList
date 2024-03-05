@@ -210,7 +210,7 @@ function App() {
       {tren && (
         <div
           className="wholeweb"
-         
+          style={{ display: imageLoaded ? 'block' : 'none' }}
         >
           <div className="overlay" id="oy">
             <div id="menu">
@@ -267,7 +267,7 @@ function App() {
               )}
             </div>
 
-            {overlay && (
+            {overlay &&  (
               <div className="overlayinner">
                 <div className="ovainput" id="ovai">
                   <svg
