@@ -9,6 +9,11 @@
 .wholeweb::-webkit-scrollbar {
   width: 0.5em;
 }
+@media only screen and (max-width: 767px) {
+  body {
+    display: none;
+  }
+}
 
 .wholeweb::-webkit-scrollbar-thumb {
   background-color: transparent;
