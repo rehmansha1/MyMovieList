@@ -210,7 +210,6 @@ function App() {
       {tren && (
         <div
           className="wholeweb"
-          style={{ display: imageLoaded ? 'block' : 'none' }}
         >
           <div className="overlay" id="oy">
             <div id="menu">
