@@ -34,8 +34,8 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import Gbt from "./components/gbt";
 import LogOutbt from "./components/LogOutbt";
+import GBTT from "./components/GBTT";
 function App() {
   const [tren, settrend] = useState([]);
   const [tren1, settrend1] = useState([]);
@@ -505,7 +505,7 @@ function App() {
                   >
                     <path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Z" />
                   </svg>
-                  {LoggedIn ? <LogOutbt /> : <Gbt />}
+                  {LoggedIn ? <LogOutbt /> : <GBTT />}
                   <svg
                     onClick={() => {
                       setmenu(false);
