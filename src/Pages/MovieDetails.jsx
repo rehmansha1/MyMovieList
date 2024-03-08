@@ -43,7 +43,27 @@ export default function MovieDetails() {
     }
     return hours + "hr " + minutes + "m";
   }
+  function getCookie(cookieName) {
+    const cookies = document.cookie.split("; ");
 
+    for (const cookie of cookies) {
+      const [name, encodedValue] = cookie.split("=");
+
+      if (name === cookieName) {
+        const decodedValue = decodeURIComponent(encodedValue);
+
+        try {
+          // Try to parse the cookie value as JSON
+          return JSON.parse(decodedValue);
+        } catch (error) {
+          // If parsing fails, return the original value
+          return decodedValue;
+        }
+      }
+    }
+
+    return null; // Return null if the cookie with the specified name is not found
+  }
   const fetchData = async (id) => {
     const urlformovie = `https://api.themoviedb.org/3/movie/${id}`;
     const urltvseries = `https://api.themoviedb.org/3/tv/${id}`;
@@ -168,10 +188,10 @@ export default function MovieDetails() {
   };
 
   const putInDbMovies = async (id, url, title) => {
-    console.log("pressed");
+     const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
     try {
-      const resp = await axios.post("http://localhost:3001/putIDMovies", {
-        username: "Rehman",
+      const resp = await axios.post("https://mymovielistserver.onrender.com/putIDMovies", {
+        username,
         id: id,
         url: url,
         title: title,
@@ -183,10 +203,12 @@ export default function MovieDetails() {
     }
   };
   const putInDbSeries = async (id, url, name) => {
-    console.log("pressed");
+    
+    const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
+
     try {
-      const resp = await axios.post("http://localhost:3001/putIDSeries", {
-        username: "Rehman",
+      const resp = await axios.post("https://mymovielistserver.onrender.com/putIDSeries", {
+        username,
         id: id,
         url: url,
         name: name,
@@ -320,6 +342,7 @@ export default function MovieDetails() {
                   >
                     <path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Z" />
                   </svg>
+        
                   <svg
                     onClick={() => {
                       setmenu(false);

@@ -16,15 +16,26 @@ import SwiperList from "./components/SwiperList";
 import "swiper/css/pagination";
 import { useSwiper } from "swiper/react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectFade,Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
-import { Autoplay } from 'swiper/modules';
-import 'swiper/css/effect-fade';
+import {
+  EffectFade,
+  Navigation,
+  Pagination,
+  Scrollbar,
+  A11y,
+} from "swiper/modules";
+import { Autoplay } from "swiper/modules";
+import "swiper/css/effect-fade";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { GoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
 
 import "swiper/swiper-bundle.css";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
+import Gbt from "./components/gbt";
+import LogOutbt from "./components/LogOutbt";
 function App() {
   const [tren, settrend] = useState([]);
   const [tren1, settrend1] = useState([]);
@@ -34,6 +45,8 @@ function App() {
   const [randomNumber, setrandom] = useState();
   const [movieName, setMovieName] = useState("");
   const [searchList, setsl] = useState("");
+  const [LoggedIn, setlogged] = useState(false);
+
   const [userName, setusername] = useState("Rehman");
   const [clmovies, setclmov] = useState([]);
   const navigate = useNavigate();
@@ -43,19 +56,38 @@ function App() {
   const [menureal, setmenureal] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const swiper = useSwiper();
+  function getCookie(cookieName) {
+    const cookies = document.cookie.split("; ");
+
+    for (const cookie of cookies) {
+      const [name, encodedValue] = cookie.split("=");
+
+      if (name === cookieName) {
+        const decodedValue = decodeURIComponent(encodedValue);
+
+        try {
+          // Try to parse the cookie value as JSON
+          return JSON.parse(decodedValue);
+        } catch (error) {
+          // If parsing fails, return the original value
+          return decodedValue;
+        }
+      }
+    }
+
+    return null; // Return null if the cookie with the specified name is not found
+  }
   function generateRandomNumbers() {
     var numbers = [];
-    
+
     while (numbers.length < 3) {
-      var randomNumber = Math.floor(Math.random() * 20); 
-      
+      var randomNumber = Math.floor(Math.random() * 20);
+
       if (numbers.indexOf(randomNumber) === -1) {
         numbers.push(randomNumber);
       }
     }
-    console.log("worked");
     return numbers;
-    
   }
   const handleInputChange = (event) => {
     setMovieName(event.target.value);
@@ -120,17 +152,16 @@ function App() {
       settrend(response.data);
       settrend1(response1.data);
       setclmov(response2.data);
-      console.log(tren);
     } catch (error) {
       console.error("error:", error);
     }
   };
 
   const putInDbSeries = async (id, url, name) => {
-    console.log("pressed");
+    const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
     try {
-      const resp = await axios.post("http://localhost:3001/putIDSeries", {
-        username: "Rehman",
+      const resp = await axios.post("https://mymovielistserver.onrender.com/putIDSeries", {
+        username,
         id: id,
         url: url,
         name: name,
@@ -141,10 +172,10 @@ function App() {
     }
   };
   const putInDbMovies = async (id, url, title) => {
-    console.log("pressed");
+    const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
     try {
-      const resp = await axios.post("http://localhost:3001/putIDMovies", {
-        username: "Rehman",
+      const resp = await axios.post("https://mymovielistserver.onrender.com/putIDMovies", {
+        username,
         id: id,
         url: url,
         title: title,
@@ -156,11 +187,11 @@ function App() {
     }
   };
   const deleteindb = async (id) => {
-    console.log("pressed");
+    const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
     try {
-      const resp = await axios.delete("http://localhost:3001/delete", {
+      const resp = await axios.delete("https://mymovielistserver.onrender.com/delete", {
         data: {
-          username: "Rehman",
+          username,
           postText: id,
         },
       });
@@ -171,16 +202,14 @@ function App() {
   };
 
   useEffect(() => {
-   
     var ran = generateRandomNumbers();
     setrandom(ran);
     fetchData();
-
+    setlogged(checkCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`));
   }, []);
   useEffect(() => {
     gsap.from("#ovai", { opacity: 0, duration: 0.5, delay: 0.5 });
 
-    console.log("heu4");
   }, [overlay]);
   useEffect(() => {
     gsap.fromTo(
@@ -189,7 +218,6 @@ function App() {
       { opacity: 1, duration: 0.5, delay: 0.5 }
     );
 
-    console.log("heu3");
   }, [searchList]);
   useEffect(() => {
     gsap.fromTo(
@@ -198,168 +226,199 @@ function App() {
       { opacity: 1, duration: 0.5, delay: 0.5 }
     );
 
-    console.log("heu2");
   }, [overlay1]);
   const handleImageLoad = () => {
-    console.log("Image loaded!");
     setImageLoaded(true);
   };
+  function displayAllCookies() {
+    const allCookies = document.cookie;
+
+    if (allCookies) {
+      const cookiesArray = allCookies.split("; ");
+
+      cookiesArray.forEach((cookie) => {
+        const [name, value] = cookie.split("=");
+        console.log(`${name}: ${value}`);
+      });
+    } else {
+      console.log("No cookies found.");
+    }
+  }
+  function checkCookie(name) {
+    // Get all cookies from document.cookie and split into an array
+    const cookies = document.cookie.split("; ");
+
+    // Iterate over the array of cookies
+    for (const cookie of cookies) {
+      // Split the cookie into name and value
+      const [cookieName, cookieValue] = cookie.split("=");
+
+      // Trim any leading or trailing spaces
+      const trimmedCookieName = cookieName.trim();
+
+      // Check if the current cookie matches the specified name
+      if (trimmedCookieName === name) {
+        return true; // Cookie found
+      }
+    }
+
+    return false; // Cookie not found
+  }
 
   return (
-    <>
-      {tren && (
-        <div
-          className="wholeweb"
-        >
-          <div className="overlay" id="oy">
-            <div id="menu">
-              {menu && (
-                <div className="menuinner">
-                  <svg
-                    id="close1"
-                    onClick={() => {
-                      setmenu(false);
-                      const c = document.getElementById("menu");
-
-                      c.style.width = "0%";
-                    }}
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="27"
-                    fill="white"
-                    viewBox="0 -960 960 960"
-                    width="27"
-                  >
-                    <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-                  </svg>
-
-                  <div
-                    className="sbt"
-                    onClick={() => {
-                      setmenu(false);
-                      const c1 = document.getElementById("menu");
-                      c1.style.width = "0vw";
-                      setoverlay(true);
-                      const c = document.getElementById("oy");
-                      c.style.height = "50vh";
-                    }}
-                  >
-                    Search
-                  </div>
-                  <div
-                    className="sbt"
-                    onClick={async () => {
-                      setmenu(false);
-                      const c1 = document.getElementById("menu");
-                      c1.style.width = "0%";
-
-                      setoverlay1(true);
-                      const c = document.getElementById("oy");
-                      c.style.height = "100%";
-                      setTimeout(() => {
-                        navigate("/mylist");
-                      }, 500);
-                    }}
-                  >
-                    MyList
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {overlay &&  (
-              <div className="overlayinner">
-                <div className="ovainput" id="ovai">
-                  <svg
-                    id="close"
-                    onClick={() => {
-                      setoverlay(false);
-                      const c = document.getElementById("oy");
-
-                      c.style.height = "0vh";
-                      setsl("");
-                    }}
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="27"
-                    fill="white"
-                    viewBox="0 -960 960 960"
-                    width="27"
-                  >
-                    <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-                  </svg>
-                  <div className="inputsearchbox">
-                    {" "}
-                    <input
-                      id="inputbox"
-                      autocomplete="off"
-                      placeholder="Enter movie or series name"
-                      value={movieName}
-                      onChange={handleInputChange}
-                    />
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLEID_KEY_ENV}>
+      <>
+        {tren && (
+          <div className="wholeweb">
+            <div className="overlay" id="oy">
+              <div id="menu">
+                {menu && (
+                  <div className="menuinner">
                     <svg
-                      id="nextsymbol"
-                      xmlns="http://www.w3.org/2000/svg"
+                      id="close1"
                       onClick={() => {
-                        const c = document.getElementById("oy");
-                        const inputbix = document.getElementById("ovai");
-                        inputbix.style.height = "20vh";
-                        c.style.height = "110vh";
-                        searchmovies();
-                      }}
-                      fill="white"
-                      opacity="0.5"
-                      height="24"
-                      viewBox="0 -960 960 960"
-                      width="24"
-                    >
-                      <path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" />
-                    </svg>
-                    <div className="btmvser">
-                      <div
-                        id="mvbt"
-                        onClick={() => {
-                          setmovies("true");
-                          let bt = document.getElementById("mvbt");
-                          bt.style.background = "white";
-                          bt.style.color = "black";
-                          let bt1 = document.getElementById("svbt");
-                          bt1.style.background = "black";
-                          bt1.style.color = "white";
-                        }}
-                      >
-                        movie
-                      </div>
-                      <div
-                        id="svbt"
-                        onClick={() => {
-                          setmovies("false");
-                          let bt = document.getElementById("svbt");
-                          bt.style.background = "white";
-                          bt.style.color = "black";
-                          let bt1 = document.getElementById("mvbt");
-                          bt1.style.background = "black";
-                          bt1.style.color = "white";
-                        }}
-                      >
-                        series
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                        setmenu(false);
+                        const c = document.getElementById("menu");
 
-                {searchList && (
-                  <div className="displaysearch">
-                    <div className="searchdisplay">
-                      <List tren={searchList} movies={movies} />
+                        c.style.width = "0%";
+                      }}
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="27"
+                      fill="white"
+                      viewBox="0 -960 960 960"
+                      width="27"
+                    >
+                      <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+                    </svg>
+
+                    <div
+                      className="sbt"
+                      onClick={() => {
+                        setmenu(false);
+                        const c1 = document.getElementById("menu");
+                        c1.style.width = "0vw";
+                        setoverlay(true);
+                        const c = document.getElementById("oy");
+                        c.style.height = "50vh";
+                      }}
+                    >
+                      Search
+                    </div>
+                    <div
+                      className="sbt"
+                      onClick={async () => {
+                        setmenu(false);
+                        const c1 = document.getElementById("menu");
+                        c1.style.width = "0%";
+
+                        setoverlay1(true);
+                        const c = document.getElementById("oy");
+                        c.style.height = "100%";
+                        setTimeout(() => {
+                          navigate("/mylist");
+                        }, 500);
+                      }}
+                    >
+                      MyList
                     </div>
                   </div>
                 )}
               </div>
-            )}
-          </div>
-          <div className="header1">
-            <img src={logo} id="logo1" />
 
-            {/*    <div
+              {overlay && (
+                <div className="overlayinner">
+                  <div className="ovainput" id="ovai">
+                    <svg
+                      id="close"
+                      onClick={() => {
+                        setoverlay(false);
+                        const c = document.getElementById("oy");
+
+                        c.style.height = "0vh";
+                        setsl("");
+                      }}
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="27"
+                      fill="white"
+                      viewBox="0 -960 960 960"
+                      width="27"
+                    >
+                      <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+                    </svg>
+                    <div className="inputsearchbox">
+                      {" "}
+                      <input
+                        id="inputbox"
+                        autocomplete="off"
+                        placeholder="Enter movie or series name"
+                        value={movieName}
+                        onChange={handleInputChange}
+                      />
+                      <svg
+                        id="nextsymbol"
+                        xmlns="http://www.w3.org/2000/svg"
+                        onClick={() => {
+                          const c = document.getElementById("oy");
+                          const inputbix = document.getElementById("ovai");
+                          inputbix.style.height = "20vh";
+                          c.style.height = "110vh";
+                          searchmovies();
+                        }}
+                        fill="white"
+                        opacity="0.5"
+                        height="24"
+                        viewBox="0 -960 960 960"
+                        width="24"
+                      >
+                        <path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" />
+                      </svg>
+                      <div className="btmvser">
+                        <div
+                          id="mvbt"
+                          onClick={() => {
+                            setmovies("true");
+                            let bt = document.getElementById("mvbt");
+                            bt.style.background = "white";
+                            bt.style.color = "black";
+                            let bt1 = document.getElementById("svbt");
+                            bt1.style.background = "black";
+                            bt1.style.color = "white";
+                          }}
+                        >
+                          movie
+                        </div>
+                        <div
+                          id="svbt"
+                          onClick={() => {
+                            setmovies("false");
+                            let bt = document.getElementById("svbt");
+                            bt.style.background = "white";
+                            bt.style.color = "black";
+                            let bt1 = document.getElementById("mvbt");
+                            bt1.style.background = "black";
+                            bt1.style.color = "white";
+                          }}
+                        >
+                          series
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {searchList && (
+                    <div className="displaysearch">
+                      <div className="searchdisplay">
+                        <List tren={searchList} movies={movies} />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+            <div className="header1">
+              <img src={logo} id="logo1" />
+
+              {/*    <div
               onClick={async () => {
                 getIds();
                 mylistimpl();
@@ -394,79 +453,78 @@ function App() {
             </div>
             */}
 
-            <div
-              className="options"
-              onClick={() => {
-                /* const c = document.getElementById("menu");
+              <div
+                className="options"
+                onClick={() => {
+                  /* const c = document.getElementById("menu");
                 c.style.width = "20vw";
                 setmenu(true); */
-                setmenureal(!menureal);
-                let value = !menureal;
-                const c = document.getElementById("opexpan");
-                c.style.width = value ? "200px" : "0px";
-              }}
-            >
-              <div className="opexpand" id="opexpan">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  onClick={() => {
-                    setmenu(false);
+                  setmenureal(!menureal);
+                  let value = !menureal;
+                  const c = document.getElementById("opexpan");
+                  c.style.width = value ? "200px" : "0px";
+                }}
+              >
+                <div className="opexpand" id="opexpan">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    onClick={() => {
+                      setmenu(false);
 
-                    const c1 = document.getElementById("menu");
-                    c1.style.width = "0vw";
-                    setoverlay(true);
-                    const c = document.getElementById("oy");
-                    c.style.height = "50vh";
-                  }}
-                  fill="white"
-                  height="24"
-                  viewBox="0 -960 960 960"
-                  width="24"
-                >
-                  <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
-                </svg>
-                <svg
-                  onClick={async () => {
-                    setmenu(false);
-                    const c1 = document.getElementById("menu");
-                    c1.style.width = "0%";
+                      const c1 = document.getElementById("menu");
+                      c1.style.width = "0vw";
+                      setoverlay(true);
+                      const c = document.getElementById("oy");
+                      c.style.height = "50vh";
+                    }}
+                    fill="white"
+                    height="24"
+                    viewBox="0 -960 960 960"
+                    width="24"
+                  >
+                    <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
+                  </svg>
+                  <svg
+                    onClick={async () => {
+                      setmenu(false);
+                      const c1 = document.getElementById("menu");
+                      c1.style.width = "0%";
 
-                    setoverlay1(true);
-                    const c = document.getElementById("oy");
-                    c.style.height = "100%";
-                    setTimeout(() => {
-                      navigate("/mylist");
-                    }, 500);
-                  }}
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="white"
-                  height="24"
-                  viewBox="0 -960 960 960"
-                  width="24"
-                >
-                  <path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Z" />
-                </svg>
-                <svg
-                  onClick={() => {
-                    setmenu(false);
-                  }}
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="27"
-                  fill="white"
-                  viewBox="0 -960 960 960"
-                  width="27"
-                >
-                  <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-                </svg>
+                      setoverlay1(true);
+                      const c = document.getElementById("oy");
+                      c.style.height = "100%";
+                      setTimeout(() => {
+                        navigate("/mylist");
+                      }, 500);
+                    }}
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="white"
+                    height="24"
+                    viewBox="0 -960 960 960"
+                    width="24"
+                  >
+                    <path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Z" />
+                  </svg>
+                  {LoggedIn ? <LogOutbt /> : <Gbt />}
+                  <svg
+                    onClick={() => {
+                      setmenu(false);
+                    }}
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="27"
+                    fill="white"
+                    viewBox="0 -960 960 960"
+                    width="27"
+                  >
+                    <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+                  </svg>
+                </div>
+                <div></div>
+                <div></div>
               </div>
-              <div></div>
-              <div></div>
             </div>
-          </div>
-          <div className="dots">
-
-          </div>
-        {/*  <Swiper
+            <div className="dots"></div>
+            {/*  <Swiper
       modules={[Navigation, Pagination, Scrollbar, A11y,Autoplay]}
       spaceBetween={0}
       slidesPerView={1}
@@ -497,186 +555,193 @@ function App() {
               ))}
               </Swiper>
       */}
-          <Swiper
-      modules={[Navigation, Pagination, Scrollbar, A11y,Autoplay]}
-      spaceBetween={0}
-      slidesPerView={1}
-     className="mainwrapper"
-    //  navigation
-    containerClass="poster-1" // Set the main Swiper container class
-   pagination={{ clickable: true }}
-     paginationClassName="swiper-pagination" 
+            <Swiper
+              modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
+              spaceBetween={0}
+              slidesPerView={1}
+              className="mainwrapper"
+              //  navigation
+              containerClass="poster-1" // Set the main Swiper container class
+              pagination={{ clickable: true }}
+              paginationClassName="swiper-pagination"
+              autoplay={{
+                delay: 3500,
+                disableOnInteraction: false,
+              }}
+              loop={true}
+            >
+              {tren.results &&
+                randomNumber.map((num, index) => (
+                  <>
+                    <SwiperSlide key={index}>
+                      <div className="darkcorner">
+                        <img
+                          src={
+                            tren.results
+                              ? `https://image.tmdb.org/t/p/original${
+                                  tren.results[randomNumber[index]]
+                                    .backdrop_path
+                                }`
+                              : ""
+                          }
+                          onLoad={handleImageLoad}
+                          id="bgimg"
+                        />
+                      </div>
 
-      autoplay={{
-          delay: 3500,
-          disableOnInteraction: false,
-        }}
-        loop ={true}
-          >
-
-
-            {tren.results &&
-              randomNumber.map((num, index) => (
-                <>
-                  <SwiperSlide >
-                    <div className="darkcorner">
-                      <img
-                        src={
-                          tren.results
-                            ? `https://image.tmdb.org/t/p/original${
-                                tren.results[randomNumber[index]].backdrop_path
-                              }`
-                            : ""
-                        }
-                        onLoad={handleImageLoad}
-                        id="bgimg"
-                      />
-                    </div>
-
-                    {tren.results && (
-                      <div className="detes">
-                        <div>
-                          <h1>
-                            {tren.results
-                              ? tren.results[randomNumber[index]].title
-                              : "null"}
-                          </h1>
-                          <div className="detesdetes1">
-                            <div id="imdbrating">
-                              <img src={imdb} />
-                              <div>
+                      {tren.results && (
+                        <div className="detes">
+                          <div>
+                            <h1>
+                              {tren.results
+                                ? tren.results[randomNumber[index]].title
+                                : "null"}
+                            </h1>
+                            <div className="detesdetes1">
+                              <div id="imdbrating">
+                                <img src={imdb} />
+                                <div>
+                                  {tren.results
+                                    ? tren.results[
+                                        randomNumber[index]
+                                      ].vote_average.toFixed(1) > 0
+                                      ? tren.results[
+                                          randomNumber[index]
+                                        ].vote_average.toFixed(1)
+                                      : "Not rated"
+                                    : "null"}
+                                </div>
+                              </div>
+                              <div id="randommyear">
+                                {" "}
                                 {tren.results
                                   ? tren.results[
                                       randomNumber[index]
-                                    ].vote_average.toFixed(1) > 0
-                                    ? tren.results[
-                                        randomNumber[index]
-                                      ].vote_average.toFixed(1)
-                                    : "Not rated"
-                                  : "null"}
+                                    ].release_date.slice(0, 4)
+                                  : "null"}{" "}
+                              </div>
+                              <div id="randomm18">
+                                {tren.release_date
+                                  ? NumToTime(tren.runtime)
+                                  : null}
                               </div>
                             </div>
-                            <div id="randommyear">
-                              {" "}
+                            <p id="moviedetes1">
                               {tren.results
-                                ? tren.results[
-                                    randomNumber[index]
-                                  ].release_date.slice(0, 4)
-                                : "null"}{" "}
-                            </div>
-                            <div id="randomm18">
-                              {tren.release_date
-                                ? NumToTime(tren.runtime)
-                                : null}
-                            </div>
-                          </div>
-                          <p id="moviedetes1">
-                            {tren.results
-                              ? tren.results[randomNumber[index]].overview
-                              : ""}
-                          </p>
+                                ? tren.results[randomNumber[index]].overview
+                                : ""}
+                            </p>
 
-                          <div className="btlist">
-                            <div id="viewbt">Watch now</div>{" "}
-                            <div
-                              id="watchbt"
-                              onClick={() => {
-                                putInDbMovies(
-                                  tren.results[randomNumber[index]].id,
-                                  tren.results[randomNumber[index]].poster_path,
-                                  tren.results[randomNumber[index]].title
-                                );
-                              }}
-                            >
-                              <svg
-                                fill="white"
-                                id="watchbt2"
-                                xmlns="http://www.w3.org/2000/svg"
-                                height="24"
-                                viewBox="0 -960 960 960"
-                                width="24"
+                            <div className="btlist">
+                              <div id="viewbt">Watch now</div>{" "}
+                              <div
+                                id="watchbt"
+                                onClick={() => {
+                                  putInDbMovies(
+                                    tren.results[randomNumber[index]].id,
+                                    tren.results[randomNumber[index]]
+                                      .poster_path,
+                                    tren.results[randomNumber[index]].title
+                                  );
+                                }}
                               >
-                                <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
-                              </svg>{" "}
-                              Watchlist
+                                <svg
+                                  fill="white"
+                                  id="watchbt2"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  height="24"
+                                  viewBox="0 -960 960 960"
+                                  width="24"
+                                >
+                                  <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                                </svg>{" "}
+                                Watchlist
+                              </div>
                             </div>
                           </div>
                         </div>
+                      )}
+                    </SwiperSlide>
+                  </>
+                ))}
+            </Swiper>
+            {!overlay && !overlay1 && tren.results && (
+              <div className="secpage">
+                <div id="blackcover"></div>
+                <div className="trndingpage">
+                  <div className="trnbox">
+                    <div id="trenheader">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="red"
+                        height="55"
+                        viewBox="0 -960 960 960"
+                        width="55"
+                      >
+                        <path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z" />
+                      </svg>
+                      <div>Trending Movies</div>
+                    </div>
+                    <div className="trenlist">
+                      <SwiperList
+                        tren={tren}
+                        putInDbMovies={putInDbMovies}
+                        movies={"true"}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <div className="trnbox">
+                      <div id="trenheader">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="red"
+                          height="55"
+                          viewBox="0 -960 960 960"
+                          width="55"
+                        >
+                          <path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z" />
+                        </svg>
+                        <div>Trending Series</div>
                       </div>
-                    )}
-                  </SwiperSlide>
-                </>
-              ))}
-          </Swiper>
-          {!overlay && !overlay1 && tren.results && (
-            <div className="secpage">
-              <div id="blackcover"></div>
-              <div className="trndingpage">
-              <div className="trnbox">
-                <div id="trenheader">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="red"
-                    height="55"
-                    viewBox="0 -960 960 960"
-                    width="55"
-                  >
-                    <path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z" />
-                  </svg>
-                  <div>Trending Movies</div>
-                </div>
-                <div className="trenlist">
-                  <SwiperList
-                    tren={tren}
-                    putInDbMovies={putInDbMovies}
-                    movies={"true"}
-                  />
-                </div>
-                </div>
-                <div>
-                <div className="trnbox">
+                      <div className="trenlist">
+                        <SwiperList
+                          tren={tren1}
+                          putInDbSeries={putInDbSeries}
+                          movies={"false"}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="trnbox">
+                    <div id="trenheader">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="red"
+                        height="55"
+                        viewBox="0 -960 960 960"
+                        width="55"
+                      >
+                        <path d="m233-80 65-281L80-550l288-25 112-265 112 265 288 25-218 189 65 281-247-149L233-80Z" />
+                      </svg>
 
-                  <div id="trenheader">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="red"
-                      height="55"
-                      viewBox="0 -960 960 960"
-                      width="55"
-                    >
-                      <path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z" />
-                    </svg>
-                    <div>Trending Series</div>
-                  </div>
-                  <div className="trenlist">
-                    <SwiperList
-                      tren={tren1}
-                      putInDbSeries={putInDbSeries}
-                      movies={"false"}
-                    />
-                  </div>
-                  </div>
-                </div>
-                <div className="trnbox">
-                  <div id="trenheader">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="red" height="55" viewBox="0 -960 960 960" width="55"><path d="m233-80 65-281L80-550l288-25 112-265 112 265 288 25-218 189 65 281-247-149L233-80Z"/></svg>
-
-                    <div>All Time Classics</div>
-                  </div>
-                  <div className="trenlist">
-                    <SwiperList
-                      tren={clmovies}
-                      putInDbMovies={putInDbMovies}
-                      movies={"true"}
-                    />
+                      <div>All Time Classics</div>
+                    </div>
+                    <div className="trenlist">
+                      <SwiperList
+                        tren={clmovies}
+                        putInDbMovies={putInDbMovies}
+                        movies={"true"}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          )}
-        </div>
-      )}
-    </>
+            )}
+          </div>
+        )}
+      </>
+    </GoogleOAuthProvider>
   );
 }
 

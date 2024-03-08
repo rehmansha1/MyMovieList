@@ -281,7 +281,7 @@ export default function SwiperList({
           tren.results.map(
             (item, index) =>
               (item.poster_path || item.URL) && (
-                <SwiperSlide>
+                <SwiperSlide key={index}>
                   <div key={index} id="trengallary">
                     <div id="outimg">
                       {mylist ? (

@@ -9,20 +9,24 @@ export default function Mylist() {
   const [movies, setmylist] = useState({ results: [] });
   const [series, setseries] = useState({ results: [] });
 
-  const [userName, setusername] = useState("Rehman");
+  //const [userName, setusername] = useState("Rehman");
   const [btstate, setbtstate] = useState("movies");
 
   const navigate = useNavigate();
 
   const getUserMovies = async () => {
     try {
+ const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
+ if(username){
+ const encodedUsername = encodeURIComponent(username);
       const response = await axios.get(
-        `http://localhost:3001/getIDS?username=${userName}`
+        `https://mymovielistserver.onrender.com/getIDS?username=${encodedUsername}`
       );
+      
       const newData = response.data[0].Movies;
       const newData1 = response.data[0].Series;
       setseries({ results: newData1 });
-      setmylist({ results: newData });
+      setmylist({ results: newData });}
 
       // await mylistimpl(newData);
     } catch (error) {
@@ -30,13 +34,33 @@ export default function Mylist() {
     }
   };
 
+  function getCookie(cookieName) {
+    const cookies = document.cookie.split("; ");
 
+    for (const cookie of cookies) {
+      const [name, encodedValue] = cookie.split("=");
+
+      if (name === cookieName) {
+        const decodedValue = decodeURIComponent(encodedValue);
+
+        try {
+          // Try to parse the cookie value as JSON
+          return JSON.parse(decodedValue);
+        } catch (error) {
+          // If parsing fails, return the original value
+          return decodedValue;
+        }
+      }
+    }
+
+    return null; // Return null if the cookie with the specified name is not found
+  }
   const deleteindb = async (id) => {
-    console.log("pressed");
+    const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
     try {
-      const resp = await axios.delete("http://localhost:3001/delete", {
+      const resp = await axios.delete("https://mymovielistserver.onrender.com/delete", {
         data: {
-          username: "Rehman",
+          username,
           id: id,
           type:btstate,
         },
@@ -47,7 +71,6 @@ export default function Mylist() {
     }
   };
   useEffect(() => {
-
     const fetchData = async () => {
       try {
         await getUserMovies();
