@@ -32,7 +32,6 @@ export default function MovieDetails() {
   const urlParams = new URLSearchParams(window.location.search);
   let paramValue = urlParams.get("m");
   const handleImageLoad = () => {
-    console.log("Image loaded!");
     setImageLoaded(true);
   };
   function NumToTime(num) {
