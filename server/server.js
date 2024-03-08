@@ -70,9 +70,8 @@ app.get("/", async (req, res) => {
 });
 app.post("/putIDSeries", async (req, res) => {
   const encryptedText = req.body.username;
-  var decryptedBytes = CryptoJS.AES.decrypt(encryptedText, process.env.SERVER_ENCRYPT_KEY);
+  var decryptedBytes = CryptoJS.AES.decrypt(encryptedText, `${process.env.SERVER_ENCRYPT_KEY}`);
   var username = decryptedBytes.toString(CryptoJS.enc.Utf8);
-  console.log(username);
   const id = req.body.id;
   const url = req.body.url;
   const name = req.body.name;
@@ -112,7 +111,7 @@ app.post("/putIDSeries", async (req, res) => {
 
 app.post("/putIDMovies", async (req, res) => {
   const encryptedText = req.body.username;
-  var decryptedBytes = CryptoJS.AES.decrypt(encryptedText, process.env.SERVER_ENCRYPT_KEY);
+  var decryptedBytes = CryptoJS.AES.decrypt(encryptedText, `${process.env.SERVER_ENCRYPT_KEY}`);
   var username = decryptedBytes.toString(CryptoJS.enc.Utf8);
 
   const title = req.body.title;
@@ -159,7 +158,7 @@ app.get("/getIDS", async (req, res) => {
     if(!encryptedText.includes("gmail.com")){
 
     const urldecodedEncryptedText = decodeURIComponent(encryptedText);
-    var decryptedBytes = CryptoJS.AES.decrypt(urldecodedEncryptedText,  process.env.SERVER_ENCRYPT_KEY);
+    var decryptedBytes = CryptoJS.AES.decrypt(urldecodedEncryptedText,  `${process.env.SERVER_ENCRYPT_KEY}`);
     var userName = decryptedBytes.toString(CryptoJS.enc.Utf8);
     const allData = await User.find({ username: userName });
 
@@ -175,7 +174,7 @@ const encryptedText = req.body.username;
 const id = req.body.id;
 const type = req.body.type;
 
-    var decryptedBytes = CryptoJS.AES.decrypt(encryptedText,  process.env.SERVER_ENCRYPT_KEY);
+    var decryptedBytes = CryptoJS.AES.decrypt(encryptedText,  `${process.env.SERVER_ENCRYPT_KEY}`);
     var username = decryptedBytes.toString(CryptoJS.enc.Utf8);
     
     const user = await User.findOne({ username });
