@@ -4,6 +4,8 @@ import mongoose from "mongoose";
 
 import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
+import CryptoJS from "crypto-js";
+
 dotenv.config();
 const app = express();
 
@@ -62,13 +64,15 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-
 const User = mongoose.model("post", UserSchema);
 app.get("/", async (req, res) => {
   res.send("nuh");
 });
 app.post("/putIDSeries", async (req, res) => {
-  const username = req.body.username;
+  const encryptedText = req.body.username;
+  var decryptedBytes = CryptoJS.AES.decrypt(encryptedText, process.env.SERVER_ENCRYPT_KEY);
+  var username = decryptedBytes.toString(CryptoJS.enc.Utf8);
+  console.log(username);
   const id = req.body.id;
   const url = req.body.url;
   const name = req.body.name;
@@ -107,7 +111,10 @@ app.post("/putIDSeries", async (req, res) => {
 });
 
 app.post("/putIDMovies", async (req, res) => {
-  const username = req.body.username;
+  const encryptedText = req.body.username;
+  var decryptedBytes = CryptoJS.AES.decrypt(encryptedText, process.env.SERVER_ENCRYPT_KEY);
+  var username = decryptedBytes.toString(CryptoJS.enc.Utf8);
+
   const title = req.body.title;
   const url = req.body.url;
   const id = req.body.id;
@@ -147,11 +154,16 @@ app.post("/putIDMovies", async (req, res) => {
 
 app.get("/getIDS", async (req, res) => {
   try {
-    const userName = req.query.username;
+    const encryptedText = req.query.username;
 
+    if(!encryptedText.includes("gmail.com")){
+
+    const urldecodedEncryptedText = decodeURIComponent(encryptedText);
+    var decryptedBytes = CryptoJS.AES.decrypt(urldecodedEncryptedText,  process.env.SERVER_ENCRYPT_KEY);
+    var userName = decryptedBytes.toString(CryptoJS.enc.Utf8);
     const allData = await User.find({ username: userName });
 
-    res.json(allData);
+    res.json(allData);}
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
@@ -159,8 +171,13 @@ app.get("/getIDS", async (req, res) => {
 });
 app.delete("/delete", async (req, res) => {
   try {
-    const { username, id, type } = req.body;
+const encryptedText = req.body.username;
+const id = req.body.id;
+const type = req.body.type;
 
+    var decryptedBytes = CryptoJS.AES.decrypt(encryptedText,  process.env.SERVER_ENCRYPT_KEY);
+    var username = decryptedBytes.toString(CryptoJS.enc.Utf8);
+    
     const user = await User.findOne({ username });
 
     if (!user) {
@@ -186,10 +203,10 @@ app.delete("/delete", async (req, res) => {
     return res.status(500).json({ message: "An error occurred" });
   }
 });
-app.post('/completed/movies', async (req, res) => {
+app.post("/completed/movies", async (req, res) => {
   try {
     const { username, title, URL, id, content, stars } = req.body;
-    
+
     // Find the user by username
     const user = await User.findOne({ username });
 
@@ -199,13 +216,13 @@ app.post('/completed/movies', async (req, res) => {
     // Save the updated user document
     await user.save();
 
-    res.status(201).json({ message: 'Completed movie added successfully' });
+    res.status(201).json({ message: "Completed movie added successfully" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
-app.post('/completed/series', async (req, res) => {
+app.post("/completed/series", async (req, res) => {
   try {
     const { username, name, URL, id, content, stars } = req.body;
 
@@ -218,10 +235,10 @@ app.post('/completed/series', async (req, res) => {
     // Save the updated user document
     await user.save();
 
-    res.status(201).json({ message: 'Completed series added successfully' });
+    res.status(201).json({ message: "Completed series added successfully" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 app.listen(PORT, () => {
