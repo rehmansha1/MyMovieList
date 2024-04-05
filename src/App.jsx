@@ -16,6 +16,9 @@ import SwiperList from "./components/SwiperList";
 import "swiper/css/pagination";
 import { useSwiper } from "swiper/react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+gsap.registerPlugin(ScrollTrigger);
+
 import {
   EffectFade,
   Navigation,
@@ -46,6 +49,7 @@ function App() {
   const [movieName, setMovieName] = useState("");
   const [searchList, setsl] = useState("");
   const [LoggedIn, setlogged] = useState(false);
+  const [isPC, setPC] = useState(true);
 
   const [userName, setusername] = useState("Rehman");
   const [clmovies, setclmov] = useState([]);
@@ -56,6 +60,7 @@ function App() {
   const [menureal, setmenureal] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const swiper = useSwiper();
+  const [moverlay,setmoverlay ] =useState(false);
   function getCookie(cookieName) {
     const cookies = document.cookie.split("; ");
 
@@ -160,12 +165,15 @@ function App() {
   const putInDbSeries = async (id, url, name) => {
     const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
     try {
-      const resp = await axios.post("https://mymovielistserver.onrender.com/putIDSeries", {
-        username,
-        id: id,
-        url: url,
-        name: name,
-      });
+      const resp = await axios.post(
+        "https://mymovielistserver.onrender.com/putIDSeries",
+        {
+          username,
+          id: id,
+          url: url,
+          name: name,
+        }
+      );
       console.log(resp.data);
     } catch (error) {
       console.error("Error:", error);
@@ -174,12 +182,15 @@ function App() {
   const putInDbMovies = async (id, url, title) => {
     const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
     try {
-      const resp = await axios.post("https://mymovielistserver.onrender.com/putIDMovies", {
-        username,
-        id: id,
-        url: url,
-        title: title,
-      });
+      const resp = await axios.post(
+        "https://mymovielistserver.onrender.com/putIDMovies",
+        {
+          username,
+          id: id,
+          url: url,
+          title: title,
+        }
+      );
 
       console.log(resp.data);
     } catch (error) {
@@ -189,27 +200,47 @@ function App() {
   const deleteindb = async (id) => {
     const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
     try {
-      const resp = await axios.delete("https://mymovielistserver.onrender.com/delete", {
-        data: {
-          username,
-          postText: id,
-        },
-      });
+      const resp = await axios.delete(
+        "https://mymovielistserver.onrender.com/delete",
+        {
+          data: {
+            username,
+            postText: id,
+          },
+        }
+      );
       console.log(resp.data);
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
+
+
+
+
   useEffect(() => {
+ 
+
+    const handleResize = () => {
+      setPC(window.innerWidth > 767 ? true : false);
+    };
+    window.addEventListener("resize", handleResize);
+
+    handleResize();
+    console.log(isPC)
+  }, [window.innerWidth]);
+  useEffect(() => {
+  
+
     var ran = generateRandomNumbers();
     setrandom(ran);
     fetchData();
     setlogged(checkCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`));
   }, []);
   useEffect(() => {
-    gsap.from("#ovai", { opacity: 0, duration: 0.5, delay: 0.5 });
 
+    gsap.from("#ovai", { opacity: 0, duration: 0.5, delay: 0.5 });
   }, [overlay]);
   useEffect(() => {
     gsap.fromTo(
@@ -217,7 +248,6 @@ function App() {
       { opacity: 0 },
       { opacity: 1, duration: 0.5, delay: 0.5 }
     );
-
   }, [searchList]);
   useEffect(() => {
     gsap.fromTo(
@@ -225,7 +255,6 @@ function App() {
       { opacity: 0 },
       { opacity: 1, duration: 0.5, delay: 0.5 }
     );
-
   }, [overlay1]);
   const handleImageLoad = () => {
     setImageLoaded(true);
@@ -415,7 +444,7 @@ function App() {
                 </div>
               )}
             </div>
-            <div className="header1">
+         {isPC &&    <div className="header1">
               <img src={logo} id="logo1" />
 
               {/*    <div
@@ -519,10 +548,13 @@ function App() {
                     <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
                   </svg>
                 </div>
-                <div></div>
-                <div></div>
+                <div className="line"></div>
+                <div className="line"></div>
+                <div className="line"></div>
               </div>
-            </div>
+            </div>}
+          
+           
             <div className="dots"></div>
             {/*  <Swiper
       modules={[Navigation, Pagination, Scrollbar, A11y,Autoplay]}
@@ -574,7 +606,7 @@ function App() {
                 randomNumber.map((num, index) => (
                   <>
                     <SwiperSlide key={index}>
-                      <div className="darkcorner">
+                      <div className="darkcorner" >
                         <img
                           src={
                             tren.results
@@ -589,7 +621,7 @@ function App() {
                         />
                       </div>
 
-                      {tren.results && (
+                      {isPC && tren.results && (
                         <div className="detes">
                           <div>
                             <h1>
@@ -661,6 +693,40 @@ function App() {
                           </div>
                         </div>
                       )}
+                      {!isPC && 
+                      <div className="mdetes">
+                      <div id="mtitle">
+                      {tren.results
+                                ? tren.results[randomNumber[index]].title
+                                : "null"}
+                      </div>
+                      <div id="mdms">
+                        <div> {tren.results
+                                  ? tren.results[
+                                      randomNumber[index]
+                                    ].release_date.slice(0, 4)
+                                  : "null"}</div>
+                        <div> {tren.results
+                                    ? tren.results[
+                                        randomNumber[index]
+                                      ].vote_average.toFixed(1) > 0
+                                      ? tren.results[
+                                          randomNumber[index]
+                                        ].vote_average.toFixed(1)
+                                      : "Not rated"
+                                    : "null"}</div>
+                        <div>  duration</div>
+                      </div>
+                      <div id="mpw">
+                      <div id="mplaybt">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="white" height="24" viewBox="0 -960 960 960" width="24"><path d="M152-160q-23 0-35-20.5t1-40.5l328-525q12-19 34-19t34 19l328 525q13 20 1 40.5T808-160H152Z"/></svg>
+
+                      </div>
+                      <div id="mwishlistbt">
+                      <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="white"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
+                      </div>
+                      </div>
+                      </div>}
                     </SwiperSlide>
                   </>
                 ))}
@@ -671,7 +737,7 @@ function App() {
                 <div className="trndingpage">
                   <div className="trnbox">
                     <div id="trenheader">
-                      <svg
+                   {isPC &&<svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="red"
                         height="55"
@@ -679,7 +745,7 @@ function App() {
                         width="55"
                       >
                         <path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z" />
-                      </svg>
+                      </svg>}
                       <div>Trending Movies</div>
                     </div>
                     <div className="trenlist">
@@ -687,13 +753,14 @@ function App() {
                         tren={tren}
                         putInDbMovies={putInDbMovies}
                         movies={"true"}
+                        isPC = {isPC}
                       />
                     </div>
                   </div>
                   <div>
                     <div className="trnbox">
                       <div id="trenheader">
-                        <svg
+                        { isPC && <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="red"
                           height="55"
@@ -701,7 +768,7 @@ function App() {
                           width="55"
                         >
                           <path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z" />
-                        </svg>
+                        </svg>}
                         <div>Trending Series</div>
                       </div>
                       <div className="trenlist">
@@ -709,13 +776,15 @@ function App() {
                           tren={tren1}
                           putInDbSeries={putInDbSeries}
                           movies={"false"}
+                          isPC = {isPC}
+
                         />
                       </div>
                     </div>
                   </div>
                   <div className="trnbox">
                     <div id="trenheader">
-                      <svg
+                     {isPC && <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="red"
                         height="55"
@@ -724,7 +793,7 @@ function App() {
                       >
                         <path d="m233-80 65-281L80-550l288-25 112-265 112 265 288 25-218 189 65 281-247-149L233-80Z" />
                       </svg>
-
+                     }
                       <div>All Time Classics</div>
                     </div>
                     <div className="trenlist">
@@ -732,6 +801,8 @@ function App() {
                         tren={clmovies}
                         putInDbMovies={putInDbMovies}
                         movies={"true"}
+                        isPC = {isPC}
+
                       />
                     </div>
                   </div>

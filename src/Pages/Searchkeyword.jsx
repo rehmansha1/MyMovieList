@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import List from "../components/List";
+import { useNavigate } from "react-router-dom";
 
 export default function Searchkeyword() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -13,6 +14,7 @@ export default function Searchkeyword() {
 
   const [type, setType] = useState("movies");
   const [count, setcount] = useState(1);
+  const navigate = useNavigate();
 
   const fetchData = async (id) => {
     const url = `https://api.themoviedb.org/3/discover/movie?with_keywords=${urlParams.get(
@@ -54,17 +56,29 @@ export default function Searchkeyword() {
         <div>
           <div className="boxthathastbt">
             <div id="titleks">
-              Search {type} by keyword : {name}
+              Search {type} by keyword :{" "}
+              <div className="nameofkeyword" >
+                {name}
+              </div>
+             
               {/* <input
                 className="searchkeywordinput"
                 value={inputValue}
                 onChange={handleInputChange}
                 placeholder={`"${name}"`}
               /> */}
-<svg xmlns="http://www.w3.org/2000/svg" id="svginfinite" fill="white" height="24" viewBox="0 -960 960 960" width="24"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></svg>
-
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                id="svginfinite"
+                fill="white"
+                height="24"
+                viewBox="0 -960 960 960"
+                width="24"
+              >
+                <path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" />
+              </svg>
             </div>
-            
+
             <div className="wishlistbtms">
               <div
                 id="moviebt"

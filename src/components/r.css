@@ -2,15 +2,15 @@
     color: white;
     border: 4px solid  grey;
     padding: 25px;
-    width: 25%;
+    width: 350px !important;
 border-radius: 20px;
 margin-top: 50px;
 transition: all 0.5s;
 cursor: pointer;
+scale: 1;
 
 }
 .revsectin:hover{
-    transform: scale(1.1);
 }
 .revsectin > div:nth-child(1){
     font-family: harabara;
@@ -43,4 +43,6 @@ display: flex;
   .rvsec3{
     display: flex;
     gap: 50px;
+    flex-direction: row;
+   
   }

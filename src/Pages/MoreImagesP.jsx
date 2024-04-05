@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Switchbutton from "../components/Switchbutton";
 
 export default function MoreImagesP() {
   const [result, setresult] = useState();
   const [overlay, setoverlay] = useState(false);
   const [indexforimg, setindexfimg] = useState('nothing');
 
-
+const [bt,setbtstate] = useState('movies');
   const urlParams = new URLSearchParams(window.location.search);
   const fetchData = async () => {
     const url = `https://api.themoviedb.org/3/${
@@ -42,20 +43,32 @@ export default function MoreImagesP() {
   }
   return (
     <div className="mmpage">
-      <div id="mediapagetitle">media</div>
+      <div id="mediapagetitle"><div>media</div><Switchbutton images = {'true'} setbtstate={setbtstate}/></div>
+      
       <div className="overlaypart99" id="overlayp99">
         <div id="closepart99">
         <svg xmlns="http://www.w3.org/2000/svg" id="cp99svg" onClick={expandandcenter} height="24" viewBox="0 -960 960 960" width="24"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></div>
        
-       <img id="imginnerofoverlay" src={result && indexforimg>=0 ? `https://image.tmdb.org/t/p/original${result.backdrops[indexforimg].file_path}` : null}/>
+       <img id="imginnerofoverlay" src={result && indexforimg>=0  ?  bt== 'movies' ?  `https://image.tmdb.org/t/p/original${result.backdrops[indexforimg].file_path}` : `https://image.tmdb.org/t/p/original${result.posters[indexforimg].file_path}` : null }/>
       </div>
-      {result && (
+      {result && bt == 'movies' &&   (
         <div className="mediaarraybox">
           {result.backdrops.map((item, index) => (
             <img
               className="gimg"
               onClick={()=>expandandcenter(index)}
               src={`https://image.tmdb.org/t/p/w533_and_h300_bestv2${item.file_path}`}
+            />
+          ))}
+        </div>
+      )}
+      {result && bt == 'series' &&   (
+        <div className="mediaarraybox">
+          {result.posters.map((item, index) => (
+            <img
+              className="gimg"
+              onClick={()=>expandandcenter(index)}
+              src={`https://media.themoviedb.org/t/p/w220_and_h330_face${item.file_path}`}
             />
           ))}
         </div>

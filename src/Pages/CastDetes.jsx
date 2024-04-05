@@ -72,18 +72,22 @@ const urlforseries = `https://api.themoviedb.org/3/person/${id}/tv_credits`;
           </div>
           
           <div className="castnameandbio">
-            <div className="ptname">{pt.name}</div>
+            <div className="ptname">{pt.name == 'Ryan Gosling' ? 'Ryan Gosling (Literally me)': pt.name}</div>
             <div className="ptbio">{pt.biography}</div>
           </div>
         </div>
         <div className="moviesacted">
         <div className="moviesseriesacted">
-          <div className="mah1">Movies Acted</div>
+          <div className="mah1">{btstate == 'movies' ? 'Movies' : 'Series'} Acted</div>
    <Switchbutton setbtstate={setbtstate}/>
           </div>
           <div className="arrayofimgcast">
+          <div className="arrayofimgcastinside">
             {btstate == 'movies' && pt1 &&
-              pt1.map(
+              pt1.sort((a,b)=>{
+            return b.release_date.slice(0,4)  - a.release_date.slice(0,4)
+              }  
+              ).map(
                 (item, index) =>
                   item.poster_path && (
                     <div key={index} className="divofwhole" onClick={()=>{navigate(`/detes/${item.id}?m=true`)}}>
@@ -130,6 +134,7 @@ const urlforseries = `https://api.themoviedb.org/3/person/${id}/tv_credits`;
                     </div>
                   )
               )}
+              </div>
           </div>
         </div>
       </div>

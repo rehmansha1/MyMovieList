@@ -1,19 +1,36 @@
 
 .recomds{
-    position: relative;
-    display: flex;
-    height: 100%;
-    width: 100%;
-    padding: 100px;
-    flex-wrap: wrap;
-    gap: 100px;
+
+   
+  
+   
     color: white;
+    height: 100%;
+    width: 100vw;
+
 }
+.recommds_listwrapper{
+  height: 100%;
+  width: 100%;
+  display: flex;
+
+}
+.recommds_list{
+height: 100%;
+width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items:center ;
+    gap: 100px;
+    flex-wrap: wrap;
+
+    
+}
+
 #remdstext{
-    position: absolute;
-    top: 1%;
-    left: 5%;
-    font-size: 20px;
+    position: relative;
+padding: 100px;
+    font-size: 50px;
 }
 .menuinner{
     color: white;

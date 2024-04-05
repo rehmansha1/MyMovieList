@@ -14,6 +14,7 @@ export default function SwiperList({
   mylist,
   deleteindb,
   movies,
+  isPC
 }) {
   const navigate = useNavigate();
   const [reviewmy, setreviewmy] = useState(false);
@@ -237,20 +238,20 @@ export default function SwiperList({
         </div>
       )}
       <Swiper
-        spaceBetween={0}
-        slidesPerView={6}
-        modules={[Navigation, Scrollbar]}
+        spaceBetween={isPC ? 0 : 10}
+        slidesPerView={isPC ? 6 : 2}
+        modules={isPC ? [Navigation, Scrollbar] : [Scrollbar]}
         className="swipercardwrapper"
-        navigation={{
+        navigation={isPC ? {
           nextEl: "swiper-button-next",
           prevEl: "swiper-button-prev",
-        }}
+        } : null}
         freeMode={true}
         
         scrollbar={{ draggable: true }}
       >
       
-          <div className="swiper-button-prev" >
+          { isPC && ( <><div className="swiper-button-prev" >
             <div className="svgbackg">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -275,7 +276,7 @@ export default function SwiperList({
               <path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" />
             </svg>
             </div>
-          </div>
+          </div></>)}
       
         {tren.results &&
           tren.results.map(
