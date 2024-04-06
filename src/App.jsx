@@ -466,8 +466,8 @@ send.click()
                 </div>
               )}
             </div>
-         {isPC &&     <div className="header1main" style={{top: imageLoaded ? '0%' : '-10%'}}>
-         <img src={logo} id="logo1" onClick={()=>{document.getElementById('logo1').style.top='-100%';}} />
+         {isPC &&     <div className="header1main" style={{top: imageLoaded ? '0%' : '-200px'}}>
+         <img src={logo} id="logo1" onClick={()=>{document.getElementById('logo1').style.top='-200px';}} />
               
               {/*    <div
               onClick={async () => {
