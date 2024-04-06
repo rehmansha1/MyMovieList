@@ -1176,15 +1176,7 @@ article {
   padding: 100px;
   padding-top: 0px;
 }
-.mediaarraybox > img {
-  max-height: 100%;
-  max-width: 100%;
-  border-radius: 10px;
-  transition: all 0.5s;
 
-  cursor: pointer;
-  pointer-events: auto;
-}
 .CastSection {
   color: white;
   font-family: harabara;
@@ -1695,6 +1687,7 @@ article {
     position: absolute;
     top: 0;
     left: 0;
+    opacity: 0;
   }
   .darkcorner {
     position: absolute;
@@ -1867,14 +1860,21 @@ transition: all 0.5s;
 }
 
   #imginnerofoverlay {
-    position: absolute;
+    position: fixed;
     width: auto;
     max-height: 100%;
     z-index: 10;
-  }/*
-  .gimg{ 
-    z-index: 0;  
-      animation: fadein12 0.5s   both;
+  }
+  .gimg1{ 
+    max-height: 100%;
+    max-width: 100%;
+    border-radius: 10px;
+    transition: all 0.5s;
+    animation: fadein12 1s   both;
+
+    cursor: pointer;
+    pointer-events: auto;
+    z-index: -1;
       }
       @keyframes fadein12 {
         0%{
@@ -1883,9 +1883,19 @@ transition: all 0.5s;
         100%{
           opacity: 1;
         }
-      }*/
+      }
 
+      .gimg {
+        max-height: 100%;
+        max-width: 100%;
+        border-radius: 10px;
+        transition: all 0.5s;
+      
+        cursor: pointer;
+        pointer-events: auto;
+        animation: fadein12 1s   both;
 
+      }
       #nextsymbol1{
         position: absolute;
       }
