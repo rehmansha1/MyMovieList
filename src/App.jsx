@@ -466,8 +466,8 @@ send.click()
                 </div>
               )}
             </div>
-         {isPC &&    <div className="header1">
-              <img src={logo} id="logo1" />
+         {isPC &&     <div className="header1main" style={{top: imageLoaded ? '0%' : '-10%'}}>
+              <img src={logo} id="logo1" onClick={()=>{ document.getElementById('logo1').iddocument.getElementById('logo1').classList.toggle('falldwnani')}}  />
 
               {/*    <div
               onClick={async () => {
@@ -768,7 +768,7 @@ send.click()
                       >
                         <path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z" />
                       </svg>}
-                      <div>Trending Movies</div>
+                      <div className="tmfont">Trending Movies</div>
                     </div>
                     <div className="trenlist">
                       <SwiperList
@@ -791,7 +791,7 @@ send.click()
                         >
                           <path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z" />
                         </svg>}
-                        <div>Trending Series</div>
+                        <div className="tmfont">Trending Series</div>
                       </div>
                       <div className="trenlist">
                         <SwiperList
@@ -812,11 +812,12 @@ send.click()
                         height="55"
                         viewBox="0 -960 960 960"
                         width="55"
+                        
                       >
                         <path d="m233-80 65-281L80-550l288-25 112-265 112 265 288 25-218 189 65 281-247-149L233-80Z" />
                       </svg>
                      }
-                      <div>All Time Classics</div>
+                      <div className="tmfont">All Time Classics</div>
                     </div>
                     <div className="trenlist">
                       <SwiperList
