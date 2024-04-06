@@ -1,16 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import "./r.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Scrollbar, Navigation } from "swiper/modules";
 
 export default function Review({ reviews }) {
+const [overstate,setoverstate] = useState(false);
+const [indexfoor,setindex] = useState(0);
   const filteredResults = reviews.results
     ? reviews.results.filter((item) => item.author_details.rating)
     : null;
   console.log(reviews);
-  return (
-    <div className="rvsec2">
 
+  function changeoverlayr(index){
+    setoverstate(!overstate);
+    setindex(index)
+    
+  }
+  return (
+
+<div className="rvsec2">
+{overstate && <div id="overlayforreview">     
+   <svg xmlns="http://www.w3.org/2000/svg"  id="cp99svg" height="24" viewBox="0 -960 960 960" width="24" onClick={changeoverlayr}><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
+   </svg>
+   <div style={{color:"white"}}>{reviews.results[indexfoor].content} </div>
+   </div>}
       <div className="rvsec3">
    
 
@@ -33,8 +46,8 @@ export default function Review({ reviews }) {
               );
             }
        
-              return ( index <= 1  && (
-                <div className="revsectin" key={index}>
+              return ( index <= 2  && (
+                <div className="revsectin" key={index} onClick={()=>changeoverlayr(index)}>
                   <div>{item.author} </div>
                   <div className="ratingrv">{stars}</div>
                   <p>

@@ -120,6 +120,7 @@ scale: 0.8;
 .wholedivofmoviedetes {
   width: 100vw;
   overflow: hidden;
+  overflow-y: hidden;
 }
 .header {
   position: relative;
@@ -261,6 +262,9 @@ z-index: -1;
 @keyframes fadedout {
   0%{
     opacity: 1;
+  }
+  20%{
+    opacity: 0.5;
   }
   80%{
     opacity: 0;
@@ -766,8 +770,9 @@ z-index: -1;
 .btmvser > div {
   padding: 10px;
   border-radius: 9px;
+  cursor: pointer;
 }
-.btmvser > div:hover {
+#mvbt {
   background: white;
   color: black;
   cursor: pointer;
@@ -1450,6 +1455,7 @@ article {
   transition: all 0.5s;
   z-index: 101;
   background-color: white;
+  cursor: pointer;;
 }
 #cp99svg {
   transition: all 0.5s;
@@ -1878,3 +1884,8 @@ transition: all 0.5s;
           opacity: 1;
         }
       }*/
+
+
+      #nextsymbol1{
+        position: absolute;
+      }

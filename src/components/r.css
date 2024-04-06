@@ -2,12 +2,13 @@
     color: white;
     border: 4px solid  grey;
     padding: 25px;
-    width: 350px !important;
+    width: 22vw !important;
 border-radius: 20px;
 margin-top: 50px;
 transition: all 0.5s;
 cursor: pointer;
 scale: 1;
+
 
 }
 .revsectin:hover{
@@ -20,6 +21,7 @@ scale: 1;
 .revsectin > p{
 opacity: 0.9;
 font-family: sans-serif;
+
 }
 .ratingrv{
     display: flex;
@@ -30,7 +32,7 @@ font-family: sans-serif;
 .rvsec2{
 display: flex;
 flex-direction: row;
-gap: 10px;
+gap: 5px;
     
   }
   .rvsec2 > svg{
@@ -42,7 +44,37 @@ display: flex;
   }
   .rvsec3{
     display: flex;
-    gap: 50px;
+    gap: 30px;
     flex-direction: row;
-   
+   flex-wrap: wrap;
+   padding: 10px;
+
   }
+#overlayforreview{
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: black;
+
+  z-index: 9999999;
+  opacity: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+#overlayforreview > svg { 
+  position: absolute;
+  left: 90%;
+  top: 10%;
+  border-radius: 50%;
+  background-color: white;
+  padding: 10px;
+  cursor: pointer;
+
+}
+#overlayforreview > svg:hover{
+  rotate: 180deg;
+}

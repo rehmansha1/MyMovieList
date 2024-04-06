@@ -236,13 +236,28 @@ function App() {
     var ran = generateRandomNumbers();
     setrandom(ran);
     fetchData();
+
     setlogged(checkCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`));
+
   }, []);
   useEffect(() => {
 
     gsap.from("#ovai", { opacity: 0, duration: 0.5, delay: 0.5 });
+    let input = document.getElementById('inputbox');
+    let send = document.getElementById('nextsymbol1');
+    
+    if (input && send) {
+        input.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') {
+send.click()
+
+            }
+        });
+    }
+    
   }, [overlay]);
   useEffect(() => {
+
     gsap.fromTo(
       ".searchdisplay",
       { opacity: 0 },
@@ -401,6 +416,13 @@ function App() {
                       >
                         <path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" />
                       </svg>
+                      <div id="nextsymbol1"      onClick={() => {
+                          const c = document.getElementById("oy");
+                          const inputbix = document.getElementById("ovai");
+                          inputbix.style.height = "20vh";
+                          c.style.height = "110vh";
+                          searchmovies();
+                        }}></div>
                       <div className="btmvser">
                         <div
                           id="mvbt"

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Switchbutton from "../components/Switchbutton";
+import { gsap } from "gsap";
 
 export default function MoreImagesP() {
   const [result, setresult] = useState();
@@ -30,6 +31,8 @@ const [bt,setbtstate] = useState('movies');
   };
   useEffect(() => {
     fetchData();
+    gsap.from('.gimg',{opacity:0})
+
   }, []);
   function expandandcenter(index) {
     const newOverlay = !overlay;

@@ -276,11 +276,11 @@ export default function MovieDetails() {
       {tren && (
         <>
           <div className="overlaypart99" id="overlayp99">
-            <div id="closepart99">
+            <div id="closepart99"                 onClick={expandandcenter}
+>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 id="cp99svg"
-                onClick={expandandcenter}
                 height="24"
                 viewBox="0 -960 960 960"
                 width="24"
