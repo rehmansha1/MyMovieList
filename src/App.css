@@ -212,7 +212,7 @@ to {
   padding-top: 20px;
 }
 .options {
-  position: relative;
+position: relative;
   height: 50px;
   width: 50px;
   display: flex;
@@ -344,6 +344,7 @@ z-index: -1;
   color: white;
   scale: 1;
 }
+
 @font-face {
   font-family: "Harabara";
   src: url("./assets/Harabara.woff") format("woff");
@@ -1656,7 +1657,7 @@ article {
 }
 .iframes{
   transition:all 0.5s;
-  padding-left: 50px;
+  padding-left: 9vw;
 }
 
 .iframes > iframe {
@@ -1730,13 +1731,7 @@ article {
 
 
 
-@media screen and (min-width: 768px) and (max-width: 1400px) {
-.detes{
-  scale: 0.85;
-  padding-left: 50px;
-  
-}
-}
+
 
 
 @media only screen and (max-width: 767px) {

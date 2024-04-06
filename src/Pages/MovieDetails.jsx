@@ -695,34 +695,7 @@ export default function MovieDetails() {
                               allowfullscreen="1"
                             ></iframe>
                           )}
-                          <div
-                            className="misvg"
-                            onClick={() => {
-                              navigate(`/media?id=${id}&m=${paramValue}`);
-                              console.log("ckuc");
-                            }}
-                          >
-                            {" "}
-                            <div
-                              className="swiper-button-next-video"
-                              onClick={() => {
-                                navigate(`/media?id=${id}&m=${paramValue}`);
-                                console.log("ckuc");
-                              }}
-                            >
-                              <div className="svgbackg">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="black"
-                                  height="24"
-                                  viewBox="0 -960 960 960"
-                                  width="24"
-                                >
-                                  <path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" />
-                                </svg>
-                              </div>
-                            </div>
-                          </div>
+                         
                         </>
                       ) : (
                         <div id="novideos" style={{ color: "white" }}>
