@@ -1658,7 +1658,6 @@ article {
 }
 .iframes{
   transition:all 0.5s;
-  padding-left: 9vw;
 }
 
 .iframes > iframe {
