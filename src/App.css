@@ -157,6 +157,7 @@ transition: all 0.5s 0.5s;
 #starbord{
 }
 #logo1 {
+  position: relative;
   top: 20px;
   left: 0;
   height: 50px;

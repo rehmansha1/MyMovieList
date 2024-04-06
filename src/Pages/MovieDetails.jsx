@@ -303,7 +303,7 @@ export default function MovieDetails() {
             style={{ display: imageLoaded ? "block" : "none" }}
           >
             <div className="header1">
-              <img src={logo} id="logo1" />
+              <img src={logo} id="logo1" onClick={()=>{document.getElementById('logo1').style.opacity='0';}} />
 
               <div
                 className="options"
