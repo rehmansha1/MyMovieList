@@ -42,14 +42,7 @@ export default function MoreImagesP() {
     });
   }, [gimg]);
   function expandandcenter(index) {
-    let arryofimgs = document.querySelectorAll(".gimg");
-    if (arryofimgs.length == 0) {
-      arryofimgs = document.querySelectorAll(".gimg1");
-    }
-    arryofimgs.forEach((value, index) => {
-      arryofimgs[index].classList.toggle("gimg");
-      arryofimgs[index].classList.toggle("gimg1");
-    });
+
 
     const newOverlay = !overlay;
     setoverlay(newOverlay);
@@ -58,6 +51,14 @@ export default function MoreImagesP() {
     target.style.scale = newOverlay ? "1" : "0.8";
     target.style.pointerEvents = newOverlay ? "all" : "none";
     setindexfimg(newOverlay && index >= 0 ? index : "nothing");
+    let arryofimgs = document.querySelectorAll(".gimg");
+    if (arryofimgs.length == 0) {
+      arryofimgs = document.querySelectorAll(".gimg1");
+    }
+    arryofimgs.forEach((value, index) => {
+      arryofimgs[index].classList.toggle("gimg");
+      arryofimgs[index].classList.toggle("gimg1");
+    });
   }
   return (
     <div className="mmpage">

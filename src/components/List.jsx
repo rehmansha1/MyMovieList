@@ -9,7 +9,7 @@ export default function List({
   mylist,
   deleteindb,
   movies,
-  
+  mbk,
 }) {
   const navigate = useNavigate();
   const [reviewmy, setreviewmy] = useState(false);
@@ -200,7 +200,7 @@ const url = movies ? urlformovies : urlforseries
         </div>
       )} 
       {tren.results &&
-        tren.results.map(
+        tren.results.map (
           (item, index) =>
             (item.poster_path || item.URL) && (
               <div key={index} id="trengallary">

@@ -70,6 +70,12 @@ export default function Mylist() {
       console.error("Error:", error);
     }
   };
+  
+  useEffect(() => {
+    gsap.to('.ov1box > div',{ opacity:1,duration:0.5,stagger:0.1})
+
+  }, [document.querySelectorAll('.ov1box > div')]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -87,19 +93,22 @@ export default function Mylist() {
     <>
       {movies && (
         <>
-<div id="">
-     </div>
+
           <div className="overlay1inner">
             <div className="ov1ih1">
-              <div style={{ color: "white" }}>My List</div>
+           
+             <div  id="mylisth1"  style={{color: 'white', top:  movies .results[0]|| series.results[0] ? '0px' : '-200px' }}>My List</div>
               <div className="boxwithx">
-              <Switchbutton setbtstate={setbtstate} />
-
+              <div id="btswithces"  style={{top:  movies .results[0]|| series.results[0] ? '0px' : '-200px' }}>
+              <Switchbutton setbtstate={setbtstate}  />
+              </div>
+              
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 onClick={() => {
                   navigate("/");
                 }}
+                id="closemylist"
                 fill="white"
                 height="24"
                 viewBox="0 -960 960 960"
@@ -110,8 +119,14 @@ export default function Mylist() {
               </div>
             </div>
             <div className="ov1box" style={{ opacity: "1" }}>
+            { movies .results[0]|| series.results[0] ? 
+            <>
               {btstate=='movies' && <List tren={movies} mylist={true} deleteindb={deleteindb} movies={'true'}/>}
               {btstate=='series' && <List tren={series} mylist={true} deleteindb={deleteindb} movies={'false'}/>}
+             </>
+             : 
+             <div id="svgrotate"><svg xmlns="http://www.w3.org/2000/svg" fill="white" height="24" viewBox="0 -960 960 960" width="24"><path d="M480-160q-134 0-227-93t-93-227q0-134 93-227t227-93q69 0 132 28.5T720-690v-110h80v280H520v-80h168q-32-56-87.5-88T480-720q-100 0-170 70t-70 170q0 100 70 170t170 70q77 0 139-44t87-116h84q-28 106-114 173t-196 67Z"/></svg>
+             <div id="quotes-under-svg">some badass quote</div></div>}
             </div>
           </div>
         </>

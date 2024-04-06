@@ -171,7 +171,7 @@ transition: all 0.5s 0.5s;
 }
 #logo1:hover{
     animation: shake 0.5s;
-    animation-iteration-count: infinite
+    animation-iteration-count: infinite;
 }
 .falldwnani{
   top: 20px;
@@ -234,7 +234,9 @@ position: relative;
 
   z-index: 1;
   cursor: pointer;
+  
 }
+
 .options > .line {
   width: 55%;
   height: 1px;
@@ -642,6 +644,17 @@ z-index: -1;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
+#mylisth1{
+  position: relative;
+  top: -200px;
+  transition: all 0.5s;
+  pointer-events: none;
+}
+#btswithces{
+  position: relative;
+  top: -200px;
+  transition: all 0.5s;
+}
 .ov1ih1 > svg {
   cursor: pointer;
 }
@@ -708,6 +721,7 @@ z-index: -1;
   align-items: center;
   height: 90%;
 }
+
 
 #menu {
   height: 100vh;
@@ -1008,17 +1022,26 @@ article {
   height: 50vh;
   color: white;
   padding: 100px;
+  padding-top: 0px;
   font-family: sans-serif;
 }
 .seasonssection > h1 {
   font-size: 50px;
   font-family: harabara;
 }
-
+.recommds_list > div{
+  opacity: 0;
+}
 .ss {
   color: white;
 }
-
+#closemylist{
+  cursor: pointer;
+transition: transform 0.5s;
+}
+#closemylist:hover{
+transform: rotate(180deg);
+}
 .seasonsarray {
   display: flex;
   gap: 100px;
@@ -1179,6 +1202,9 @@ article {
   align-items: center;
   justify-content: center;
 }
+.boxks > div{
+  opacity: 0;
+}
 .boxthathastbt {
   display: flex;
   height: 30vh;
@@ -1335,8 +1361,7 @@ article {
   color: white;
   display: flex;
   align-items: center;
-  padding-top: 100px;
-  padding-left: 100px;
+padding: 100px;
 }
 .videocontent {
 }
@@ -1427,9 +1452,14 @@ article {
   gap: 20px;
   align-self: flex-start;
   cursor: pointer;
+  opacity: 0;
 }
 .titleofcast {
   width: 50%;
+}
+#imgofcastbackup{
+  height: 300px;
+  width: 400px;
 }
 #novideos {
   font-family: harabara;
@@ -1957,3 +1987,53 @@ transition: all 0.5s;
       #nextsymbol1{
         position: absolute;
       }
+      .ov1box > div{
+        opacity: 0;
+      }
+      #svgrotate{
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 20px;
+z-index: -1;
+      }
+      #svgrotate > svg {
+        scale: 2;
+        animation: rotate 0.5s infinite forwards;
+      }
+    @keyframes rotate {
+      0%{
+        rotate: 0;
+      }
+      100%{
+        rotate: 360deg;
+      }
+    }
+    #quotes-under-svg{
+      color: white;
+    }
+    .emtpy-display{
+      height: 100vh;
+      width: 100vw;
+      z-index: -1;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 20px;
+      
+      
+    }
+    .emtpy-display > svg{
+      scale: 2.5;
+
+    }

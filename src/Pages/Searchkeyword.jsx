@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import List from "../components/List";
 import { useNavigate } from "react-router-dom";
+import { gsap } from "gsap";
 
 export default function Searchkeyword() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -50,6 +51,9 @@ export default function Searchkeyword() {
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
+  useEffect(()=>{
+    gsap.to('.boxks > div',{opacity:1,duration:0.5,stagger:0.1})
+  },[document.querySelectorAll('#trengallary')])
   return (
     <div className="wholepageofkeywordsearch">
       {results && (
@@ -113,9 +117,9 @@ export default function Searchkeyword() {
 
           <div className="boxks">
             {type == "movies" ? (
-              <List tren={results} movies="true" />
+              <List tren={results} movies="true" mbk= {true}/>
             ) : (
-              <List tren={results2} movies="false" />
+              <List tren={results2} movies="false"mbk = {true} />
             )}
           </div>
           {results.results && (

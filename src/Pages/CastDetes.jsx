@@ -57,6 +57,11 @@ const urlforseries = `https://api.themoviedb.org/3/person/${id}/tv_credits`;
     console.log(pt2)
 //gsap.from('#borderani',{width:0,duration:0.5})
   }, []);
+  useEffect(() => {
+gsap.to('.divofwhole',{scrollTrigger:{trigger:'.divofwhole'}, opacity:1,duration:0.5,stagger:0.1})
+
+//gsap.from('#borderani',{width:0,duration:0.5})
+  }, [document.querySelectorAll('.divofwhole')]);
   return (
     <>
     {pt.profile_path &&
@@ -115,12 +120,19 @@ const urlforseries = `https://api.themoviedb.org/3/person/${id}/tv_credits`;
                 (item, index) =>
                   item.poster_path && (
                     <div key={index} className="divofwhole" onClick={()=>{navigate(`/detes/${item.id}?m=false`)}}>
-                      <img
+                      {<img
 
                         className="imgofcast1"
                         src={`https://image.tmdb.org/t/p/w600_and_h900_bestv2/${item.poster_path}`}
                         alt={`Poster for ${item.id}`}
-                      />
+                        
+                      />?<img
+
+className="imgofcast1"
+src={`https://image.tmdb.org/t/p/w600_and_h900_bestv2/${item.poster_path}`}
+alt={`Poster for ${item.id}`}
+
+/>: <div id="imgofcastbackup"></div> }
                       <div className="arr12345">
                       <div className="titleofcast">
                         {item.name && item.name.length >= 30

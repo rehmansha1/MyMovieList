@@ -242,6 +242,8 @@ export default function MovieDetails() {
       console.error("Error:", error);
     }
   };
+
+
   useEffect(() => {
     settrend1();
     setmedia();
@@ -257,8 +259,13 @@ export default function MovieDetails() {
     getcredits(id);
     fetchData(id);
   }, [id]);
+  useEffect(() => {
+gsap.to('.recommds_list > div',{scrollTrigger:{trigger:'.recommds_list > div'}, opacity:1,duration:0.5,stagger:0.1})
+   
+  }, [document.querySelectorAll('.recommds_list > div')]);
   const [overlay, setoverlay] = useState(false);
   const [indexforimg, setindexfimg] = useState("nothing");
+  
   function expandandcenter(index) {
     const newOverlay = !overlay;
     setoverlay(newOverlay);
@@ -303,7 +310,7 @@ export default function MovieDetails() {
             style={{ display: imageLoaded ? "block" : "none" }}
           >
             <div className="header1">
-              <img src={logo} id="logo1" onClick={()=>{document.getElementById('logo1').style.opacity='0';}} />
+              <img src={logo} id="logo1" onClick={()=>{document.getElementById('logo1').style.opacity='0'; }} />
 
               <div
                 className="options"
@@ -353,7 +360,7 @@ export default function MovieDetails() {
                       const c1 = document.getElementById("menu");
                       c1.style.width = "0%";
 
-                      setoverlay1(true);
+                      setoverlay(true);
                       const c = document.getElementById("oy");
                       c.style.height = "100%";
                       setTimeout(() => {
