@@ -15,8 +15,9 @@ import { useNavigate } from "react-router-dom";
 import SwiperList from "./components/SwiperList";
 import "swiper/css/pagination";
 import { useSwiper } from "swiper/react";
+
 import { Swiper, SwiperSlide } from "swiper/react";
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 import {
@@ -60,7 +61,7 @@ function App() {
   const [menureal, setmenureal] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const swiper = useSwiper();
-  const [moverlay,setmoverlay ] =useState(false);
+  const [moverlay, setmoverlay] = useState(false);
   function getCookie(cookieName) {
     const cookies = document.cookie.split("; ");
 
@@ -96,6 +97,10 @@ function App() {
   }
   const handleInputChange = (event) => {
     setMovieName(event.target.value);
+    if (document.getElementById("oy").style.height == "110vh") {
+      document.getElementById("nextsymbol").style.rotate = "0deg";
+    }
+    console.log(document.getElementById("oy").style.height);
   };
   function NumToTime(num) {
     var hours = Math.floor(num / 60);
@@ -215,48 +220,36 @@ function App() {
     }
   };
 
-
-
-
   useEffect(() => {
- 
-
     const handleResize = () => {
       setPC(window.innerWidth > 767 ? true : false);
     };
     window.addEventListener("resize", handleResize);
 
     handleResize();
-    console.log(isPC)
+    console.log(isPC);
   }, [window.innerWidth]);
   useEffect(() => {
-  
-
     var ran = generateRandomNumbers();
     setrandom(ran);
     fetchData();
 
     setlogged(checkCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`));
-
   }, []);
   useEffect(() => {
-
     gsap.from("#ovai", { opacity: 0, duration: 0.5, delay: 0.5 });
-    let input = document.getElementById('inputbox');
-    let send = document.getElementById('nextsymbol1');
-    
-    if (input && send) {
-        input.addEventListener('keyup', (e) => {
-            if (e.key === 'Enter') {
-send.click()
+    let input = document.getElementById("inputbox");
+    let send = document.getElementById("nextsymbol1");
 
-            }
-        });
+    if (input && send) {
+      input.addEventListener("keyup", (e) => {
+        if (e.key === "Enter") {
+          send.click();
+        }
+      });
     }
-    
   }, [overlay]);
   useEffect(() => {
-
     gsap.fromTo(
       ".searchdisplay",
       { opacity: 0 },
@@ -406,7 +399,8 @@ send.click()
                           inputbix.style.height = "20vh";
                           c.style.height = "110vh";
                           searchmovies();
-
+                          document.getElementById("nextsymbol").style.rotate =
+                            "90deg";
                         }}
                         fill="white"
                         opacity="0.5"
@@ -416,16 +410,18 @@ send.click()
                       >
                         <path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" />
                       </svg>
-                      <div id="nextsymbol1"      onClick={() => {
+                      <div
+                        id="nextsymbol1"
+                        onClick={() => {
                           const c = document.getElementById("oy");
                           const inputbix = document.getElementById("ovai");
                           inputbix.style.height = "20vh";
                           c.style.height = "110vh";
                           searchmovies();
-                          
-
-
-                        }}></div>
+                          document.getElementById("nextsymbol").style.rotate =
+                            "90deg";
+                        }}
+                      ></div>
                       <div className="btmvser">
                         <div
                           id="mvbt"
@@ -465,15 +461,40 @@ send.click()
                         <List tren={searchList} movies={movies} />
                       </div>
                     </div>
-                  ) : <div className="emtpy-display" ><div id="edp"><svg xmlns="http://www.w3.org/2000/svg" fill="white" height="24" viewBox="0 -960 960 960" width="24"><path d="M620-520q25 0 42.5-17.5T680-580q0-25-17.5-42.5T620-640q-25 0-42.5 17.5T560-580q0 25 17.5 42.5T620-520Zm-280 0q25 0 42.5-17.5T400-580q0-25-17.5-42.5T340-640q-25 0-42.5 17.5T280-580q0 25 17.5 42.5T340-520Zm20 180h240v-60H360v60ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-400Zm0 320q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Z"/></svg>
-                  <div >Not found</div> </div></div>}
+                  ) : (
+                    document.getElementById("oy").style.height == "110vh" && (
+                      <div className="emtpy-display">
+                        <svg
+                          id="svgpart222"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="white"
+                          height="24"
+                          viewBox="0 -960 960 960"
+                          width="24"
+                        >
+                          <path d="M620-520q25 0 42.5-17.5T680-580q0-25-17.5-42.5T620-640q-25 0-42.5 17.5T560-580q0 25 17.5 42.5T620-520Zm-280 0q25 0 42.5-17.5T400-580q0-25-17.5-42.5T340-640q-25 0-42.5 17.5T280-580q0 25 17.5 42.5T340-520Zm20 180h240v-60H360v60ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-400Zm0 320q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Z" />
+                        </svg>
+                        <div id="textnotfound">Not found</div>{" "}
+                      </div>
+                    )
+                  )}
                 </div>
               )}
             </div>
-         {isPC &&     <div className="header1main" style={{top: imageLoaded ? '0%' : '-200px'}}>
-         <img src={logo} id="logo1" onClick={()=>{document.getElementById('logo1').style.top='-200px';}} />
-              
-              {/*    <div
+            {isPC && (
+              <div
+                className="header1main"
+                style={{ top: imageLoaded ? "0%" : "-200px" }}
+              >
+                <img
+                  src={logo}
+                  id="logo1"
+                  onClick={() => {
+                    document.getElementById("logo1").style.top = "-200px";
+                  }}
+                />
+
+                {/*    <div
               onClick={async () => {
                 getIds();
                 mylistimpl();
@@ -508,79 +529,79 @@ send.click()
             </div>
             */}
 
-              <div
-                className="options"
-                onClick={() => {
-                  /* const c = document.getElementById("menu");
+                <div
+                  className="options"
+                  onClick={() => {
+                    /* const c = document.getElementById("menu");
                 c.style.width = "20vw";
                 setmenu(true); */
-                  setmenureal(!menureal);
-                  let value = !menureal;
-                  const c = document.getElementById("opexpan");
-                  c.style.width = value ? "200px" : "0px";
-                }}
-              >
-                <div className="opexpand" id="opexpan">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    onClick={() => {
-                      setmenu(false);
+                    setmenureal(!menureal);
+                    let value = !menureal;
+                    const c = document.getElementById("opexpan");
+                    c.style.width = value ? "200px" : "0px";
+                  }}
+                >
+                  <div className="opexpand" id="opexpan">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      onClick={() => {
+                        setmenu(false);
 
-                      const c1 = document.getElementById("menu");
-                      c1.style.width = "0vw";
-                      setoverlay(true);
-                      const c = document.getElementById("oy");
-                      c.style.height = "50vh";
-                    }}
-                    fill="white"
-                    height="24"
-                    viewBox="0 -960 960 960"
-                    width="24"
-                  >
-                    <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
-                  </svg>
-                  <svg
-                    onClick={async () => {
-                      setmenu(false);
-                      const c1 = document.getElementById("menu");
-                      c1.style.width = "0%";
+                        const c1 = document.getElementById("menu");
+                        c1.style.width = "0vw";
+                        setoverlay(true);
+                        const c = document.getElementById("oy");
+                        c.style.height = "50vh";
+                      }}
+                      fill="white"
+                      height="24"
+                      viewBox="0 -960 960 960"
+                      width="24"
+                    >
+                      <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
+                    </svg>
+                    <svg
+                      onClick={async () => {
+                        setmenu(false);
+                        const c1 = document.getElementById("menu");
+                        c1.style.width = "0%";
 
-                      setoverlay1(true);
-                      const c = document.getElementById("oy");
-                      c.style.height = "100%";
-                      setTimeout(() => {
-                        navigate("/mylist");
-                      }, 500);
-                    }}
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="white"
-                    height="24"
-                    viewBox="0 -960 960 960"
-                    width="24"
-                  >
-                    <path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Z" />
-                  </svg>
-                  {LoggedIn ? <LogOutbt /> : <GBTT />}
-                  <svg
-                    onClick={() => {
-                      setmenu(false);
-                    }}
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="27"
-                    fill="white"
-                    viewBox="0 -960 960 960"
-                    width="27"
-                  >
-                    <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-                  </svg>
+                        setoverlay1(true);
+                        const c = document.getElementById("oy");
+                        c.style.height = "100%";
+                        setTimeout(() => {
+                          navigate("/mylist");
+                        }, 500);
+                      }}
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="white"
+                      height="24"
+                      viewBox="0 -960 960 960"
+                      width="24"
+                    >
+                      <path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Z" />
+                    </svg>
+                    {LoggedIn ? <LogOutbt /> : <GBTT />}
+                    <svg
+                      onClick={() => {
+                        setmenu(false);
+                      }}
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="27"
+                      fill="white"
+                      viewBox="0 -960 960 960"
+                      width="27"
+                    >
+                      <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+                    </svg>
+                  </div>
+                  <div className="line"></div>
+                  <div className="line"></div>
+                  <div className="line"></div>
                 </div>
-                <div className="line"></div>
-                <div className="line"></div>
-                <div className="line"></div>
               </div>
-            </div>}
-          
-           
+            )}
+
             <div className="dots"></div>
             {/*  <Swiper
       modules={[Navigation, Pagination, Scrollbar, A11y,Autoplay]}
@@ -632,7 +653,7 @@ send.click()
                 randomNumber.map((num, index) => (
                   <>
                     <SwiperSlide key={index}>
-                      <div className="darkcorner" >
+                      <div className="darkcorner">
                         <img
                           src={
                             tren.results
@@ -719,40 +740,62 @@ send.click()
                           </div>
                         </div>
                       )}
-                      {!isPC && 
-                      <div className="mdetes">
-                      <div id="mtitle">
-                      {tren.results
-                                ? tren.results[randomNumber[index]].title
+                      {!isPC && (
+                        <div className="mdetes">
+                          <div id="mtitle">
+                            {tren.results
+                              ? tren.results[randomNumber[index]].title
+                              : "null"}
+                          </div>
+                          <div id="mdms">
+                            <div>
+                              {" "}
+                              {tren.results
+                                ? tren.results[
+                                    randomNumber[index]
+                                  ].release_date.slice(0, 4)
                                 : "null"}
-                      </div>
-                      <div id="mdms">
-                        <div> {tren.results
+                            </div>
+                            <div>
+                              {" "}
+                              {tren.results
+                                ? tren.results[
+                                    randomNumber[index]
+                                  ].vote_average.toFixed(1) > 0
                                   ? tren.results[
                                       randomNumber[index]
-                                    ].release_date.slice(0, 4)
-                                  : "null"}</div>
-                        <div> {tren.results
-                                    ? tren.results[
-                                        randomNumber[index]
-                                      ].vote_average.toFixed(1) > 0
-                                      ? tren.results[
-                                          randomNumber[index]
-                                        ].vote_average.toFixed(1)
-                                      : "Not rated"
-                                    : "null"}</div>
-                        <div>  duration</div>
-                      </div>
-                      <div id="mpw">
-                      <div id="mplaybt">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="white" height="24" viewBox="0 -960 960 960" width="24"><path d="M152-160q-23 0-35-20.5t1-40.5l328-525q12-19 34-19t34 19l328 525q13 20 1 40.5T808-160H152Z"/></svg>
-
-                      </div>
-                      <div id="mwishlistbt">
-                      <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="white"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
-                      </div>
-                      </div>
-                      </div>}
+                                    ].vote_average.toFixed(1)
+                                  : "Not rated"
+                                : "null"}
+                            </div>
+                            <div> duration</div>
+                          </div>
+                          <div id="mpw">
+                            <div id="mplaybt">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="white"
+                                height="24"
+                                viewBox="0 -960 960 960"
+                                width="24"
+                              >
+                                <path d="M152-160q-23 0-35-20.5t1-40.5l328-525q12-19 34-19t34 19l328 525q13 20 1 40.5T808-160H152Z" />
+                              </svg>
+                            </div>
+                            <div id="mwishlistbt">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                height="24"
+                                viewBox="0 -960 960 960"
+                                width="24"
+                                fill="white"
+                              >
+                                <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                              </svg>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </SwiperSlide>
                   </>
                 ))}
@@ -763,30 +806,8 @@ send.click()
                 <div className="trndingpage">
                   <div className="trnbox">
                     <div id="trenheader">
-                   {isPC &&<svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="red"
-                        height="55"
-                        viewBox="0 -960 960 960"
-                        width="55"
-                      >
-                        <path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z" />
-                      </svg>}
-                      <div className="tmfont">Trending Movies</div>
-                    </div>
-                    <div className="trenlist">
-                      <SwiperList
-                        tren={tren}
-                        putInDbMovies={putInDbMovies}
-                        movies={"true"}
-                        isPC = {isPC}
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <div className="trnbox">
-                      <div id="trenheader">
-                        { isPC && <svg
+                      {isPC && (
+                        <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="red"
                           height="55"
@@ -794,7 +815,33 @@ send.click()
                           width="55"
                         >
                           <path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z" />
-                        </svg>}
+                        </svg>
+                      )}
+                      <div className="tmfont">Trending Movies</div>
+                    </div>
+                    <div className="trenlist">
+                      <SwiperList
+                        tren={tren}
+                        putInDbMovies={putInDbMovies}
+                        movies={"true"}
+                        isPC={isPC}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <div className="trnbox">
+                      <div id="trenheader">
+                        {isPC && (
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="red"
+                            height="55"
+                            viewBox="0 -960 960 960"
+                            width="55"
+                          >
+                            <path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z" />
+                          </svg>
+                        )}
                         <div className="tmfont">Trending Series</div>
                       </div>
                       <div className="trenlist">
@@ -802,25 +849,24 @@ send.click()
                           tren={tren1}
                           putInDbSeries={putInDbSeries}
                           movies={"false"}
-                          isPC = {isPC}
-
+                          isPC={isPC}
                         />
                       </div>
                     </div>
                   </div>
                   <div className="trnbox">
                     <div id="trenheader">
-                     {isPC && <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="red"
-                        height="55"
-                        viewBox="0 -960 960 960"
-                        width="55"
-                        
-                      >
-                        <path d="m233-80 65-281L80-550l288-25 112-265 112 265 288 25-218 189 65 281-247-149L233-80Z" />
-                      </svg>
-                     }
+                      {isPC && (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="red"
+                          height="55"
+                          viewBox="0 -960 960 960"
+                          width="55"
+                        >
+                          <path d="m233-80 65-281L80-550l288-25 112-265 112 265 288 25-218 189 65 281-247-149L233-80Z" />
+                        </svg>
+                      )}
                       <div className="tmfont">All Time Classics</div>
                     </div>
                     <div className="trenlist">
@@ -828,8 +874,7 @@ send.click()
                         tren={clmovies}
                         putInDbMovies={putInDbMovies}
                         movies={"true"}
-                        isPC = {isPC}
-
+                        isPC={isPC}
                       />
                     </div>
                   </div>

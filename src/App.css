@@ -1036,6 +1036,7 @@ article {
   color: white;
 }
 #closemylist{
+  scale: 1.5;
   cursor: pointer;
 transition: transform 0.5s;
 }
@@ -1987,6 +1988,10 @@ transition: all 0.5s;
       #nextsymbol1{
         position: absolute;
       }
+      #nextsymbol{
+        transition: rotate 0.5s;
+      
+      }
       .ov1box > div{
         opacity: 0;
       }
@@ -2033,7 +2038,11 @@ z-index: -1;
       
       
     }
+
     .emtpy-display > svg{
       scale: 2.5;
-
+opacity: 0.5;
+    }
+    #textnotfound{
+      opacity: 0.5;
     }
