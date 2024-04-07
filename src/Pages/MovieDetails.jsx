@@ -310,7 +310,7 @@ gsap.to('.recommds_list > div',{scrollTrigger:{trigger:'.recommds_list > div'}, 
             style={{ display: imageLoaded ? "block" : "none" }}
           >
             <div className="header1">
-              <img src={logo} id="logo1" onClick={()=>{document.getElementById('logo1').style.opacity='0'; }} />
+              <img src={logo} id="logo1" onClick={()=>{document.getElementById('logo1').style.top='-200px';  }} />
 
               <div
                 className="options"
