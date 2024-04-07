@@ -916,16 +916,18 @@ z-index: -1;
 }
 
 .rvmybox {
-  position: absolute;
+  position: fixed;
+  top: 0px;
+  left: 0px;
   height: 100%;
   width: 100%;
-  background-color: black;
-  top: 10%;
+  background-color: transparent;
   left: 0;
-
+opacity: 1 !important;
   display: flex;
   justify-content: center;
   align-items: center;
+ z-index: 99999000;
 }
 .innerrvbox {
   height: 500px;
@@ -935,11 +937,12 @@ z-index: -1;
   z-index: 10;
   border-radius: 15px;
   position: fixed;
-  margin-top: -10%;
+ 
   flex-direction: column;
 
   font-family: harabara;
   letter-spacing: 1px;
+  
 }
 #ratinguser {
   height: 30%;

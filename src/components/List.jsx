@@ -14,7 +14,6 @@ export default function List({
   const navigate = useNavigate();
   const [reviewmy, setreviewmy] = useState(false);
   const [stars, setstars] = useState();
-const [cid,setcid] = useState('');
 
 
 
@@ -99,7 +98,7 @@ const url = movies ? urlformovies : urlforseries
             <svg
               xmlns="http://www.w3.org/2000/svg"
               onClick={() => {
-                setreviewmy(false);
+                setreviewmy(!reviewmy);
               }}
               fill="white"
               height="24"
@@ -254,8 +253,8 @@ const url = movies ? urlformovies : urlforseries
                     <svg
                       className="checksvg"
                       onClick={() => {
-                        setreviewmy(true);
-                        setclieckedcomid(item.id);
+                        setreviewmy(!reviewmy);
+                        console.log(reviewmy)
                       }}
                       fill="white"
                       xmlns="http://www.w3.org/2000/svg"
