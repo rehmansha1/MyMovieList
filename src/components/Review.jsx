@@ -6,6 +6,27 @@ import { Scrollbar, Navigation } from "swiper/modules";
 export default function Review({ reviews }) {
 const [overstate,setoverstate] = useState(false);
 const [indexfoor,setindex] = useState(0);
+
+const printstars = (ratings) =>{
+  const stars = [];
+
+  for (let i = 0; i < ratings; i++) {
+    stars.push(
+      <svg
+        key={i}
+        xmlns="http://www.w3.org/2000/svg"
+        fill="gold"
+        height="20"
+        viewBox="0 -960 960 960"
+        width="20"
+      >
+        <path d="m233-80 65-281L80-550l288-25 112-265 112 265 288 25-218 189 65 281-247-149L233-80Z" />
+      </svg>
+    );
+  }
+
+  return stars;
+} 
   const filteredResults = reviews.results
     ? reviews.results.filter((item) => item.author_details.rating)
     : null;
@@ -19,10 +40,11 @@ const [indexfoor,setindex] = useState(0);
   return (
 
 <div className="rvsec2">
-{overstate && <div id="overlayforreview">     
+{overstate &&  <div id="overlayforreview">     
    <svg xmlns="http://www.w3.org/2000/svg"  id="cp99svg" height="24" viewBox="0 -960 960 960" width="24" onClick={changeoverlayr}><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
    </svg>
-   <div style={{color:"white"}}>{reviews.results[indexfoor].content} </div>
+   <div id="ratingrevoverlay"> {printstars(reviews.results[indexfoor].author_details.rating / 2)} </div>
+   <div id="paraofcontentrev">{reviews.results[indexfoor].content.length >= 500?reviews.results[indexfoor].content.slice(400) + '...':reviews.results[indexfoor].content   } </div>
    </div>}
       <div className="rvsec3">
    
