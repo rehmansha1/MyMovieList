@@ -44,7 +44,7 @@ const printstars = (ratings) =>{
    <svg xmlns="http://www.w3.org/2000/svg"  id="cp99svg" height="24" viewBox="0 -960 960 960" width="24" onClick={changeoverlayr}><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
    </svg>
    <div id="ratingrevoverlay"> {printstars(reviews.results[indexfoor].author_details.rating / 2)} </div>
-   <div id="paraofcontentrev">{reviews.results[indexfoor].content.length >= 500?reviews.results[indexfoor].content.slice(400) + '...':reviews.results[indexfoor].content   } </div>
+   <div id="paraofcontentrev">{reviews.results[indexfoor].content.length >= 500?reviews.results[indexfoor].content.slice(0,400) + '...':reviews.results[indexfoor].content   } </div>
    </div>}
       <div className="rvsec3">
    
