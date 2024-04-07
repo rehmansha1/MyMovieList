@@ -51,7 +51,6 @@ function App() {
   const [searchList, setsl] = useState("");
   const [LoggedIn, setlogged] = useState(false);
   const [isPC, setPC] = useState(true);
-
   const [userName, setusername] = useState("Rehman");
   const [clmovies, setclmov] = useState([]);
   const navigate = useNavigate();
@@ -256,6 +255,7 @@ function App() {
       { opacity: 1, duration: 0.5, delay: 0.5 }
     );
   }, [searchList]);
+
   useEffect(() => {
     gsap.fromTo(
       ".ov1box",
@@ -305,7 +305,7 @@ function App() {
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLEID_KEY_ENV}>
       <>
         {tren && (
-          <div className="wholeweb">
+          <div className="wholeweb ">
             <div className="overlay" id="oy">
               <div id="menu">
                 {menu && (
@@ -560,7 +560,7 @@ function App() {
                     >
                       <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
                     </svg>
-                    <svg
+                    {LoggedIn && <svg
                       onClick={async () => {
                         setmenu(false);
                         const c1 = document.getElementById("menu");
@@ -580,7 +580,7 @@ function App() {
                       width="24"
                     >
                       <path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Z" />
-                    </svg>
+                    </svg>}
                     {LoggedIn ? <LogOutbt /> : <GBTT />}
                     <svg
                       onClick={() => {
@@ -800,11 +800,31 @@ function App() {
                   </>
                 ))}
             </Swiper>
-            {!overlay && !overlay1 && tren.results && (
+            {!overlay && !overlay1 && clmovies.results && (
               <div className="secpage">
                 <div id="blackcover"></div>
                 <div className="trndingpage">
                   <div className="trnbox">
+                  { LoggedIn  &&
+                    <div className="trnbox">
+                    <div id="trenheader">
+                      {isPC && (
+                        <svg xmlns="http://www.w3.org/2000/svg" style={{rotate:'-45deg'}} fill="red" height="55" viewBox="0 -960 960 960" width="55"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"/></svg>
+
+                      )}
+                      <div className="tmfont">Suggestions for you</div>
+                    </div>
+                    <div className="trenlist">
+                      <SwiperList
+                        tren={ clmovies}
+                        putInDbMovies={putInDbMovies}
+                        movies={"true"}
+                        isPC={isPC}
+                        shuffle = {true}
+                      />
+                    </div>
+                  </div>
+                  }
                     <div id="trenheader">
                       {isPC && (
                         <svg
@@ -854,9 +874,9 @@ function App() {
                       </div>
                     </div>
                   </div>
-                  <div className="trnbox">
+                  {!LoggedIn && <div className="trnbox">
                     <div id="trenheader">
-                      {isPC && (
+                      {isPC &&  (
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="red"
@@ -875,9 +895,10 @@ function App() {
                         putInDbMovies={putInDbMovies}
                         movies={"true"}
                         isPC={isPC}
+                        shuffle={false}
                       />
                     </div>
-                  </div>
+                  </div>}
                 </div>
               </div>
             )}

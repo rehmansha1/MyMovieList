@@ -5,7 +5,9 @@
   width: 100%;
   color: white;
   overflow-x: hidden;
+  
 }
+
 /* MOBILE LAYOUT STYLES */
 
 .mdetes{
@@ -167,8 +169,24 @@ transition: all 0.5s 0.5s;
   padding-top: 20px;
   cursor: pointer;
   transition: all 0.5s;
-
+animation: imoutiga 2s 5s both;
 }
+@keyframes imoutiga {
+ 
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); opacity: 0; pointer-events: none; }
+  }
+
+
 #logo1:hover{
     animation: shake 0.5s;
     animation-iteration-count: infinite;
@@ -1102,6 +1120,7 @@ transform: rotate(180deg);
   align-self: flex-start;
   padding: 0;
   justify-content: center;
+  align-items: center;
 }
 .arrayofimgsback > img {
   transition: all 0.5s;
@@ -1119,9 +1138,7 @@ transform: rotate(180deg);
   height: 100%;
   width: 100px;
   color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
   font-family: sans-serif;
   cursor: pointer;
   opacity: 0.5;
@@ -1376,6 +1393,7 @@ padding: 100px;
 .iframes {
   display: flex;
   gap: 10px;
+  padding-left: 10px;
 }
 .castdetes {
   padding: 100px;
@@ -1594,6 +1612,9 @@ padding: 100px;
 .swiper-button-next-media {
   margin-left: -250px;
   transition: all 0.5s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .arrayofimgsback:hover .swiper-button-next-media {
   margin: 0;

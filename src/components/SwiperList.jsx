@@ -14,7 +14,8 @@ export default function SwiperList({
   mylist,
   deleteindb,
   movies,
-  isPC
+  isPC,
+  shuffle
 }) {
   const navigate = useNavigate();
   const [reviewmy, setreviewmy] = useState(false);
@@ -60,6 +61,8 @@ export default function SwiperList({
       console.error("error:", error);
     }
   };
+
+
   return (
     <>
       {/* <div className="btmvser">
@@ -278,8 +281,7 @@ export default function SwiperList({
             </div>
           </div></>)}
       
-        {tren.results &&
-          tren.results.map(
+        {tren.results  &&  tren.results.map(
             (item, index) =>
               (item.poster_path || item.URL) && (
                 <SwiperSlide key={index}>
@@ -397,6 +399,7 @@ export default function SwiperList({
                 </SwiperSlide>
               )
           )}
+       
       </Swiper>
     </>
   );
