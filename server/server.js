@@ -10,8 +10,8 @@ dotenv.config();
 const app = express();
 const currentDate = new Date();
 const year = currentDate.getFullYear();
-const month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 because getMonth() returns zero-based month (0 for January, 11 for December)
-const day = currentDate.getDate();
+const month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); 
+const day = currentDate.getDate().toString().padStart(2, '0');
 const ymd = `${year}${month}${day}`;
 const PORT = 3001;
 app.use(express.json());
@@ -189,9 +189,9 @@ app.get("/getNOTFIYLIST", async (req, res) => {
     var userName = decryptedBytes.toString(CryptoJS.enc.Utf8);
     const allData = await User.find({ username: userName });
     const filteredItems = allData[0].Notify.filter((item) => {
-      return parseInt(ymd) <= parseInt(item.date.split('-').join(''));
+      return parseInt(ymd) >= parseInt(item.date.split('-').join(''));
   });  
-  if(filteredItems.length > 0){res.json(filteredItems);}else{    res.status(204).send();  }
+  if(filteredItems.length > 0){res.json(filteredItems); console.log(filteredItems)}else{    res.status(204).send(); console  }
     }
   } catch (error) {
     console.error(error);
