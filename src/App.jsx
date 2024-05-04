@@ -925,7 +925,7 @@ receiveNotifyList();
                           <path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z" />
                         </svg>
                       )}
-                      <div className="tmfont">Upcoming and Recently Released Movies</div>
+                      <div className="tmfont">Upcoming And Popular Movies</div>
                     </div>
                     <div className="trenlist">
                       <SwiperList

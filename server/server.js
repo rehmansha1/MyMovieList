@@ -189,7 +189,7 @@ app.get("/getNOTFIYLIST", async (req, res) => {
     var userName = decryptedBytes.toString(CryptoJS.enc.Utf8);
     const allData = await User.find({ username: userName });
     const filteredItems = allData[0].Notify.filter((item) => {
-      return parseInt(ymd) >= parseInt(item.date.split('-').join(''));
+      return parseInt(ymd) <= parseInt(item.date.split('-').join(''));
   });  
   if(filteredItems.length > 0){res.json(filteredItems);}else{    res.status(204).send();  }
     }
