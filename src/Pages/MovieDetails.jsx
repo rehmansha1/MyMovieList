@@ -42,7 +42,7 @@ export default function MovieDetails() {
 try{
   const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
   if(username){
-    const resp = await axios.post("http://localhost:3001/putnotifylist", {
+    const resp = await axios.post("https://mymovielistserver.onrender.com/putnotifylist", {
       username,
       name:name,
       id: id,

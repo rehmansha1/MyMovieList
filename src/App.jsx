@@ -96,7 +96,7 @@ function App() {
     const encodedUsername = encodeURIComponent(username);
 try{
     const response = await axios.get(
-      `http://localhost:3001/getNOTFIYLIST?username=${encodedUsername}`
+      `https://mymovielistserver.onrender.com/getNOTFIYLIST?username=${encodedUsername}`
     );
     if(response.data  ){
     setnoticontents(response.data);
