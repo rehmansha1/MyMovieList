@@ -2221,18 +2221,26 @@ background-color: white;
 #notibar{
   height: auto;
   width: 300px;
-  
+  opacity: 0;
   background-color: black;
-  position: absolute;
-  top: 4%;
-left:0%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
 z-index: 10000;
 transition: width 0.5s;
 color: white;
 padding: 0px;
+border-radius: 10px;
+transition: opacity 0.5s;
+}
+#h1rm{
+  position: relative;
+
 }
 .notiInnerbox{
- 
+ position: relative;
   display: flex;
   flex-direction: column;
 gap: 5px;
@@ -2243,8 +2251,36 @@ cursor: pointer;
 .innerboxdate{
   opacity: 0.5;
 }
+#notiheader{
+  opacity: 1;
+  display: flex;
+  align-items: center;
+  justify-content:center ;
+  gap: 50%;
+padding: 20px;
+  font-family: harabara;
+  font-size: 20px;
+  letter-spacing: 0px;
+}
+#rmfromlist{
+  transition: all 0.2s;
+  border-radius: 15px;
+}
+#rmfromlist:hover{
+
+background-color: white;
+
+fill: black;
+cursor: pointer;
+}
+#list{
+  display: flex;
+  align-items: center;
+  gap: 70px;
+  
+}
 #closenoti{
-  position: absolute;
+  
   top: 10%;
   right: 10%;
   cursor: pointer;
