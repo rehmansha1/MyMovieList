@@ -13,6 +13,7 @@ export default function List({
 }) {
   const navigate = useNavigate();
   const [reviewmy, setreviewmy] = useState(false);
+  const [reviewarray,setreviewarray] = useState([]);
   const [stars, setstars] = useState();
 
 
@@ -25,16 +26,10 @@ export default function List({
  
   };
 
-const sendcompletedidtodb = async(id,Ukl,title,content,name)=>{
-  const urlformovies = "/completed/movies";
-  const urlforseries = '/completed/series'
+const sendcompletedidtodb = async(arrayImgNameId,inputText,starsvalue)=>{
+  const urlformovies = "http://localhost:3001/completed/movies";
+  const urlforseries = 'http://localhost:3001/completed/series'
 
-    const params = {
-      query: "drive",
-      include_adult: false,
-      language: "en-US",
-      page: 1,
-    };
 
     const options = {
       headers: {
@@ -42,15 +37,15 @@ const sendcompletedidtodb = async(id,Ukl,title,content,name)=>{
         Authorization: import.meta.env.VITE_GAPI_KEY_ENV,
       },
     };
-const url = movies ? urlformovies : urlforseries
+const url = movies == 'true' ? urlformovies : urlforseries;
     try {
       const response = await axios.post(url,{
-        username: "Rehman",
-        id: id,
-        URL: url,
-        title: title,
-        content:content,
-        stars:stars,
+        username: "rehmnshs@gmail.com",
+        imageurl:arrayImgNameId[0],
+        name:arrayImgNameId[1] ,
+        id: arrayImgNameId[2],
+        review:inputText,
+        stars:starsvalue,
 
       });
 
@@ -59,46 +54,28 @@ const url = movies ? urlformovies : urlforseries
       console.error("error:", error);
     } 
 }
+const [text1, setText] = useState('');
+
+// Function to handle changes in the textarea
+const handleChange = (event) => {
+  setText(event.target.value);
+};
+
   return (
     <>
-      {/* <div className="btmvser">
-                      <div
-                        id="mvbt"
-                        onClick={() => {
-                          setseries1('false');
-                          let bt = document.getElementById("mvbt");
-                          bt.style.background = "white";
-                          bt.style.color = "black";
-                          let bt1 = document.getElementById("svbt");
-                          bt1.style.background = "black";
-                          bt1.style.color = "white";
-                        }}
-                      >
-                        movie
-                      </div>
-                      <div
-                        id="svbt"
-                        onClick={() => {
-                          setseries1('true');
-                          let bt = document.getElementById("svbt");
-                          bt.style.background = "white";
-                          bt.style.color = "black";
-                          let bt1 = document.getElementById("mvbt");
-                          bt1.style.background = "black";
-                          bt1.style.color = "white";
-                        }}
-                      >
-                        series
-                      </div>
-                    </div> */}
-       {reviewmy && (
+ 
+       {reviewmy && reviewarray && (
         <div className="rvmybox">
           {" "}
           <div className="innerrvbox">
+                    <div   ><img src={`https://image.tmdb.org/t/p/w600_and_h900_bestv2${reviewarray[0]}`} id="imgofinnerbox"/></div>
+
             <svg
               xmlns="http://www.w3.org/2000/svg"
               onClick={() => {
                 setreviewmy(!reviewmy);
+                setreviewarray([]);
+                console.log(reviewarray)
               }}
               fill="white"
               height="24"
@@ -111,54 +88,7 @@ const url = movies ? urlformovies : urlforseries
             <div id="ratinguser">
               <div>Your Rating</div>
               <div className="ratinguserinner">
-               {/* <svg
-                fill="gold"
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="24"
-                  viewBox="0 -960 960 960"
-                  width="24"
-                >
-                  <path d="m233-80 65-281L80-550l288-25 112-265 112 265 288 25-218 189 65 281-247-149L233-80Z" />
-                </svg>
-                <svg
-                fill="gold"
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="24"
-                  viewBox="0 -960 960 960"
-                  width="24"
-                >
-                  <path d="m233-80 65-281L80-550l288-25 112-265 112 265 288 25-218 189 65 281-247-149L233-80Z" />
-                </svg>
-                <svg
-                fill="gold"
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="24"
-                  viewBox="0 -960 960 960"
-                  width="24"
-                >
-                  <path d="m233-80 65-281L80-550l288-25 112-265 112 265 288 25-218 189 65 281-247-149L233-80Z" />
-                </svg>
-                <svg
-                                fill="gold"
-
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="24"
-                  viewBox="0 -960 960 960"
-                  width="24"
-                >
-                  <path d="m233-80 65-281L80-550l288-25 112-265 112 265 288 25-218 189 65 281-247-149L233-80Z" />
-                </svg>
-                <svg
-                                fill="gold"
-
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="24"
-                  viewBox="0 -960 960 960"
-                  width="24"
-                >
-                  <path d="m233-80 65-281L80-550l288-25 112-265 112 265 288 25-218 189 65 281-247-149L233-80Z" />
-                </svg>
-                */}
+             
                 <div class="star-rating">
   <input type="radio" id="5-stars" name="rating" value="5" onClick={()=>setstars(5)}/>
   <label for="5-stars" class="star">&#9733;</label>
@@ -176,14 +106,14 @@ const url = movies ? urlformovies : urlforseries
             <div id="reviewuser">
               <div>Your Review for this Movie</div>
               <div id="rvinput">
-                <textarea placeholder="write here" />
+                <textarea placeholder="write here" value={text1} onChange={handleChange}/>
               </div>
               <svg
                      className="sendsymbol"
                       xmlns="http://www.w3.org/2000/svg"
                       onClick={() => {
              
-                        sendcompletedidtodb();
+                        sendcompletedidtodb(reviewarray,text1,stars);
                      
                       }}
                       fill="white"
@@ -253,8 +183,10 @@ const url = movies ? urlformovies : urlforseries
                     <svg
                       className="checksvg"
                       onClick={() => {
+                        console.log(reviewarray)
                         setreviewmy(!reviewmy);
-                        console.log(reviewmy)
+                        setreviewarray([`${item.poster_path || item.URL}`,item.title ? item.title : item.name,item.id]);
+                       
                       }}
                       fill="white"
                       xmlns="http://www.w3.org/2000/svg"

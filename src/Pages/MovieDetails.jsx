@@ -30,10 +30,27 @@ export default function MovieDetails() {
   const [video, setvideo] = useState();
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isPC, setPC] = useState(true);
-
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 because getMonth() returns zero-based month (0 for January, 11 for December)
+  const day = currentDate.getDate();
+  const ymd = `${year}${month}${day}`;
   const { id } = useParams();
   const urlParams = new URLSearchParams(window.location.search);
   let paramValue = urlParams.get("m");
+  const sendtodb = async(id,name,date)=>{
+try{
+  const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
+  if(username){
+    const resp = await axios.post("http://localhost:3001/putnotifylist", {
+      username,
+      name:name,
+      id: id,
+date:date,
+    });
+    console.log(resp.data);}
+}catch(error){console.log('Error: ',error)}
+  }
   useEffect(() => {
     const handleResize = () => {
       setPC(window.innerWidth > 767 ? true : false);
@@ -259,6 +276,7 @@ export default function MovieDetails() {
     getcredits(id);
     fetchData(id);
   }, [id]);
+
   useEffect(() => {
 gsap.to('.recommds_list > div',{scrollTrigger:{trigger:'.recommds_list > div'}, opacity:1,duration:0.5,stagger:0.1})
    
@@ -282,6 +300,7 @@ gsap.to('.recommds_list > div',{scrollTrigger:{trigger:'.recommds_list > div'}, 
 
       {tren && (
         <>
+        <div id="remindnotifycard">we will remind you when this movie releases </div>
           <div className="overlaypart99" id="overlayp99">
             <div id="closepart99"                 onClick={expandandcenter}
 >
@@ -314,6 +333,7 @@ gsap.to('.recommds_list > div',{scrollTrigger:{trigger:'.recommds_list > div'}, 
 
               <div
                 className="options"
+                id="option"
                 onClick={() => {
                   /* const c = document.getElementById("menu");
                 c.style.width = "20vw";
@@ -426,19 +446,21 @@ gsap.to('.recommds_list > div',{scrollTrigger:{trigger:'.recommds_list > div'}, 
 
                 <h1>{tren.name || tren.title}</h1>
                 <div className="detesdetes1">
-                  <div id="imdbrating">
+                   
+                  {tren && <div id="imdbrating">
                     <img src={imdb} />
-                    <div>{tren ? tren.vote_average.toFixed(1) : "null"}</div>
-                  </div>
+                    <div>{tren.vote_average.toFixed(1) > 0.1 ?  tren.vote_average.toFixed(1) : "not rated "}</div>
+                  </div>}
                   <div id="randommyear">
                     {" "}
                     {tren.release_date
                       ? tren.release_date.slice(0, 4)
                       : "Seasons: " + tren.number_of_seasons}{" "}
                   </div>
+                  {parseInt(tren.release_date.split('-').join('')) <  parseInt(ymd) &&
                   <div id="randomm18">
                     {tren.release_date ? NumToTime(tren.runtime) : null}
-                  </div>
+                  </div>}
                 </div>
                 {/* <p>{tren ?   `"${tren.tagline}"`     : null} </p> */}
                 <p id="moviedetes1">{tren ? tren.overview : ""}</p>
@@ -461,7 +483,7 @@ gsap.to('.recommds_list > div',{scrollTrigger:{trigger:'.recommds_list > div'}, 
                   >
                     Watch Trailer
                   </a>{" "}
-                  <div
+                  { <div
                     id="watchbt"
                     onClick={() => {
                       if (tren.name) {
@@ -482,8 +504,15 @@ gsap.to('.recommds_list > div',{scrollTrigger:{trigger:'.recommds_list > div'}, 
                     >
                       <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
                     </svg>{" "}
-                    Watchlist
+       Watchlist
                   </div>
+                  }
+                  {parseInt(tren.release_date.split('-').join('')) > parseInt(ymd)  &&
+                   <div id="remindmebt" onClick={()=>{document.getElementById('remindnotifycard').classList.toggle('animationdrag'); sendtodb(tren.id,tren.title,tren.release_date);}}>
+                   <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/></svg>
+
+Remind me
+                  </div>}
                 </div>
               </div>
             </div>}

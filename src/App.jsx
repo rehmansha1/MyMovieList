@@ -43,6 +43,7 @@ import GBTT from "./components/GBTT";
 function App() {
   const [tren, settrend] = useState([]);
   const [tren1, settrend1] = useState([]);
+  const [trn,settrn] = useState([]);
   const [overlay, setoverlay] = useState(false);
   const [overlay1, setoverlay1] = useState(false);
   const [movies, setmovies] = useState("true");
@@ -61,6 +62,10 @@ function App() {
   const [imageLoaded, setImageLoaded] = useState(false);
   const swiper = useSwiper();
   const [moverlay, setmoverlay] = useState(false);
+  const [notification, setnoti] = useState(false);
+  const [noticontents, setnoticontents] = useState();
+
+
   function getCookie(cookieName) {
     const cookies = document.cookie.split("; ");
 
@@ -82,6 +87,32 @@ function App() {
 
     return null; // Return null if the cookie with the specified name is not found
   }
+
+
+
+
+  const receiveNotifyList = async()=>{
+    const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
+    const encodedUsername = encodeURIComponent(username);
+try{
+    const response = await axios.get(
+      `http://localhost:3001/getNOTFIYLIST?username=${encodedUsername}`
+    );
+    if(response.data  ){
+    setnoticontents(response.data);
+    console.log(response.data);
+      
+    }
+    console.log(response);
+  }catch(error){console.log(error)}
+  }
+
+
+
+
+
+
+
   function generateRandomNumbers() {
     var numbers = [];
 
@@ -138,6 +169,7 @@ function App() {
     const urlfortrnd = "https://api.themoviedb.org/3/trending/movie/day";
     const urlfortrndS = "https://api.themoviedb.org/3/tv/popular";
     const urlfortrndSforcl = "https://api.themoviedb.org/3/movie/top_rated";
+    const url = 'https://api.themoviedb.org/3/movie/upcoming';
 
     const params = {
       query: "drive",
@@ -157,10 +189,13 @@ function App() {
       const response = await axios.get(urlfortrnd, { ...options });
       const response1 = await axios.get(urlfortrndS, { ...options });
       const response2 = await axios.get(urlfortrndSforcl, { ...options });
+      const response3 = await axios.get(url, { ...options });
+
 
       settrend(response.data);
       settrend1(response1.data);
       setclmov(response2.data);
+      settrn(response3.data);
     } catch (error) {
       console.error("error:", error);
     }
@@ -236,6 +271,9 @@ function App() {
     setlogged(checkCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`));
   }, []);
   useEffect(() => {
+receiveNotifyList();
+  }, []);
+  useEffect(() => {
     gsap.from("#ovai", { opacity: 0, duration: 0.5, delay: 0.5 });
     let input = document.getElementById("inputbox");
     let send = document.getElementById("nextsymbol1");
@@ -305,6 +343,29 @@ function App() {
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLEID_KEY_ENV}>
       <>
         {tren && (
+          <>
+          
+          {notification  && 
+          <div id="notibar">
+         <svg
+                      onClick={() => {
+                        setnoti(false);
+                        document.getElementById('notibar').style.width = '110px';
+                      }}
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="27"
+                      fill="white"
+                      viewBox="0 -960 960 960"
+                      width="27"
+                      id="closenoti"
+                    >
+                      <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+                    </svg>
+         
+
+  {noticontents.map((item,index)=>{return (<div className="notiInnerbox" onClick={()=>navigate(`/detes/${item.id}?m=${true}`)}><div >{item.name}</div><div className="innerboxdate">{item.date+' - Released'}</div></div>)})}
+
+          </div>}
           <div className="wholeweb ">
             <div className="overlay" id="oy">
               <div id="menu">
@@ -538,7 +599,7 @@ function App() {
                     setmenureal(!menureal);
                     let value = !menureal;
                     const c = document.getElementById("opexpan");
-                    c.style.width = value ? "200px" : "0px";
+                    c.style.width = value ? "300px" : "0px";
                   }}
                 >
                   <div className="opexpand" id="opexpan">
@@ -582,6 +643,27 @@ function App() {
                       <path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Z" />
                     </svg>}
                     {LoggedIn ? <LogOutbt /> : <GBTT />}
+                    {noticontents && 
+                       <svg
+      xmlns="http://www.w3.org/2000/svg"
+      onClick={() => {
+        setnoti(true);
+      }}
+      id="notificationsvg"
+      height="24px"
+      viewBox="0 -960 960 960"
+      width="24px"
+      fill="#e8eaed"
+    >
+      <path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 
+                     17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130
+                      84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z" />
+    <text x="1000" y="-550" textAnchor="end" fill="#fff" fontSize="450">
+        {noticontents.length}
+      </text>
+    </svg>}
+                       
+
                     <svg
                       onClick={() => {
                         setmenu(false);
@@ -805,26 +887,7 @@ function App() {
                 <div id="blackcover"></div>
                 <div className="trndingpage">
                   <div className="trnbox">
-                  { LoggedIn  &&
-                    <div className="trnbox">
-                    <div id="trenheader">
-                      {isPC && (
-                        <svg xmlns="http://www.w3.org/2000/svg" style={{rotate:'-45deg'}} fill="red" height="55" viewBox="0 -960 960 960" width="55"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"/></svg>
-
-                      )}
-                      <div className="tmfont">Suggestions for you</div>
-                    </div>
-                    <div className="trenlist">
-                      <SwiperList
-                        tren={ clmovies}
-                        putInDbMovies={putInDbMovies}
-                        movies={"true"}
-                        isPC={isPC}
-                        shuffle = {true}
-                      />
-                    </div>
-                  </div>
-                  }
+               
                     <div id="trenheader">
                       {isPC && (
                         <svg
@@ -842,6 +905,31 @@ function App() {
                     <div className="trenlist">
                       <SwiperList
                         tren={tren}
+                        putInDbMovies={putInDbMovies}
+                        movies={"true"}
+                        isPC={isPC}
+                      />
+                    </div>
+                  </div>
+                  <div className="trnbox">
+
+                  <div id="trenheader">
+                      {isPC && (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="red"
+                          height="55"
+                          viewBox="0 -960 960 960"
+                          width="55"
+                        >
+                          <path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z" />
+                        </svg>
+                      )}
+                      <div className="tmfont">Upcoming and Recently Released Movies</div>
+                    </div>
+                    <div className="trenlist">
+                      <SwiperList
+                        tren={trn}
                         putInDbMovies={putInDbMovies}
                         movies={"true"}
                         isPC={isPC}
@@ -903,6 +991,7 @@ function App() {
               </div>
             )}
           </div>
+          </>
         )}
       </>
     </GoogleOAuthProvider>

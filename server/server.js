@@ -8,7 +8,11 @@ import CryptoJS from "crypto-js";
 
 dotenv.config();
 const app = express();
-
+const currentDate = new Date();
+const year = currentDate.getFullYear();
+const month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 because getMonth() returns zero-based month (0 for January, 11 for December)
+const day = currentDate.getDate();
+const ymd = `${year}${month}${day}`;
 const PORT = 3001;
 app.use(express.json());
 app.use(cors());
@@ -45,23 +49,30 @@ const UserSchema = new mongoose.Schema({
   Completed: {
     movies: [
       {
-        title: String,
-        URL: String,
+        name: String,
+        imageurl: String,
         id: String,
-        content: String,
+        review: String,
         stars: String,
       },
     ],
     series: [
       {
         name: String,
-        URL: String,
+        imageurl: String,
         id: String,
-        content: String,
+        review: String,
         stars: String,
       },
     ],
   },
+  Notify:[
+    {
+      name: String,
+      id: String,
+      date: String,
+    }
+  ],
 });
 
 const User = mongoose.model("post", UserSchema);
@@ -161,8 +172,27 @@ app.get("/getIDS", async (req, res) => {
     var decryptedBytes = CryptoJS.AES.decrypt(urldecodedEncryptedText,  `${process.env.SERVER_ENCRYPT_KEY}`);
     var userName = decryptedBytes.toString(CryptoJS.enc.Utf8);
     const allData = await User.find({ username: userName });
-
     res.json(allData);}
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+app.get("/getNOTFIYLIST", async (req, res) => {
+  try {
+    const encryptedText = req.query.username;
+
+    if(!encryptedText.includes("gmail.com")){
+
+    const urldecodedEncryptedText = decodeURIComponent(encryptedText);
+    var decryptedBytes = CryptoJS.AES.decrypt(urldecodedEncryptedText,  `${process.env.SERVER_ENCRYPT_KEY}`);
+    var userName = decryptedBytes.toString(CryptoJS.enc.Utf8);
+    const allData = await User.find({ username: userName });
+    const filteredItems = allData[0].Notify.filter((item) => {
+      return parseInt(ymd) >= parseInt(item.date.split('-').join(''));
+  });  
+  if(filteredItems.length > 0){res.json(filteredItems);}else{    res.status(204).send();  }
+    }
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
@@ -204,18 +234,20 @@ const type = req.body.type;
 });
 app.post("/completed/movies", async (req, res) => {
   try {
-    const { username, title, URL, id, content, stars } = req.body;
+    const { username, imageurl, name, id, review, stars } = req.body;
 
     // Find the user by username
     const user = await User.findOne({ username });
 
     // Add the completed movie to the Completed movies array
-    user.Completed.movies.push({ title, URL, id, content, stars });
+    if (user){
+    user.Completed.movies.push({ name, imageurl, id, review, stars });
 
     // Save the updated user document
     await user.save();
-
+    
     res.status(201).json({ message: "Completed movie added successfully" });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -223,18 +255,45 @@ app.post("/completed/movies", async (req, res) => {
 });
 app.post("/completed/series", async (req, res) => {
   try {
-    const { username, name, URL, id, content, stars } = req.body;
+    const { username, imageurl, name, id, review, stars } = req.body;
 
     // Find the user by username
     const user = await User.findOne({ username });
 
     // Add the completed series to the Completed series array
-    user.Completed.series.push({ name, URL, id, content, stars });
+    user.Completed.series.push({ name, imageurl, id, review, stars });
 
     // Save the updated user document
     await user.save();
 
     res.status(201).json({ message: "Completed series added successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+app.post("/putnotifylist", async (req, res) => {
+  try {
+    
+    const encryptedText = req.body.username;
+    const id = req.body.id;
+    const name = req.body.name;
+    const date = req.body.date;
+    var decryptedBytes = CryptoJS.AES.decrypt(encryptedText,  `${process.env.SERVER_ENCRYPT_KEY}`);
+    var username = decryptedBytes.toString(CryptoJS.enc.Utf8);
+    const user = await User.findOne({ username });
+    if (user){
+      const idExists = user.Notify.some(item => item.id.toString() === id.toString());
+if(!idExists){
+    user.Notify.push({ name,id,date });
+    await user.save();
+    res.status(201).json({ message: "Completed notified list updated successfully" });
+
+} else{
+  res.status(201).json({ message: "Completed notified list item already exists" });
+
+}
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });

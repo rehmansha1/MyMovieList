@@ -8,6 +8,8 @@ import Switchbutton from "../components/Switchbutton";
 export default function Mylist() {
   const [movies, setmylist] = useState({ results: [] });
   const [series, setseries] = useState({ results: [] });
+  const [completed,setcompleted] = useState(false);
+  const [completedContents,setcc] = useState();
 
   //const [userName, setusername] = useState("Rehman");
   const [btstate, setbtstate] = useState("movies");
@@ -22,10 +24,12 @@ export default function Mylist() {
       const response = await axios.get(
         `https://mymovielistserver.onrender.com/getIDS?username=${encodedUsername}`
       );
-      
+      console.log(response);
       const newData = response.data[0].Movies;
       const newData1 = response.data[0].Series;
-      setseries({ results: newData1 });
+
+setcc(response)
+       setseries({ results: newData1 });
       setmylist({ results: newData });}
 
       // await mylistimpl(newData);
@@ -96,8 +100,10 @@ export default function Mylist() {
 
           <div className="overlay1inner">
             <div className="ov1ih1">
-           
-             <div  id="mylisth1"  style={{color: 'white', top:  movies .results[0]|| series.results[0] ? '0px' : '-200px' }}>My List</div>
+         
+             <div  className="mylisth1" onClick={()=>{setcompleted(!completed); console.log(completed)}}  style={{color: 'white', top:  movies .results[0]|| series.results[0] ? '0px' : '-200px' }}>My List</div>
+
+
               <div className="boxwithx">
               <div id="btswithces"  style={{top:  movies .results[0]|| series.results[0] ? '0px' : '-200px' }}>
               <Switchbutton setbtstate={setbtstate}  />
@@ -118,8 +124,9 @@ export default function Mylist() {
               </svg>
               </div>
             </div>
+            {!completed && 
             <div className="ov1box" style={{ opacity: "1" }}>
-            { movies .results[0]|| series.results[0] ? 
+            {movies .results[0]|| series.results[0] ? 
             <>
               {btstate=='movies' && <List tren={movies} mylist={true} deleteindb={deleteindb} movies={'true'}/>}
               {btstate=='series' && <List tren={series} mylist={true} deleteindb={deleteindb} movies={'false'}/>}
@@ -128,6 +135,44 @@ export default function Mylist() {
              <div id="svgrotate"><svg xmlns="http://www.w3.org/2000/svg" fill="white" height="24" viewBox="0 -960 960 960" width="24"><path d="M480-160q-134 0-227-93t-93-227q0-134 93-227t227-93q69 0 132 28.5T720-690v-110h80v280H520v-80h168q-32-56-87.5-88T480-720q-100 0-170 70t-70 170q0 100 70 170t170 70q77 0 139-44t87-116h84q-28 106-114 173t-196 67Z"/></svg>
              <div id="quotes-under-svg">some badass quote</div></div>}
             </div>
+            }
+            {
+              completed &&
+              <>
+               {
+                btstate == 'movies' && 
+                completedContents.data[0].Completed.movies.map((item,index)=>{
+                  return(
+                 <div className="userReviews">
+                 <div className="userRevImageCon">
+                  <img id="userRevImageUrl" src={`https://image.tmdb.org/t/p/w600_and_h900_bestv2/${item.imageurl}`}/>
+                  </div>
+                  <div className="userRevDetes">
+                  <div>{item.name}</div>
+                  <div>{item.stars}</div>
+                  <div>{item.review}</div>
+                 </div>
+                 </div>
+                 )})
+               }
+               {
+                btstate == 'series' && 
+                completedContents.data[0].Completed.series.map((item,index)=>{
+                  return(
+                 <div className="userReviews">
+                 <div className="userRevImageCon">
+                  <img id="userRevImageUrl" src={`https://image.tmdb.org/t/p/w600_and_h900_bestv2/${item.imageurl}`}/>
+                  </div>
+                  <div className="userRevDetes">
+                  <div>{item.name}</div>
+                  <div>{item.stars}</div>
+                  <div>{item.review}</div>
+                 </div>
+                 </div>
+                 )})
+               }
+              </>
+            }
           </div>
         </>
       )}
