@@ -101,7 +101,7 @@ setcc(response)
           <div className="overlay1inner">
             <div className="ov1ih1">
          
-             <div  className="mylisth1" onClick={()=>{setcompleted(!completed); console.log(completed)}}  style={{color: 'white', top:  movies .results[0]|| series.results[0] ? '0px' : '-200px' }}>My List</div>
+             <div  className="mylisth1"   style={{color: 'white', top:  movies .results[0]|| series.results[0] ? '0px' : '-200px' }}>My List</div>
 
 
               <div className="boxwithx">
