@@ -154,6 +154,8 @@ app.post("/putIDMovies", async (req, res) => {
       res.status(200).json({ message: "Movie added successfully" });
       console.log("Movie is added to users db");
     } else {
+      res.status(200).json({ message: "Movie already exists successfully" });
+
       console.log("Movie Already exists");
     }
   } catch (error) {

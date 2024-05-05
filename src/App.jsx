@@ -227,7 +227,15 @@ catch{
   };
   const putInDbMovies = async (id, url, title) => {
     const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
-    try {
+    if(username){
+      document.getElementById('remindnotifycard').innerHTML = 'Added to your Watchlist ;)';
+      document.getElementById('remindnotifycard').style.top = '5%';
+      setTimeout(() => {
+        document.getElementById('remindnotifycard').style.top = '-10%';
+      
+      }, 1500);
+      try {
+
       const resp = await axios.post(
         "https://mymovielistserver.onrender.com/putIDMovies",
         {
@@ -238,9 +246,22 @@ catch{
         }
       );
 
-      console.log(resp.data);
+      console.log(resp);
+      
+    
+      
     } catch (error) {
       console.error("Error:", error);
+    }}
+    else{
+      document.getElementById('remindnotifycard').innerHTML = 'You have not Logged in';
+
+document.getElementById('remindnotifycard').style.top = '5%';
+setTimeout(() => {
+  document.getElementById('remindnotifycard').style.top = '-10%';
+
+}, 1500);
+
     }
   };
   const deleteindb = async (id) => {
@@ -262,7 +283,7 @@ catch{
   };
   useEffect(() => {
 gsap.to('.options',{duration:0.5,top:20})
-  }, []);
+  }, [imageLoaded]);
   useEffect(() => {
     const handleResize = () => {
       setPC(window.innerWidth > 767 ? true : false);
@@ -363,6 +384,8 @@ gsap.to('.options',{duration:0.5,top:20})
       <>
         {tren && (
           <>
+          <div id="remindnotifycard">  </div>
+
             {notification && (
               <div id="notibar">
               <div id="notiheader">
@@ -841,10 +864,19 @@ gsap.to('.options',{duration:0.5,top:20})
                               </p>
 
                               <div className="btlist">
-                                <div id="viewbt">Watch now</div>{" "}
+                              <a
+                        id="viewbt"
+                        href={`https://www.youtube.com/results?search_query=${
+                          tren.results[randomNumber[index]].title
+                        } trailer`}
+                        target="_blank"
+                      >
+                        Watch Trailer
+                      </a>
                                 <div
                                   id="watchbt"
                                   onClick={() => {
+                                    
                                     putInDbMovies(
                                       tren.results[randomNumber[index]].id,
                                       tren.results[randomNumber[index]]
