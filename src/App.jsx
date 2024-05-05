@@ -260,7 +260,9 @@ catch{
       console.error("Error:", error);
     }
   };
-
+  useEffect(() => {
+gsap.to('.options',{duration:0.5,top:20})
+  }, []);
   useEffect(() => {
     const handleResize = () => {
       setPC(window.innerWidth > 767 ? true : false);
