@@ -52,6 +52,9 @@ date:date,
 }catch(error){console.log('Error: ',error)}
   }
   useEffect(() => {
+    gsap.to('.options',{duration:0.5,top:20})
+      }, []);
+  useEffect(() => {
     const handleResize = () => {
       setPC(window.innerWidth > 767 ? true : false);
     };
@@ -334,6 +337,7 @@ gsap.to('.recommds_list > div',{scrollTrigger:{trigger:'.recommds_list > div'}, 
               <div
                 className="options"
                 id="option"
+                style={{top:'20px'}}
                 onClick={() => {
                   /* const c = document.getElementById("menu");
                 c.style.width = "20vw";
@@ -457,7 +461,7 @@ gsap.to('.recommds_list > div',{scrollTrigger:{trigger:'.recommds_list > div'}, 
                       ? tren.release_date.slice(0, 4)
                       : "Seasons: " + tren.number_of_seasons}{" "}
                   </div>
-                  {parseInt(tren.release_date.split('-').join('')) <  parseInt(ymd) &&
+                  {paramValue == 'true' && parseInt(tren.release_date.split('-').join('')) <  parseInt(ymd) &&
                   <div id="randomm18">
                     {tren.release_date ? NumToTime(tren.runtime) : null}
                   </div>}
@@ -507,7 +511,7 @@ gsap.to('.recommds_list > div',{scrollTrigger:{trigger:'.recommds_list > div'}, 
        Watchlist
                   </div>
                   }
-                  {parseInt(tren.release_date.split('-').join('')) > parseInt(ymd)  &&
+                  {paramValue == 'true'  && parseInt(tren.release_date.split('-').join('')) > parseInt(ymd)  &&
                    <div id="remindmebt" 
                    onClick={()=>
                    {document.getElementById('remindnotifycard').classList.toggle('animationdrag');
