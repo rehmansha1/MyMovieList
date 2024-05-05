@@ -7,7 +7,9 @@
   overflow-x: hidden;
   
 }
-
+::selection {
+  background-color: grey; /* Change this to the desired highlight color */
+}
 /* MOBILE LAYOUT STYLES */
 
 .mdetes{
