@@ -780,13 +780,15 @@ color: white;
 
 
 
-#mylisth1{
+.mylisth1{
   position: relative;
   top: -200px;
   transition: all 0.5s;
   pointer-events: none;
   color: white;
   cursor: pointer;
+  font-size: 40px;
+transition:  all 0.5s;
 }
 
 #mylisth1:hover{
