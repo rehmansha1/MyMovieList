@@ -228,12 +228,7 @@ catch{
   const putInDbMovies = async (id, url, title) => {
     const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
     if(username){
-      document.getElementById('remindnotifycard').innerHTML = 'Added to your Watchlist ;)';
-      document.getElementById('remindnotifycard').style.top = '5%';
-      setTimeout(() => {
-        document.getElementById('remindnotifycard').style.top = '-10%';
       
-      }, 1500);
       try {
 
       const resp = await axios.post(
@@ -247,7 +242,12 @@ catch{
       );
 
       console.log(resp);
-      
+      document.getElementById("remindnotifycard").innerHTML =
+        `${resp.data.message}`;
+      document.getElementById("remindnotifycard").style.top = "5%";
+      setTimeout(() => {
+        document.getElementById("remindnotifycard").style.top = "-10%";
+      }, 1500);
     
       
     } catch (error) {
