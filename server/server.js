@@ -151,10 +151,10 @@ app.post("/putIDMovies", async (req, res) => {
     if (!movieExists) {
       existingUser.Movies.push({ title, URL: url, id }); // Use URL instead of url
       await existingUser.save();
-      res.status(200).json({ message: "Movie added successfully" });
+      res.status(200).json({ message: "Movie added to your watchlist ;)" });
       console.log("Movie is added to users db");
     } else {
-      res.status(200).json({ message: "Movie already exists successfully" });
+      res.status(200).json({ message: "Movie already exists in your list" });
 
       console.log("Movie Already exists");
     }
