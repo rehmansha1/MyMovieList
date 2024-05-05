@@ -248,7 +248,7 @@ export default function MovieDetails() {
       }, 1500);
       } else {
         document.getElementById("remindnotifycard").innerHTML =
-          "You have not Logged in";
+          "You are not Logged in";
 
         document.getElementById("remindnotifycard").style.top = "5%";
         setTimeout(() => {

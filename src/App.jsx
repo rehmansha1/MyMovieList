@@ -254,7 +254,7 @@ catch{
       console.error("Error:", error);
     }}
     else{
-      document.getElementById('remindnotifycard').innerHTML = 'You have not Logged in';
+      document.getElementById('remindnotifycard').innerHTML = 'You are not Logged in';
 
 document.getElementById('remindnotifycard').style.top = '5%';
 setTimeout(() => {
