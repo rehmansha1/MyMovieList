@@ -299,6 +299,29 @@ if(!idExists){
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+app.post("/removeidfromnotlist", async (req, res) => {
+  try {
+    
+    const encryptedText = req.body.username;
+    const id = req.body.id;
+    var decryptedBytes = CryptoJS.AES.decrypt(encryptedText,  `${process.env.SERVER_ENCRYPT_KEY}`);
+    var username = decryptedBytes.toString(CryptoJS.enc.Utf8);
+    const user = await User.findOne({ username });
+    if (user){
+      user.Notify = user.Notify.filter(item => item.id.toString() !== id.toString());
+    await user.save();
+    res.status(201).json({ message: "deleted successfully" });
+
+} else{
+  res.status(201).json({ message: "user doesnt exist" });
+
+}
+    }
+   catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

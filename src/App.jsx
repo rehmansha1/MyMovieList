@@ -86,7 +86,24 @@ function App() {
 
     return null; // Return null if the cookie with the specified name is not found
   }
+const rmfromlistnoti = async (id)=>{
+  const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
+try{
 
+  const resp = await axios.post(
+    "https://mymovielistserver.onrender.com/removeidfromnotlist",
+    {
+      username,
+      id:id
+    }
+  );
+  console.log(resp);
+  window.location.reload();
+}
+catch{
+  console.log('Error: ',error);
+}
+}
   const receiveNotifyList = async () => {
     const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
     const encodedUsername = encodeURIComponent(username);
@@ -376,7 +393,7 @@ function App() {
                         {item.date + " - Released"}
                       </div>
                     </div>
-                    <svg xmlns="http://www.w3.org/2000/svg" id="rmfromlist" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M200-440v-80h560v80H200Z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" onClick={()=>rmfromlistnoti(item.id)} id="rmfromlist" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M200-440v-80h560v80H200Z"/></svg>
                     
                     </div>
                   );
