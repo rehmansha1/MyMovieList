@@ -27,10 +27,7 @@ const printstars = (ratings) =>{
 
   return stars;
 } 
-  const filteredResults = reviews.results
-    ? reviews.results.filter((item) => item.author_details.rating)
-    : null;
-  console.log(reviews);
+
 
   function changeoverlayr(index){
     setoverstate(!overstate);
