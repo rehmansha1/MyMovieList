@@ -53,6 +53,26 @@ export default function MovieDetails() {
 
     return false; // Cookie not found
   }
+  const printstars = (ratings) =>{
+    const stars = [];
+  
+    for (let i = 0; i < ratings; i++) {
+      stars.push(
+        <svg
+          key={i}
+          xmlns="http://www.w3.org/2000/svg"
+          fill="gold"
+          height="20"
+          viewBox="0 -960 960 960"
+          width="20"
+        >
+          <path d="m233-80 65-281L80-550l288-25 112-265 112 265 288 25-218 189 65 281-247-149L233-80Z" />
+        </svg>
+      );
+    }
+  
+    return stars;
+  } 
   const sendtodb = async (id, name, date) => {
     try {
       const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
@@ -550,7 +570,21 @@ export default function MovieDetails() {
                           <div>Tags</div>
                           <textarea id="textareaofrevbox2" placeholder="eg: Netflix"></textarea>
                         </div>
-                        <div id="submitbtrevbox2">Submit</div>
+                        <div className="ratinguserinner">
+             
+             <div class="star-rating">
+<input type="radio" id="5-stars" name="rating" value="5" onClick={()=>setstars(5)}/>
+<label for="5-stars" class="star">&#9733;</label>
+<input type="radio" id="4-stars" name="rating" value="4"  onClick={()=>setstars(4)}/>
+<label for="4-stars" class="star">&#9733;</label>
+<input type="radio" id="3-stars" name="rating" value="3"  onClick={()=>setstars(3)}/>
+<label for="3-stars" class="star">&#9733;</label>
+<input type="radio" id="2-stars" name="rating" value="2"  onClick={()=>setstars(2)}/>
+<label for="2-stars" class="star">&#9733;</label>
+<input type="radio" id="1-star" name="rating" value="1"  onClick={()=>setstars(1)}/>
+<label for="1-star" class="star">&#9733;</label>
+</div>
+           </div>                        <div id="submitbtrevbox2"><svg fill="white" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></svg></div>
                         </div>
                         </div>
 
