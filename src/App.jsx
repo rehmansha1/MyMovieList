@@ -392,8 +392,7 @@ gsap.to('.options',{duration:0.5,top:20})
               <div id="h1rm">Reminder list</div>
                 <svg
                   onClick={() => {
-                
-                    setnoti(false);
+                   setTimeout(()=>setnoti(false),0) 
                     
                   }}
                   xmlns="http://www.w3.org/2000/svg"
@@ -650,7 +649,7 @@ gsap.to('.options',{duration:0.5,top:20})
             */}
 
                   <div
-                    className="options"
+                    className="options" style={{position:'absolute'}}
                     onClick={() => {
                       /* const c = document.getElementById("menu");
                 c.style.width = "20vw";
@@ -704,6 +703,7 @@ gsap.to('.options',{duration:0.5,top:20})
                         </svg>
                       )}
                       {LoggedIn ? <LogOutbt /> : <GBTT />}
+
                       {noticontents && (
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -1041,37 +1041,12 @@ gsap.to('.options',{duration:0.5,top:20})
                         </div>
                       </div>
                     </div>
-                    {!LoggedIn && (
-                      <div className="trnbox">
-                        <div id="trenheader">
-                          {isPC && (
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="red"
-                              height="55"
-                              viewBox="0 -960 960 960"
-                              width="55"
-                            >
-                              <path d="m233-80 65-281L80-550l288-25 112-265 112 265 288 25-218 189 65 281-247-149L233-80Z" />
-                            </svg>
-                          )}
-                          <div className="tmfont">All Time Classics</div>
-                        </div>
-                        <div className="trenlist">
-                          <SwiperList
-                            tren={clmovies}
-                            putInDbMovies={putInDbMovies}
-                            movies={"true"}
-                            isPC={isPC}
-                            shuffle={false}
-                          />
-                        </div>
-                      </div>
-                    )}
+         
                   </div>
                 </div>
               )}
             </div>
+
           </>
         )}
       </>

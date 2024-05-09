@@ -8,6 +8,7 @@ import Mylist from './Pages/Mylist';
 import Searchkeyword from './Pages/Searchkeyword';
 import MoreImagesP from './Pages/MoreImagesP';
 import CastDetes from './Pages/CastDetes';
+import SavedStillsP from './Pages/SavedStillsP';
 
 const router = (
   
@@ -19,6 +20,8 @@ const router = (
       <Route path="/searchbykeyword" element={<Searchkeyword />} />
       <Route path="/media" element={<MoreImagesP />} />
       <Route path="/castdetes" element={<CastDetes />} />
+      <Route path="/savedstills" element={<SavedStillsP />} />
+
 
 
 

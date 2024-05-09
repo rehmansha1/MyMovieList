@@ -8,7 +8,7 @@
   
 }
 ::selection {
-  background-color: grey; /* Change this to the desired highlight color */
+  background-color: grey;
 }
 /* MOBILE LAYOUT STYLES */
 
@@ -122,7 +122,7 @@ scale: 0.8;
   background-color: transparent;
 }
 .wholedivofmoviedetes {
-  width: 100vw;
+ 
   overflow: hidden;
   overflow-y: hidden;
 }
@@ -236,7 +236,7 @@ to {
   padding-top: 20px;
 }
 .options {
-position: relative;
+  position: fixed;
   height: 50px;
   width: 50px;
   display: flex;
@@ -246,7 +246,7 @@ position: relative;
   align-items: center;
   background-color: black;
   margin-right: 50px;
-  position: fixed;
+  
   top: -100px;
   border-radius: 10px;
   background: rgba(255, 213, 213, 0.02);
@@ -1404,6 +1404,9 @@ transform: rotate(180deg);
 .mmpage {
   color: white;
 }
+.mmpage1{
+  display: flex;
+}
 #mediapagetitle {
   padding: 100px;
   font-size: 50px;
@@ -1566,9 +1569,10 @@ padding: 100px;
 
 #pptprofile {
   border-radius: 10px;
-  border: black 0px solid;
+  border: black 2px solid;
+  transition: border 0.5s;
 }
-
+#pptprofile:hover{border: white 2px solid;}
 .moviesacted {
   color: white;
   padding: 100px;
@@ -1698,7 +1702,30 @@ padding: 100px;
   transition: all 0.5s;
   z-index: 101;
   background-color: white;
-  cursor: pointer;;
+  cursor: pointer;
+}
+#likepart99{
+  font-size: 40px;
+  position: absolute;
+  left: 95%;
+  top: 15%;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s;
+  z-index: 101;
+  background-color: white;
+  cursor: pointer;
+  
+}
+#likepart99 > svg{
+  transition: fill 0.5s;
+}
+#likepart99:hover > svg{
+  fill: red !important;
 }
 #cp99svg {
   transition: all 0.5s;
@@ -2149,6 +2176,16 @@ transition: all 0.5s;
         animation: fadein12 1s   both;
 
       }
+      .gimg1{
+        height: 300px;
+        width:auto;
+        object-fit: cover;
+        transition: all 0.5s;
+      
+        cursor: pointer;
+        pointer-events: auto;
+        animation: fadein12 1s   both;
+      }
       #nextsymbol1{
         position: absolute;
       }
@@ -2255,7 +2292,6 @@ transition: opacity 0.5s;
   flex-direction: column;
 gap: 5px;
 font-family: harabara;
-padding: 20px;
 cursor: pointer;
 }
 .innerboxdate{
@@ -2265,7 +2301,7 @@ cursor: pointer;
   opacity: 1;
   display: flex;
   align-items: center;
-  justify-content:center ;
+  justify-content:space-around ;
   gap: 50%;
 padding: 20px;
   font-family: harabara;
@@ -2275,6 +2311,7 @@ padding: 20px;
 #rmfromlist{
   transition: all 0.2s;
   border-radius: 15px;
+
 }
 #rmfromlist:hover{
 
@@ -2286,17 +2323,152 @@ cursor: pointer;
 #list{
   display: flex;
   align-items: center;
-  gap: 70px;
-  
+  gap:10%;
+  padding: 20px;
+
 }
 #closenoti{
   
-  top: 10%;
-  right: 10%;
+ 
   cursor: pointer;
   transition: rotate 0.5s;
   z-index: 1000;
 }
 #closenoti:hover{
   rotate: 180deg;
+}
+#alreadywatched{
+position: relative;
+display: flex;
+align-items:center ;
+justify-content: center;
+cursor: pointer;
+}
+#alreadywatched::after{
+transition: all 0.5s;
+content: 'already watched ?';
+white-space: nowrap; 
+
+position: absolute;
+opacity: 0;
+
+left: 0px;
+height: auto;
+width: auto;
+padding: 10px;
+top: -3px;
+pointer-events: none;
+border-radius: 10px;
+color: white;
+background: rgba(255, 213, 213, 0.02);
+backdrop-filter: blur(3.5px);
+-webkit-backdrop-filter: blur(3.5px);
+border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+
+
+#alreadywatched:hover::after{
+content: 'already watched ?';
+position: absolute;
+white-space: nowrap; 
+opacity: 1;
+top: -3px;
+left: 30px;
+padding: 10px;
+border-radius: 10px;
+
+pointer-events: all;
+background-color: rgba(255, 213, 213, 0.02);
+backdrop-filter: blur(3.5px);
+color: white;
+background: rgba(255, 213, 213, 0.02);
+backdrop-filter: blur(3.5px);
+-webkit-backdrop-filter: blur(3.5px);
+border: 1px solid rgba(255, 255, 255, 0.18);
+}
+#blackboxiga{
+  position: fixed;
+  transform: translate(-50%, -50%) ;
+  left: 120%;
+  
+  background-color: transparent;
+  height: 10%;
+  width: 500px;
+  transition: all 0.5s;
+  border-radius: 10px;
+  opacity: 0;
+  display: flex;
+}
+.adaw{
+  color: white;
+}
+.blackrevbox{
+  
+  background-color: black !important;
+  height: 500px !important;
+  width: 500px !important;
+  z-index: 11111111111111111111111111;
+opacity: 1 !important;
+}
+
+#innerbbimgbox{
+  height: 90%;
+
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+
+}
+
+#innerbbimg{
+  border-radius: 1px;
+  
+  height: 200px;
+  width: auto;
+  padding: 0px;
+  border: 2px solid transparent;
+transition: border 0.5s;
+   filter: drop-shadow(0px 0px 1.5px white); 
+
+
+}
+#innerbbimg:hover{
+  border: 2px solid white;
+ 
+}
+#restbbbox{
+  flex: 9;
+  display: flex;
+  justify-content:center ;
+  flex-direction: column;
+  gap: 10px;
+}
+#titleofrevbox{
+  font-weight: bold;
+}
+#textareaofrevbox{
+  background-color: black;
+  color: white;
+  width: 90%;
+  height: 50%;
+}
+#tagsbbox{
+  display: flex;
+  flex-direction:row ;
+  gap: 10px;
+  display: flex;
+  align-items: center;
+}
+#textareaofrevbox2{
+  background-color: black;
+  color: white;
+  width:77%;
+  
+}
+#submitbtrevbox2{
+  position: relative;
+  right: -77%;
+  
 }

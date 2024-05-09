@@ -5,13 +5,15 @@ import mongoose from "mongoose";
 import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
 import CryptoJS from "crypto-js";
-
+import axios from "axios";
+import fs from "fs";
 dotenv.config();
 const app = express();
+
 const currentDate = new Date();
 const year = currentDate.getFullYear();
-const month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); 
-const day = currentDate.getDate().toString().padStart(2, '0');
+const month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
+const day = currentDate.getDate().toString().padStart(2, "0");
 const ymd = `${year}${month}${day}`;
 const PORT = 3001;
 app.use(express.json());
@@ -66,12 +68,17 @@ const UserSchema = new mongoose.Schema({
       },
     ],
   },
-  Notify:[
+  Notify: [
     {
       name: String,
       id: String,
       date: String,
-    }
+    },
+  ],
+  Stills: [
+    {
+      imageUrl: String,
+    },
   ],
 });
 
@@ -81,7 +88,10 @@ app.get("/", async (req, res) => {
 });
 app.post("/putIDSeries", async (req, res) => {
   const encryptedText = req.body.username;
-  var decryptedBytes = CryptoJS.AES.decrypt(encryptedText, `${process.env.SERVER_ENCRYPT_KEY}`);
+  var decryptedBytes = CryptoJS.AES.decrypt(
+    encryptedText,
+    `${process.env.SERVER_ENCRYPT_KEY}`
+  );
   var username = decryptedBytes.toString(CryptoJS.enc.Utf8);
   const id = req.body.id;
   const url = req.body.url;
@@ -122,7 +132,10 @@ app.post("/putIDSeries", async (req, res) => {
 
 app.post("/putIDMovies", async (req, res) => {
   const encryptedText = req.body.username;
-  var decryptedBytes = CryptoJS.AES.decrypt(encryptedText, `${process.env.SERVER_ENCRYPT_KEY}`);
+  var decryptedBytes = CryptoJS.AES.decrypt(
+    encryptedText,
+    `${process.env.SERVER_ENCRYPT_KEY}`
+  );
   var username = decryptedBytes.toString(CryptoJS.enc.Utf8);
 
   const title = req.body.title;
@@ -151,10 +164,12 @@ app.post("/putIDMovies", async (req, res) => {
     if (!movieExists) {
       existingUser.Movies.push({ title, URL: url, id }); // Use URL instead of url
       await existingUser.save();
-      res.status(200).json({ message: "Movie added to your watchlist ;)" });
+      res.status(200).json({ message: "Movie added to your Watchlist ;)" });
       console.log("Movie is added to users db");
     } else {
-      res.status(200).json({ message: "Movie already exists in your list" });
+      res
+        .status(200)
+        .json({ message: "Movie already exists in your Watchlist" });
 
       console.log("Movie Already exists");
     }
@@ -168,13 +183,16 @@ app.get("/getIDS", async (req, res) => {
   try {
     const encryptedText = req.query.username;
 
-    if(!encryptedText.includes("gmail.com")){
-
-    const urldecodedEncryptedText = decodeURIComponent(encryptedText);
-    var decryptedBytes = CryptoJS.AES.decrypt(urldecodedEncryptedText,  `${process.env.SERVER_ENCRYPT_KEY}`);
-    var userName = decryptedBytes.toString(CryptoJS.enc.Utf8);
-    const allData = await User.find({ username: userName });
-    res.json(allData);}
+    if (!encryptedText.includes("gmail.com")) {
+      const urldecodedEncryptedText = decodeURIComponent(encryptedText);
+      var decryptedBytes = CryptoJS.AES.decrypt(
+        urldecodedEncryptedText,
+        `${process.env.SERVER_ENCRYPT_KEY}`
+      );
+      var userName = decryptedBytes.toString(CryptoJS.enc.Utf8);
+      const allData = await User.find({ username: userName });
+      res.json(allData);
+    }
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
@@ -184,16 +202,44 @@ app.get("/getNOTFIYLIST", async (req, res) => {
   try {
     const encryptedText = req.query.username;
 
-    if(!encryptedText.includes("gmail.com")){
+    if (!encryptedText.includes("gmail.com")) {
+      const urldecodedEncryptedText = decodeURIComponent(encryptedText);
+      var decryptedBytes = CryptoJS.AES.decrypt(
+        urldecodedEncryptedText,
+        `${process.env.SERVER_ENCRYPT_KEY}`
+      );
+      var userName = decryptedBytes.toString(CryptoJS.enc.Utf8);
+      const allData = await User.find({ username: userName });
+      const filteredItems = allData[0].Notify.filter((item) => {
+        return parseInt(ymd) >= parseInt(item.date.split("-").join(""));
+      });
+      if (filteredItems.length > 0) {
+        res.json(filteredItems);
+        console.log(filteredItems);
+      } else {
+        res.status(204).send();
+        console;
+      }
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+app.get("/getstillslist", async (req, res) => {
+  try {
+    const encryptedText = req.query.username;
 
-    const urldecodedEncryptedText = decodeURIComponent(encryptedText);
-    var decryptedBytes = CryptoJS.AES.decrypt(urldecodedEncryptedText,  `${process.env.SERVER_ENCRYPT_KEY}`);
-    var userName = decryptedBytes.toString(CryptoJS.enc.Utf8);
-    const allData = await User.find({ username: userName });
-    const filteredItems = allData[0].Notify.filter((item) => {
-      return parseInt(ymd) >= parseInt(item.date.split('-').join(''));
-  });  
-  if(filteredItems.length > 0){res.json(filteredItems); console.log(filteredItems)}else{    res.status(204).send(); console  }
+    if (!encryptedText.includes("gmail.com")) {
+      const urldecodedEncryptedText = decodeURIComponent(encryptedText);
+      var decryptedBytes = CryptoJS.AES.decrypt(
+        urldecodedEncryptedText,
+        `${process.env.SERVER_ENCRYPT_KEY}`
+      );
+      var userName = decryptedBytes.toString(CryptoJS.enc.Utf8);
+      const allData = await User.find({ username: userName });
+     res.json(allData[0].Stills);
+     
     }
   } catch (error) {
     console.error(error);
@@ -202,13 +248,16 @@ app.get("/getNOTFIYLIST", async (req, res) => {
 });
 app.delete("/delete", async (req, res) => {
   try {
-const encryptedText = req.body.username;
-const id = req.body.id;
-const type = req.body.type;
+    const encryptedText = req.body.username;
+    const id = req.body.id;
+    const type = req.body.type;
 
-    var decryptedBytes = CryptoJS.AES.decrypt(encryptedText,  `${process.env.SERVER_ENCRYPT_KEY}`);
+    var decryptedBytes = CryptoJS.AES.decrypt(
+      encryptedText,
+      `${process.env.SERVER_ENCRYPT_KEY}`
+    );
     var username = decryptedBytes.toString(CryptoJS.enc.Utf8);
-    
+
     const user = await User.findOne({ username });
 
     if (!user) {
@@ -242,13 +291,13 @@ app.post("/completed/movies", async (req, res) => {
     const user = await User.findOne({ username });
 
     // Add the completed movie to the Completed movies array
-    if (user){
-    user.Completed.movies.push({ name, imageurl, id, review, stars });
+    if (user) {
+      user.Completed.movies.push({ name, imageurl, id, review, stars });
 
-    // Save the updated user document
-    await user.save();
-    
-    res.status(201).json({ message: "Completed movie added successfully" });
+      // Save the updated user document
+      await user.save();
+
+      res.status(201).json({ message: "Completed movie added successfully" });
     }
   } catch (error) {
     console.error(error);
@@ -276,25 +325,31 @@ app.post("/completed/series", async (req, res) => {
 });
 app.post("/putnotifylist", async (req, res) => {
   try {
-    
     const encryptedText = req.body.username;
     const id = req.body.id;
     const name = req.body.name;
     const date = req.body.date;
-    var decryptedBytes = CryptoJS.AES.decrypt(encryptedText,  `${process.env.SERVER_ENCRYPT_KEY}`);
+    var decryptedBytes = CryptoJS.AES.decrypt(
+      encryptedText,
+      `${process.env.SERVER_ENCRYPT_KEY}`
+    );
     var username = decryptedBytes.toString(CryptoJS.enc.Utf8);
     const user = await User.findOne({ username });
-    if (user){
-      const idExists = user.Notify.some(item => item.id.toString() === id.toString());
-if(!idExists){
-    user.Notify.push({ name,id,date });
-    await user.save();
-    res.status(201).json({ message: "Completed notified list updated successfully" });
-
-} else{
-  res.status(201).json({ message: "Completed notified list item already exists" });
-
-}
+    if (user) {
+      const idExists = user.Notify.some(
+        (item) => item.id.toString() === id.toString()
+      );
+      if (!idExists) {
+        user.Notify.push({ name, id, date });
+        await user.save();
+        res
+          .status(201)
+          .json({ message: "Completed notified list updated successfully" });
+      } else {
+        res
+          .status(201)
+          .json({ message: "Completed notified list item already exists" });
+      }
     }
   } catch (error) {
     console.error(error);
@@ -303,23 +358,57 @@ if(!idExists){
 });
 app.post("/removeidfromnotlist", async (req, res) => {
   try {
-    
     const encryptedText = req.body.username;
     const id = req.body.id;
-    var decryptedBytes = CryptoJS.AES.decrypt(encryptedText,  `${process.env.SERVER_ENCRYPT_KEY}`);
+    var decryptedBytes = CryptoJS.AES.decrypt(
+      encryptedText,
+      `${process.env.SERVER_ENCRYPT_KEY}`
+    );
     var username = decryptedBytes.toString(CryptoJS.enc.Utf8);
     const user = await User.findOne({ username });
-    if (user){
-      user.Notify = user.Notify.filter(item => item.id.toString() !== id.toString());
-    await user.save();
-    res.status(201).json({ message: "deleted successfully" });
-
-} else{
-  res.status(201).json({ message: "user doesnt exist" });
-
-}
+    if (user) {
+      user.Notify = user.Notify.filter(
+        (item) => item.id.toString() !== id.toString()
+      );
+      await user.save();
+      res.status(201).json({ message: "deleted successfully" });
+    } else {
+      res.status(201).json({ message: "user doesnt exist" });
     }
-   catch (error) {
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+app.post("/putstill", async (req, res) => {
+  try {
+    const encryptedText = req.body.username;
+    
+    const imageUrl = req.body.imageUrl;
+  
+    var decryptedBytes = CryptoJS.AES.decrypt(
+      encryptedText,
+      `${process.env.SERVER_ENCRYPT_KEY}`
+    );
+    var username = decryptedBytes.toString(CryptoJS.enc.Utf8);
+    const user = await User.findOne({ username });
+    if (user) {
+      const imgexists = user.Stills.some(
+        (item) => item.imageUrl.toString() === imageUrl.toString()
+      );
+      if (!imgexists) {
+        user.Stills.push({imageUrl});
+        await user.save();
+        res
+          .status(201)
+          .json({ message: "Added to your liked stills" });
+      } else {
+        res
+          .status(201)
+          .json({ message: "already exists" });
+      }
+    }
+  } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }

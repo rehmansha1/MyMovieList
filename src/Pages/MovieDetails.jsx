@@ -38,6 +38,21 @@ export default function MovieDetails() {
   const { id } = useParams();
   const urlParams = new URLSearchParams(window.location.search);
   let paramValue = urlParams.get("m");
+  function checkCookie(name) {
+    const cookies = document.cookie.split("; ");
+
+    for (const cookie of cookies) {
+      const [cookieName, cookieValue] = cookie.split("=");
+
+      const trimmedCookieName = cookieName.trim();
+
+      if (trimmedCookieName === name) {
+        return true; // Cookie found
+      }
+    }
+
+    return false; // Cookie not found
+  }
   const sendtodb = async (id, name, date) => {
     try {
       const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
@@ -336,7 +351,8 @@ export default function MovieDetails() {
         {tren && (
           <>
             <div id="remindnotifycard">
-              we will remind you when this movie releases{" "}
+              {
+                checkCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`) ? 'we will remind you when this movie releases' :  'You are not Logged in'} {" "}
             </div>
             <div className="overlaypart99" id="overlayp99">
               <div id="closepart99" onClick={expandandcenter}>
@@ -513,6 +529,33 @@ export default function MovieDetails() {
                             {tren.release_date ? NumToTime(tren.runtime) : null}
                           </div>
                         )}
+                        {(paramValue == "true" &&  parseInt(tren.release_date.split("-").join("")) <
+                          parseInt(ymd)  || paramValue == 'false') && <>
+                          <div id="alreadywatched"><svg xmlns="http://www.w3.org/2000/svg"
+                          onClick={()=>{
+                            
+                            const blackbox = document.getElementById('blackboxiga');
+                            blackbox.classList.toggle('blackrevbox')
+                          }}  fill="white" height="24" viewBox="0 -960 960 960" width="24"><path d="m424-296 282-282-56-56-226 226-114-114-56 56 170 170Zm56 216q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
+
+                        </div>
+                        <div id="blackboxiga">
+                          
+                           <div id="innerbbimgbox"><img id="innerbbimg" src={`https://image.tmdb.org/t/p/w220_and_h330_face/${tren.poster_path}`}/>
+                           </div>
+                           <div id="restbbbox">
+                        <div id="titleofrevbox">{tren.name || tren.title}</div>
+                        <textarea id="textareaofrevbox" placeholder="Add a review"></textarea>
+                        <div id="tagsbbox">
+                          <div>Tags</div>
+                          <textarea id="textareaofrevbox2" placeholder="eg: Netflix"></textarea>
+                        </div>
+                        <div id="submitbtrevbox2">Submit</div>
+                        </div>
+                        </div>
+
+                        </>
+                        }
                     </div>
                     {/* <p>{tren ?   `"${tren.tagline}"`     : null} </p> */}
                     <p id="moviedetes1">{tren ? tren.overview : ""}</p>

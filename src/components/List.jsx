@@ -28,7 +28,7 @@ export default function List({
 
 const sendcompletedidtodb = async(arrayImgNameId,inputText,starsvalue)=>{
   const urlformovies = "http://localhost:3001/completed/movies";
-  const urlforseries = 'http://localhost:3001/completed/series'
+  const urlforseries = 'http://localhost:3001/completed/series';
 
 
     const options = {
