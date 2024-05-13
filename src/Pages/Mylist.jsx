@@ -98,7 +98,7 @@ setcc(response)
       {movies && (
         <>
 
-          <div className="overlay1inner">
+          <div className="overlay1inner" id="fas">
             <div className="ov1ih1">
          
              <div  className="mylisth1"   style={{color: 'white', top:  movies .results[0]|| series.results[0] ? '0px' : '-200px' }}>My Watchlist</div>
@@ -112,7 +112,7 @@ setcc(response)
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 onClick={() => {
-                  navigate("/");
+                 setTimeout(()=>navigate('/'),0) 
                 }}
                 id="closemylist"
                 fill="white"

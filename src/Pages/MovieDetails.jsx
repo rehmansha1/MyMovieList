@@ -28,6 +28,8 @@ export default function MovieDetails() {
   const [isScaled, setIsScaled] = useState(false);
   const [credits, setcredits] = useState([]);
   const [video, setvideo] = useState();
+  const [rt, setrt] = useState();
+
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isPC, setPC] = useState(true);
   const currentDate = new Date();
@@ -144,8 +146,38 @@ export default function MovieDetails() {
     setText(event.target.value);
   };
   const sendcompletedidtodb = async(arrayImgNameId,inputText,starsvalue)=>{
-    const urlformovies = "https://mymovielistserver.onrender.com/completed/movies";
-    const urlforseries = 'https://mymovielistserver.onrender.com/completed/series';
+    const urlformovies = "http://localhost:3001/completed/movies";
+    const urlforseries = 'http://localhost:3001/completed/series';
+  
+      const options = {
+        headers: {
+          accept: "application/json",
+          Authorization: import.meta.env.VITE_GAPI_KEY_ENV,
+        },
+      };
+      const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
+
+  const url = paramValue == 'true' ? urlformovies : urlforseries;
+      try {
+
+        const response = await axios.post(url,{
+          username: username,
+          imageurl:arrayImgNameId[0],
+          name:arrayImgNameId[1] ,
+          id: arrayImgNameId[2],
+          review:inputText,
+          stars:starsvalue,
+  
+        })
+        console.log('req sent')
+
+        console.log(response);
+      } catch (error) {
+        console.error("error:", error);
+      } 
+  }
+  const sendPublicReview = async(arrayImgNameId,inputText,starsvalue)=>{
+
   
   
       const options = {
@@ -154,19 +186,19 @@ export default function MovieDetails() {
           Authorization: import.meta.env.VITE_GAPI_KEY_ENV,
         },
       };
-  const url = paramValue == 'true' ? urlformovies : urlforseries;
       try {
-        const response = await axios.post(url,{
-          username: "rehmnshs@gmail.com",
-          imageurl:arrayImgNameId[0],
-          name:arrayImgNameId[1] ,
+        const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
+
+        const response = await axios.post('http://localhost:3001/putPublicReview',{
           id: arrayImgNameId[2],
+          name: username,
           review:inputText,
           stars:starsvalue,
+          movie:paramValue,
   
         });
-  
-        console.log(response);
+  console.log(response.data)
+        return response;
       } catch (error) {
         console.error("error:", error);
       } 
@@ -597,7 +629,7 @@ export default function MovieDetails() {
                         </div>
                         <div id="blackboxiga">
                           
-                           <div id="innerbbimgbox"><img id="innerbbimg" src={`https://image.tmdb.org/t/p/w220_and_h330_face/${tren.poster_path}`}/>
+                         {!rt &&  <>  <div id="innerbbimgbox"><img id="innerbbimg" src={`https://image.tmdb.org/t/p/w220_and_h330_face/${tren.poster_path}`}/>
                            </div>
                            <div id="restbbbox">
                         <div id="titleofrevbox">{tren.name || tren.title}</div>
@@ -620,8 +652,15 @@ export default function MovieDetails() {
 <input type="radio" id="1-star" name="rating" value="1"  onClick={()=>setstars(1)}/>
 <label for="1-star" class="star">&#9733;</label>
 </div>
-           </div>                        <div id="submitbtrevbox2" onClick={()=>sendcompletedidtodb(reviewarray,text1,stars)}><svg fill="white" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></svg></div>
+
+           </div> 
+           <div>
+        
+           </div>                    
+              <div id="submitbtrevbox2" onClick={()=>{sendcompletedidtodb(reviewarray,text1,stars); setrt(sendPublicReview(reviewarray,text1,stars)); }}><svg fill="white" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></svg></div>
                         </div>
+                        </> }
+                        {rt && <div id="ok">{rt.data}</div>}
                         </div>
 
                         </>

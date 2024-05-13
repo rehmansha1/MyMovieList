@@ -81,8 +81,28 @@ const UserSchema = new mongoose.Schema({
     },
   ],
 });
+const ReviewSchema = new mongoose.Schema({
+
+  Reviews:{
+    Movies:[{
+      Name:String,
+      id:String,
+      Rev:String,
+      Stars:String,
+    }],
+    Series:[{
+      Name:String,
+      id:String,
+      Rev:String,
+      Stars:String,
+    }]
+  }
+
+});
 
 const User = mongoose.model("post", UserSchema);
+const Review = mongoose.model("Review", ReviewSchema);
+
 app.get("/", async (req, res) => {
   res.send("nuh");
 });
@@ -285,20 +305,24 @@ app.delete("/delete", async (req, res) => {
 });
 app.post("/completed/movies", async (req, res) => {
   try {
-    const { username, imageurl, name, id, review, stars } = req.body;
-
+    const { imageurl, name, id, review, stars } = req.body;
+    const encryptedText = req.body.username; 
+    var decryptedBytes = CryptoJS.AES.decrypt(
+      encryptedText,
+      `${process.env.SERVER_ENCRYPT_KEY}`
+    );
+    var username = decryptedBytes.toString(CryptoJS.enc.Utf8);
     // Find the user by username
     const user = await User.findOne({ username });
-
     // Add the completed movie to the Completed movies array
     if (user) {
+      console.log('came here')
+      if(user.Completed.movies.some((item)=>item.id == id)){res.status(201).json('arleady exists from completed movies')}
+      else{
       user.Completed.movies.push({ name, imageurl, id, review, stars });
-
-      // Save the updated user document
       await user.save();
-
       res.status(201).json({ message: "Completed movie added successfully" });
-    }
+      }}
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -306,11 +330,19 @@ app.post("/completed/movies", async (req, res) => {
 });
 app.post("/completed/series", async (req, res) => {
   try {
-    const { username, imageurl, name, id, review, stars } = req.body;
-
+    const { imageurl, name, id, review, stars } = req.body;
+    const encryptedText = req.body.username; 
+    var decryptedBytes = CryptoJS.AES.decrypt(
+      encryptedText,
+      `${process.env.SERVER_ENCRYPT_KEY}`
+    );
+    var username = decryptedBytes.toString(CryptoJS.enc.Utf8);
     // Find the user by username
     const user = await User.findOne({ username });
-
+    // Find the user by username
+    if(user){
+    if( user.Completed.series.some((item)=>item.id == id)){res.status(201).json('arleady exists from completed series')}
+else{
     // Add the completed series to the Completed series array
     user.Completed.series.push({ name, imageurl, id, review, stars });
 
@@ -318,7 +350,7 @@ app.post("/completed/series", async (req, res) => {
     await user.save();
 
     res.status(201).json({ message: "Completed series added successfully" });
-  } catch (error) {
+  }}} catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
@@ -412,6 +444,41 @@ app.post("/putstill", async (req, res) => {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
+});
+app.post("/putPublicReview", async (req, res) => {
+  const id = req.body.id;
+  const Rev = req.body.review;
+  const Stars = req.body.stars;
+  const movie = req.body.movie;
+  const encryptedText = req.body.name;
+  var decryptedBytes = CryptoJS.AES.decrypt(
+    encryptedText,
+    `${process.env.SERVER_ENCRYPT_KEY}`
+  );
+  var Name = decryptedBytes.toString(CryptoJS.enc.Utf8);
+
+  //const result= Review.Movie.some((item)=> item.Id,item.Name === Id,Name );
+  const existingReview = await Review.findById('663dc969dd1ca4e06a9276be');
+
+if (existingReview.Reviews.Movies.some((item)=>item.id == id && item.Name == Name)){
+  console.log(existingReview.Reviews.Movies.some((item)=>item.id == id && item.Name == Name));
+  res.status(201).json('alreadys exists rev public')}
+  else{
+    console.log(existingReview.Reviews.Movies.some((item)=>item.id == id && item.Name == Name));
+
+    existingReview.Reviews.Movies.push({ id, Name, Rev, Stars, movie });
+    res
+    .status(201)
+    .json({ message: "Added to your liked stills" });
+    await existingReview.save();
+
+  }
+
+
+  
+
+
+ 
 });
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
