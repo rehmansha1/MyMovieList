@@ -1458,6 +1458,7 @@ article {
   gap: 10px;
   font-size: 10px;
   cursor: pointer;
+  padding-right: 5px;
 }
 .castname > div:nth-child(1) {
   font-size: 10px;
@@ -1472,7 +1473,7 @@ article {
 .imgofcast > img {
   height: 100%;
   width: auto;
-  border-radius: 10px;
+  border-radius: 6px;
 }
 .keysandcredits {
   display: flex;
