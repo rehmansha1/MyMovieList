@@ -974,6 +974,7 @@ body{
   color: white;
   font-size: 50px;
   font-family: harabara;
+  padding: 0px;
 }
 .btmvser {
   display: flex;
@@ -1536,7 +1537,7 @@ article {
 .iframes {
   display: flex;
   gap: 10px;
-  padding-left: 20px;
+  padding-left: 100px;
 }
 .castdetes {
   padding: 100px;
@@ -2099,6 +2100,10 @@ article {
 .revsvg {
   display: flex;
   padding-left: 10px;
+  position: relative;
+  left: -100px;
+  align-items: center;
+  justify-content: center;
 }
 .revsectin {
   position: relative;
