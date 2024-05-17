@@ -72,12 +72,17 @@ if (username){
   }, []);
 
   const gimg = document.querySelectorAll(".gimg");
-  useEffect(() => {
-    const arryofimgs = document.querySelectorAll(".gimg");
-    arryofimgs.forEach((value, index) => {
-      value.style.animation = `fadein12 1s both ${index / 10}s`;
-    });
-  }, [gimg]);
+useEffect(() => {
+  const arryofimgs = document.querySelectorAll(".gimg");
+  arryofimgs.forEach((value, index) => {
+
+    const delay = index * 0.1;
+
+    value.style.animation = `scaleIn 1s both ${delay}s`;
+  });
+}, [gimg]);
+
+  
   function expandandcenter(index) {
 
     const newOverlay = !overlay;
