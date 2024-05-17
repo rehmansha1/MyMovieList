@@ -64,13 +64,15 @@ gsap.to('.divofwhole',{scrollTrigger:{trigger:'.divofwhole'}, opacity:1,duration
   }, [document.querySelectorAll('.divofwhole')]);
   return (
     <>
-    {pt.profile_path &&
+    {pt.profile_path &&  
       <div className="cwhole">
         <div className="castdetes">
           <div className="pptcover">
             <img
               id="pptprofile"
               src={`https://media.themoviedb.org/t/p/w300_and_h450_bestv2/${pt.profile_path}`}
+           
+
             />
 
 
