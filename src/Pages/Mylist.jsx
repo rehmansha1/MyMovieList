@@ -76,8 +76,13 @@ setcc(response)
   };
   
   useEffect(() => {
-    gsap.to('.ov1box > div',{ opacity:1,duration:0.5,stagger:0.1})
-
+    const arryofimgs = document.querySelectorAll(".ov1box > div");
+    arryofimgs.forEach((value, index) => {
+  
+      const delay = index * 0.1;
+  
+      value.style.animation = `scaleIn1 1s both ${delay}s`;
+    });
   }, [document.querySelectorAll('.ov1box > div')]);
 
   useEffect(() => {
@@ -90,7 +95,7 @@ setcc(response)
     };
 
     fetchData();
-    gsap.from('.ov1box',{opacity:0,duration:1});
+    gsap.from('.ov1box',{animation:'fadeIn',duration:1});
   }, []);
 
   return (
