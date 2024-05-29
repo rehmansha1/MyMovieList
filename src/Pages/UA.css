@@ -287,11 +287,16 @@ animation: fadein34234 0.5s 1s both;
   
 }
 .rotateandroate{
-  height: 100vh;
+  height: 95vh;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content:center ;
+ 
+
+}
+.rotateandroate > svg{
+  
   animation: rotate 0.5s infinite forwards;
   scale: 1.5;
 }
