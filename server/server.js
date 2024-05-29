@@ -77,27 +77,31 @@ const UserSchema = new mongoose.Schema({
   ],
   Stills: [
     {
+      Movie: String,
+      id: String,
       imageUrl: String,
     },
   ],
 });
 const ReviewSchema = new mongoose.Schema({
-
-  Reviews:{
-    Movies:[{
-      Name:String,
-      id:String,
-      Rev:String,
-      Stars:String,
-    }],
-    Series:[{
-      Name:String,
-      id:String,
-      Rev:String,
-      Stars:String,
-    }]
-  }
-
+  Reviews: {
+    Movies: [
+      {
+        Name: String,
+        id: String,
+        Rev: String,
+        Stars: String,
+      },
+    ],
+    Series: [
+      {
+        Name: String,
+        id: String,
+        Rev: String,
+        Stars: String,
+      },
+    ],
+  },
 });
 
 const User = mongoose.model("post", UserSchema);
@@ -139,8 +143,9 @@ app.post("/putIDSeries", async (req, res) => {
         existingUser.Series.push({ name, URL: url, id }); // Use URL instead of url
         await existingUser.save();
         console.log("series is added to users db");
-        res.status(200).json({ message: "Series added successfully" });
+        res.status(200).json({ message: "Series added to your watchlist ;)" });
       } else {
+        res.status(200).json({ message: "Series already exists " });
         console.log("Series Already exists");
       }
     }
@@ -258,8 +263,7 @@ app.get("/getstillslist", async (req, res) => {
       );
       var userName = decryptedBytes.toString(CryptoJS.enc.Utf8);
       const allData = await User.find({ username: userName });
-     res.json(allData[0].Stills);
-     
+      res.json(allData[0].Stills);
     }
   } catch (error) {
     console.error(error);
@@ -306,23 +310,22 @@ app.delete("/delete", async (req, res) => {
 app.post("/completed/movies", async (req, res) => {
   try {
     const { imageurl, name, id, review, stars } = req.body;
-    const encryptedText = req.body.username; 
+    const encryptedText = req.body.username;
     var decryptedBytes = CryptoJS.AES.decrypt(
       encryptedText,
       `${process.env.SERVER_ENCRYPT_KEY}`
     );
     var username = decryptedBytes.toString(CryptoJS.enc.Utf8);
-    // Find the user by username
     const user = await User.findOne({ username });
-    // Add the completed movie to the Completed movies array
     if (user) {
-      console.log('came here')
-      if(user.Completed.movies.some((item)=>item.id == id)){res.status(201).json('arleady exists from completed movies')}
-      else{
-      user.Completed.movies.push({ name, imageurl, id, review, stars });
-      await user.save();
-      res.status(201).json({ message: "Completed movie added successfully" });
-      }}
+      if (user.Completed.movies.some((item) => item.id == id)) {
+        res.status(201).json("arleady exists from completed movies");
+      } else {
+        user.Completed.movies.push({ name, imageurl, id, review, stars });
+        await user.save();
+        res.status(201).json("Movie review added successfully");
+      }
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -331,7 +334,7 @@ app.post("/completed/movies", async (req, res) => {
 app.post("/completed/series", async (req, res) => {
   try {
     const { imageurl, name, id, review, stars } = req.body;
-    const encryptedText = req.body.username; 
+    const encryptedText = req.body.username;
     var decryptedBytes = CryptoJS.AES.decrypt(
       encryptedText,
       `${process.env.SERVER_ENCRYPT_KEY}`
@@ -340,17 +343,78 @@ app.post("/completed/series", async (req, res) => {
     // Find the user by username
     const user = await User.findOne({ username });
     // Find the user by username
-    if(user){
-    if( user.Completed.series.some((item)=>item.id == id)){res.status(201).json('arleady exists from completed series')}
-else{
-    // Add the completed series to the Completed series array
-    user.Completed.series.push({ name, imageurl, id, review, stars });
+    if (user) {
+      if (user.Completed.series.some((item) => item.id == id)) {
+        res.status(201).json("arleady exists from completed series");
+      } else {
+        // Add the completed series to the Completed series array
+        user.Completed.series.push({ name, imageurl, id, review, stars });
 
-    // Save the updated user document
-    await user.save();
+        // Save the updated user document
+        await user.save();
 
-    res.status(201).json({ message: "Completed series added successfully" });
-  }}} catch (error) {
+        res.status(201).json("Completed series added successfully");
+      }
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+app.post("/removecompleted", async (req, res) => {
+  try {
+    const encryptedText = req.body.username;
+    const id = req.body.id;
+    const movie = req.body.movie;
+    var decryptedBytes = CryptoJS.AES.decrypt(
+      encryptedText,
+      `${process.env.SERVER_ENCRYPT_KEY}`
+    );
+    var username = decryptedBytes.toString(CryptoJS.enc.Utf8);
+    const user = await User.findOne({ username });
+    console.log("came");
+    if (user) {
+      console.log("came user");
+      if (movie == "true") {
+        user.Completed.movies = user.Completed.movies.filter(
+          (item) => item.id.toString() !== id.toString()
+        );
+        console.log("came true");
+
+
+        await user.save();
+        res.status(201).json("Movie removed successfully");
+
+      } else {
+        user.Completed.series = user.Completed.series.filter(
+          (item) => item.id.toString() !== id.toString()
+        );
+        await user.save();
+
+        res.status(201).json("Movie removed successfully");
+      }
+    } else {
+      console.log("user doesnt exist");
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+app.post("/getCompletedList", async (req, res) => {
+  try {
+    const encryptedText = req.body.username;
+    var decryptedBytes = CryptoJS.AES.decrypt(
+      encryptedText,
+      `${process.env.SERVER_ENCRYPT_KEY}`
+    );
+    var username = decryptedBytes.toString(CryptoJS.enc.Utf8);
+    const user = await User.findOne({ username });
+    if (user) {
+      const list = user.Completed;
+      res.json({ list: list });
+    }
+  } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
@@ -412,12 +476,36 @@ app.post("/removeidfromnotlist", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+app.post("/removeimageurl", async (req, res) => {
+  try {
+    const encryptedText = req.body.username;
+    const imageUrl = req.body.imageUrl;
+    var decryptedBytes = CryptoJS.AES.decrypt(
+      encryptedText,
+      `${process.env.SERVER_ENCRYPT_KEY}`
+    );
+    var username = decryptedBytes.toString(CryptoJS.enc.Utf8);
+    const user = await User.findOne({ username });
+    if (user) {
+      user.Stills = user.Stills.filter(
+        (item) => item.imageUrl.toString() !== imageUrl.toString()
+      );
+      await user.save();
+      res.status(201).json({ message: " img deleted successfully" });
+    } else {
+      res.status(201).json({ message: "user doesnt exist" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 app.post("/putstill", async (req, res) => {
   try {
     const encryptedText = req.body.username;
-    
+    const id = req.body.id;
     const imageUrl = req.body.imageUrl;
-  
+    const Movie = req.body.movie;
     var decryptedBytes = CryptoJS.AES.decrypt(
       encryptedText,
       `${process.env.SERVER_ENCRYPT_KEY}`
@@ -429,15 +517,13 @@ app.post("/putstill", async (req, res) => {
         (item) => item.imageUrl.toString() === imageUrl.toString()
       );
       if (!imgexists) {
-        user.Stills.push({imageUrl});
+        user.Stills.push({ Movie, id, imageUrl });
         await user.save();
-        res
-          .status(201)
-          .json({ message: "Added to your liked stills" });
+        res.status(201).json({ message: "Added to your liked stills ;)" });
       } else {
         res
           .status(201)
-          .json({ message: "already exists" });
+          .json({ message: "already exists on your liked stills " });
       }
     }
   } catch (error) {
@@ -445,6 +531,27 @@ app.post("/putstill", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+app.post("/getuserrecommadations", async (req, res) => {
+  const encryptedText = req.body.username;
+  var decryptedBytes = CryptoJS.AES.decrypt(
+    encryptedText,
+    `${process.env.SERVER_ENCRYPT_KEY}`
+  );
+  var username = decryptedBytes.toString(CryptoJS.enc.Utf8);
+  const user = await User.findOne({ username });
+  if (user) {
+    const seriesArray = user.Series;
+
+    if (seriesArray.length > 0) {
+      res.json({ id: seriesArray[seriesArray.length - 1].id });
+    } else {
+      console.log("No series found.");
+    }
+  } else {
+    console.log("User not found.");
+  }
+});
+
 app.post("/putPublicReview", async (req, res) => {
   const id = req.body.id;
   const Rev = req.body.review;
@@ -458,27 +565,30 @@ app.post("/putPublicReview", async (req, res) => {
   var Name = decryptedBytes.toString(CryptoJS.enc.Utf8);
 
   //const result= Review.Movie.some((item)=> item.Id,item.Name === Id,Name );
-  const existingReview = await Review.findById('663dc969dd1ca4e06a9276be');
+  const existingReview = await Review.findById("663dc969dd1ca4e06a9276be");
 
-if (existingReview.Reviews.Movies.some((item)=>item.id == id && item.Name == Name)){
-  console.log(existingReview.Reviews.Movies.some((item)=>item.id == id && item.Name == Name));
-  res.status(201).json('alreadys exists rev public')}
-  else{
-    console.log(existingReview.Reviews.Movies.some((item)=>item.id == id && item.Name == Name));
+  if (
+    existingReview.Reviews.Movies.some(
+      (item) => item.id == id && item.Name == Name
+    )
+  ) {
+    console.log(
+      existingReview.Reviews.Movies.some(
+        (item) => item.id == id && item.Name == Name
+      )
+    );
+    res.status(201).json("alreadys exists rev public");
+  } else {
+    console.log(
+      existingReview.Reviews.Movies.some(
+        (item) => item.id == id && item.Name == Name
+      )
+    );
 
     existingReview.Reviews.Movies.push({ id, Name, Rev, Stars, movie });
-    res
-    .status(201)
-    .json({ message: "Added to your liked stills" });
+    res.status(201).json({ message: "Added to your liked stills" });
     await existingReview.save();
-
   }
-
-
-  
-
-
- 
 });
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

@@ -40,6 +40,7 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import LogOutbt from "./components/LogOutbt";
 import GBTT from "./components/GBTT";
+import Uppercard from "./components/Uppercard";
 function App() {
   const [tren, settrend] = useState([]);
   const [tren1, settrend1] = useState([]);
@@ -55,7 +56,7 @@ function App() {
   const [userName, setusername] = useState("Rehman");
   const [clmovies, setclmov] = useState([]);
   const navigate = useNavigate();
-
+  const [userRecomds, setUserRecomds] = useState();
   const [mylistfinal, setmylistfinal] = useState({ results: [] });
   const [menu, setmenu] = useState(false);
   const [menureal, setmenureal] = useState(false);
@@ -86,24 +87,22 @@ function App() {
 
     return null; // Return null if the cookie with the specified name is not found
   }
-const rmfromlistnoti = async (id)=>{
-  const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
-try{
-
-  const resp = await axios.post(
-    "https://mymovielistserver.onrender.com/removeidfromnotlist",
-    {
-      username,
-      id:id
+  const rmfromlistnoti = async (id) => {
+    const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
+    try {
+      const resp = await axios.post(
+        "https://mymovielistserver.onrender.com/removeidfromnotlist",
+        {
+          username,
+          id: id,
+        }
+      );
+      console.log(resp);
+      window.location.reload();
+    } catch {
+      console.log("Error: ", error);
     }
-  );
-  console.log(resp);
-  window.location.reload();
-}
-catch{
-  console.log('Error: ',error);
-}
-}
+  };
   const receiveNotifyList = async () => {
     const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
     const encodedUsername = encodeURIComponent(username);
@@ -207,6 +206,29 @@ catch{
       console.error("error:", error);
     }
   };
+  const getuserrecommds = async () => {
+    const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
+
+    const id = await axios.post("https://mymovielistserver.onrender.com/getuserrecommadations", {
+      username,
+    });
+    const urltvseriesrecommds = `https://api.themoviedb.org/3/tv/${id.data.id}/recommendations`;
+
+    const options = {
+      headers: {
+        accept: "application/json",
+        Authorization: import.meta.env.VITE_GAPI_KEY_ENV,
+      },
+    };
+
+    try {
+      const response1 = await axios.get(urltvseriesrecommds, { ...options });
+      console.log(response1.data);
+      setUserRecomds(response1.data);
+    } catch (error) {
+      console.error("error:", error);
+    }
+  };
 
   const putInDbSeries = async (id, url, name) => {
     const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
@@ -227,43 +249,40 @@ catch{
   };
   const putInDbMovies = async (id, url, title) => {
     const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
-    if(username){
-      
+    if (username) {
       try {
+        const resp = await axios.post(
+          "https://mymovielistserver.onrender.com/putIDMovies",
+          {
+            username,
+            id: id,
+            url: url,
+            title: title,
+          }
+        );
 
-      const resp = await axios.post(
-        "https://mymovielistserver.onrender.com/putIDMovies",
-        {
-          username,
-          id: id,
-          url: url,
-          title: title,
-        }
-      );
-
-      console.log(resp);
+        console.log(resp);
+        document.getElementById(
+          "remindnotifycard"
+        ).innerHTML = `${resp.data.message}`;
+        document.getElementById("remindnotifycard").style.top = "5%";
+        setTimeout(() => {
+          document.getElementById("remindnotifycard").style.top = "-10%";
+        }, 1500);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    } else {
       document.getElementById("remindnotifycard").innerHTML =
-        `${resp.data.message}`;
+        "You are not Logged in";
+
       document.getElementById("remindnotifycard").style.top = "5%";
       setTimeout(() => {
         document.getElementById("remindnotifycard").style.top = "-10%";
       }, 1500);
-    
-      
-    } catch (error) {
-      console.error("Error:", error);
-    }}
-    else{
-      document.getElementById('remindnotifycard').innerHTML = 'You are not Logged in';
-
-document.getElementById('remindnotifycard').style.top = '5%';
-setTimeout(() => {
-  document.getElementById('remindnotifycard').style.top = '-10%';
-
-}, 1500);
-
     }
   };
+
   const deleteindb = async (id) => {
     const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
     try {
@@ -282,7 +301,7 @@ setTimeout(() => {
     }
   };
   useEffect(() => {
-gsap.to('.options',{duration:0.5,top:20})
+    gsap.to(".options", { duration: 0.5, top: 20 });
   }, [imageLoaded]);
   useEffect(() => {
     const handleResize = () => {
@@ -299,16 +318,10 @@ gsap.to('.options',{duration:0.5,top:20})
     fetchData();
 
     setlogged(checkCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`));
+    getuserrecommds();
   }, []);
   useEffect(() => {
-    if (document.getElementById('notibar')){
-      if (document.getElementById('notibar')) {
-        setTimeout(function() {
-          document.getElementById('notibar').style.opacity = notification ? 1 : 0;
-        }, 100);
-      }
-      
-    }
+gsap.to('#notibar',{duration:0.5,opacity:1,y:-50})
   }, [notification]);
   useEffect(() => {
     receiveNotifyList();
@@ -384,41 +397,49 @@ gsap.to('.options',{duration:0.5,top:20})
       <>
         {tren && (
           <>
-          <div id="remindnotifycard">  </div>
-
+            <Uppercard />
             {notification && (
               <div id="notibar">
-              <div id="notiheader">
-              <div id="h1rm">Reminder list</div>
-                <svg
-                  onClick={() => {
-                   setTimeout(()=>setnoti(false),0) 
-                    
-                  }}
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="27"
-                  fill="white"
-                  viewBox="0 -960 960 960"
-                  width="27"
-                  id="closenoti"
-                >
-                  <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-                </svg>
-</div>
+                <div id="notiheader">
+                  <div id="h1rm">Reminder list</div>
+                  <svg
+                    onClick={() => {
+                      document.getElementById('notibar').style.animation = 'opacityanddown 0.5s both'
+                      setTimeout(() => setnoti(false), 500);
+                    }}
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="27"
+                    fill="white"
+                    viewBox="0 -960 960 960"
+                    width="27"
+                    id="closenoti"
+                  >
+                    <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+                  </svg>
+                </div>
                 {noticontents.map((item, index) => {
                   return (
                     <div id="list">
-                    <div
-                      className="notiInnerbox"
-                      onClick={() => navigate(`/detes/${item.id}?m=${true}`)}
-                    >
-                      <div>{item.name}</div>
-                      <div className="innerboxdate">
-                        {item.date + " - Released"}
+                      <div
+                        className="notiInnerbox"
+                        onClick={() => navigate(`/detes/${item.id}?m=${true}`)}
+                      >
+                        <div>{item.name}</div>
+                        <div className="innerboxdate">
+                          {item.date + " - Released"}
+                        </div>
                       </div>
-                    </div>
-                    <svg xmlns="http://www.w3.org/2000/svg" onClick={()=>rmfromlistnoti(item.id)} id="rmfromlist" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M200-440v-80h560v80H200Z"/></svg>
-                    
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        onClick={() => rmfromlistnoti(item.id)}
+                        id="rmfromlist"
+                        height="24px"
+                        viewBox="0 -960 960 960"
+                        width="24px"
+                        fill="#e8eaed"
+                      >
+                        <path d="M200-440v-80h560v80H200Z" />
+                      </svg>
                     </div>
                   );
                 })}
@@ -649,7 +670,8 @@ gsap.to('.options',{duration:0.5,top:20})
             */}
 
                   <div
-                    className="options" style={{position:'absolute'}}
+                    className="options"
+                    style={{ position: "absolute" }}
                     onClick={() => {
                       /* const c = document.getElementById("menu");
                 c.style.width = "20vw";
@@ -702,14 +724,13 @@ gsap.to('.options',{duration:0.5,top:20})
                           <path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Z" />
                         </svg>
                       )}
-                      {LoggedIn ? <LogOutbt /> : <GBTT />}
+                      {LoggedIn ? <LogOutbt fill={'white'} /> : <GBTT />}
 
                       {noticontents && (
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          onClick={ async() => {
-                            setnoti(true)
-                    
+                          onClick={async () => {
+                            setnoti(true);
                           }}
                           id="notificationsvg"
                           height="24px"
@@ -733,7 +754,18 @@ gsap.to('.options',{duration:0.5,top:20})
                           </text>
                         </svg>
                       )}
-
+                      {LoggedIn && (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          onClick={() => navigate("/useraccount")}
+                          fill="white"
+                          height="24"
+                          viewBox="0 -960 960 960"
+                          width="24"
+                        >
+                          <path d="M160-200v-360q0-19 8.5-36t23.5-28l240-180q21-16 48-16t48 16l240 180q15 11 23.5 28t8.5 36v360q0 33-23.5 56.5T720-120H600q-17 0-28.5-11.5T560-160v-200q0-17-11.5-28.5T520-400h-80q-17 0-28.5 11.5T400-360v200q0 17-11.5 28.5T360-120H240q-33 0-56.5-23.5T160-200Z" />
+                        </svg>
+                      )}
                       <svg
                         onClick={() => {
                           setmenu(false);
@@ -864,19 +896,18 @@ gsap.to('.options',{duration:0.5,top:20})
                               </p>
 
                               <div className="btlist">
-                              <a
-                        id="viewbt"
-                        href={`https://www.youtube.com/results?search_query=${
-                          tren.results[randomNumber[index]].title
-                        } trailer`}
-                        target="_blank"
-                      >
-                        Watch Trailer
-                      </a>
+                                <a
+                                  id="viewbt"
+                                  href={`https://www.youtube.com/results?search_query=${
+                                    tren.results[randomNumber[index]].title
+                                  } trailer`}
+                                  target="_blank"
+                                >
+                                  Watch Trailer
+                                </a>
                                 <div
                                   id="watchbt"
                                   onClick={() => {
-                                    
                                     putInDbMovies(
                                       tren.results[randomNumber[index]].id,
                                       tren.results[randomNumber[index]]
@@ -965,6 +996,32 @@ gsap.to('.options',{duration:0.5,top:20})
                 <div className="secpage">
                   <div id="blackcover"></div>
                   <div className="trndingpage">
+                  {LoggedIn && userRecomds &&
+                  <div className="trnbox">
+                        <div id="trenheader">
+                          {isPC && (
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="red"
+                              height="55"
+                              viewBox="0 -960 960 960"
+                              width="55"
+                            >
+                              <path d="m136-240-56-56 296-298 160 160 208-206H640v-80h240v240h-80v-104L536-320 376-480 136-240Z" />
+                            </svg>
+                          )}
+                          <div className="tmfont">Recommendations for you</div>
+                        </div>
+                        <div className="trenlist">
+                          <SwiperList
+                            tren={userRecomds}
+                            putInDbSeries={putInDbSeries}
+                            movies={"false"}
+                            isPC={isPC}
+                          />
+                        </div>
+                      </div>
+              }
                     <div className="trnbox">
                       <div id="trenheader">
                         {isPC && (
@@ -1041,12 +1098,10 @@ gsap.to('.options',{duration:0.5,top:20})
                         </div>
                       </div>
                     </div>
-         
                   </div>
                 </div>
               )}
             </div>
-
           </>
         )}
       </>

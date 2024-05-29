@@ -21,14 +21,14 @@ export default function List({
   const handleButtonClick = (id) => {
    
       navigate(`/detes/${id}?m=${movies}`);
+      //window.open(`/detes/${id}?m=${movies}`, '_blank')
+      //window.location.href=`/detes/${id}?m=${movies}`;
 
- // window.location.href=`/detes/${id}?m=${movies}`;
- 
   };
 
 const sendcompletedidtodb = async(arrayImgNameId,inputText,starsvalue)=>{
-  const urlformovies = "http://localhost:3001/completed/movies";
-  const urlforseries = 'http://localhost:3001/completed/series';
+  const urlformovies = "https://mymovielistserver.onrender.com/completed/movies";
+  const urlforseries = 'https://mymovielistserver.onrender.com/completed/series';
 
 
     const options = {
@@ -139,7 +139,7 @@ const handleChange = (event) => {
                       onClick={(event) => {
                         deleteindb(item.id);
                         event.target.parentElement.parentElement.parentElement.style.position = 'absolute';
-                        event.target.parentElement.parentElement.parentElement.style.opacity = 0;
+                        event.target.parentElement.parentElement.style.opacity = 0;
 
                         console.log(
                           event.target.parentElement.parentElement.parentElement
@@ -197,7 +197,7 @@ const handleChange = (event) => {
                       <path d="m424-296 282-282-56-56-226 226-114-114-56 56 170 170Zm56 216q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
                     </svg>
                   )}
-
+                  
                   <img
                   id="imgofthis"
                     onClick={() => {
@@ -209,7 +209,7 @@ const handleChange = (event) => {
                     
                     src={`https://image.tmdb.org/t/p/w600_and_h900_bestv2${item.poster_path || item.URL}`}
                     alt={item.title || "Image Alt Text"}
-                  />
+                  /> 
 <a href={`http://localhost:5173/detes/${item.id}?m=${movies}`} id="clickthis"></a>
                 </div>
                 <div className="trndetes">

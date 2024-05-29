@@ -33,6 +33,7 @@ body{
   letter-spacing: 2px;
   flex-wrap: wrap;
   word-wrap: break-word; /* This property breaks long words and wraps them onto the next line */
+  text-align: center;
 }
 #mdms {
   display: flex;
@@ -539,6 +540,29 @@ body{
   transform: translateX(-50%);
   z-index: 1000000000000000000000000000;
 }
+#uppercard{
+  top: -20%;
+  position: fixed;
+  background-color: black;
+  height: 25px;
+  border-radius: 10px;
+
+  color: white;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif,
+    Helvetica, sans-serif;
+  font-size: 15px;
+  letter-spacing: 1px;
+  transition: all 0.5s;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000000000000000000000000000;
+}
 .animationdrag {
   animation: dragitupdown 3s both;
 }
@@ -602,6 +626,8 @@ body{
   top: 1%;
   left: 85%;
   transition: opacity 0.2s;
+  filter: drop-shadow(0px 0px 1px black);
+
 }
 .swipercardwrapper {
   z-index: 0;
@@ -1039,6 +1065,9 @@ body{
   position: absolute;
   opacity: 0;
   padding: 5px;
+  filter: drop-shadow(0px 0px 1px black);
+
+
 }
 .checksvg:hover {
   fill: gold;
@@ -1342,6 +1371,16 @@ article {
 }
 .wholepageofkeywordsearch {
   color: white;
+}
+@keyframes scaleupreverse {
+  0% {
+    opacity: 1;
+    scale: 1;
+  }
+  100% {
+    opacity: 0;
+    scale: 0.7;
+  }
 }
 #titleks {
   font-size: 30px;
@@ -1672,20 +1711,21 @@ article {
 
 /* OVERLAY FOR MEDIA IMAGES */
 .overlaypart99 {
+  position: fixed;
   width: 100%;
   height: 100%;
   background-color: black;
-  backdrop-filter: blur(100px); /* Adjust the blur value as needed */
-
-  position: fixed;
-  scale: 0.8;
-  top: 0;
-  opacity: 0;
-  pointer-events: none;
+  top: 0px;
+  left: 0px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.5s;
+  opacity: 0;
+  scale: 0.7;
+  backdrop-filter: blur(100px);
+  animation: scaleup 0.5s both;
+  z-index: 1;
 }
 #closepart99 {
   font-size: 40px;
@@ -2324,6 +2364,17 @@ article {
   border-radius: 10px;
   transition: opacity 0.5s;
 }
+@keyframes opacityanddown {
+  0%{
+    opacity: 1;
+    top: 50%;
+    
+  }
+  100%{
+    opacity: 0;
+    top: 55%;
+  }
+}
 #h1rm {
   position: relative;
 }
@@ -2362,6 +2413,7 @@ article {
 #list {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 10%;
   padding: 20px;
 }
@@ -2452,12 +2504,13 @@ article {
 }
 
 #innerbbimgbox {
-  height: 90%;
+  height: 80%;
 
   flex: 1;
   display: flex;
   align-items: center;
   padding: 10px;
+  pointer-events: none;
 }
 
 #innerbbimg {
@@ -2472,6 +2525,7 @@ article {
 }
 #innerbbimg:hover {
   border: 2px solid white;
+
 }
 #restbbbox {
   flex: 9;
@@ -2519,3 +2573,27 @@ article {
 }
 #submitbtrevbox2:hover{left: 86%;}
 
+#checkbox{
+  color: white;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  font-family: 'Montserrat';
+opacity: 0;
+scale: 0.7;
+animation: checkboxani 1s both;
+}
+@keyframes checkboxani {
+  0%{
+    scale: 0.7;;
+    opacity: 0;
+  }
+  100%{
+    scale: 1;
+    opacity: 1;
+  }
+}

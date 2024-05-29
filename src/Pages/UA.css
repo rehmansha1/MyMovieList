@@ -1,0 +1,477 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+.UA {
+  display: flex;
+}
+.UAmenu {
+  position: fixed;
+  height: 100vh;
+  width: 25%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+}
+.UaINNERINNERMENU {
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10%;
+  font-family: "Montserrat";
+  font-weight: 600;
+  color: white;
+  text-align: left;
+  text-wrap: nowrap;
+}
+.UaINNERINNERMENU > div {
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.UaINNERINNERMENU > div:hover {
+  margin-left: 5%;
+  color: yellow;
+}
+.UAinnermenu {
+  height: 500px;
+
+  background-color: transparent;
+}
+
+/* USER ACCOUNT TAG BAR */
+
+.useraccounttag {
+  position: absolute;
+  left: 55%;
+  transform: translateX(-50%);
+  width: 70%;
+  height: 5vh;
+  background-color: black;
+margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  font-family: "Montserrat";
+  border-radius: 10px;
+  animation: uuppp 1s 0.5s both;
+  border: 1px white solid;
+  color: white;
+  padding: 10px;
+}
+
+#drage111{
+  cursor: pointer;
+}
+@keyframes uuppp {
+  0% {
+    bottom: -500px;
+  }
+  100% {
+    bottom: 0px;
+  }
+}
+.useraccounttag > div {
+  display: flex;
+  gap: 10px;
+}
+
+/* END OF  USER ACCOUNT TAG BAR */
+
+.UAcontent {
+  width: 75%;
+  margin-left: 25%;
+  background-color: black;
+  border-bottom-color: transparent;
+
+}
+.UAouteroflikedposts {
+}
+.UAbtbutton {
+  height: 150px;
+  position: absolute;
+  top: 50px;
+  left: 79%;
+}
+.UAouterwatchlist {
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  justify-content: center;
+  align-items: center;
+  padding-top: 150px;
+}
+.UAwatchlist {
+  width: 80%;
+  height: 100%;
+  display: flex;
+  gap: 50px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+.UAwatchlist > div {
+scale: 0;
+}
+
+.UAlikedlist {
+  display: flex;
+  flex-wrap: wrap;
+  width: 80%;
+  justify-content: center;
+  align-items: center;
+  padding-top: 100px;
+  gap: 50px;
+  height: 100%;
+}
+.UAlikedlist > div > img {
+  cursor: pointer;
+  max-height: 300px;
+  width: auto;
+  border-radius: 15px;
+  opacity: 0;
+  scale: 0.5;
+}
+.UAlikedlist > div > img:hover + #UAllclose {
+  opacity: 1;
+}
+#viewimg {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+
+  top: 0px;
+  left: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s;
+  opacity: 0;
+  scale: 0.7;
+  backdrop-filter: blur(100px);
+  animation: scaleup 0.5s both;
+  z-index: 1;
+}
+
+#UAviewimgreal {
+  position: fixed;
+  width: auto;
+  max-height: 100%;
+  z-index: 10;
+  pointer-events: none;
+  user-select: none; /* Prevent text selection */
+  -webkit-user-select: none; /* For Safari */
+  -moz-user-select: none; /* For Firefox */
+  -ms-user-select: none; /* For Internet Explorer/Edge */
+  pointer-events: none;
+}
+@keyframes scaleup {
+  0% {
+    opacity: 0;
+    scale: 0.7;
+  }
+  100% {
+    opacity: 1;
+    scale: 1;
+  }
+}
+@keyframes scaleupreverse {
+  0% {
+    opacity: 1;
+    scale: 1;
+  }
+  100% {
+    opacity: 0;
+    scale: 0.7;
+  }
+}
+#UAllclose {
+  opacity: 0;
+  position: absolute;
+  top: 2%;
+  left: 89%;
+  scale: 1;
+  border-radius: 50%;
+  background-color: black;
+  padding: 10px;
+  transition: opacity 0.5s;
+}
+#UAllclose:hover {
+  opacity: 1;
+  cursor: pointer;
+  animation: bellring 0.5s linear;
+}
+
+#UALLINNER {
+  position: relative;
+
+  transition: opacity 0.5s;
+}
+@keyframes opac111 {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes bellring {
+  0% {
+    transform: rotate(0deg);
+  }
+  10% {
+    transform: rotate(20deg);
+  }
+  50% {
+    transform: rotate(-20deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.gotolink {
+  position: absolute;
+  left: 95%;
+  top: 15%;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s;
+  z-index: 101;
+  background-color: white;
+  cursor: pointer;
+  transform: scaleX(-1);
+  padding: 12px;
+}
+#gotolink:hover {
+  transform: scaleX(-1);
+}
+.gotolink2{
+  position: fixed;
+  left: 1%;
+  top:5%;
+  width: 25px;
+  fill: grey;
+  height: 25px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s;
+z-index: 1;
+  background-color: black;
+  cursor: pointer;
+  transform: scaleX(1);
+  padding: 12px;
+  opacity: 0;
+animation: fadein34234 0.5s 1s both;
+}
+
+
+
+@keyframes fadein34234 {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+.gotolink2:hover{
+  background-color: white;
+  fill: black;
+  
+}
+.rotateandroate{
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content:center ;
+  animation: rotate 0.5s infinite forwards;
+  scale: 1.5;
+}
+@keyframes rotate {
+  0% {
+    rotate: 0;
+
+  }
+  100% {
+    rotate: 360deg;
+  }
+}
+#drage111 >svg{
+  border-radius: 50%;
+  background-color: black;
+  fill: white;
+  padding: 5px;
+transition: all 0.5s;
+}
+#drage111:hover >svg{
+  background-color: white;
+  fill: black;
+}
+#nextimg {
+  position: absolute;
+  left: 95%;
+  top: 45%;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s;
+  z-index: 101;
+  fill: white;
+  background-color: transparent;
+  cursor: pointer;
+  transform: scaleX(-1);
+  padding: 12px;
+}
+
+#previmg {
+  position: absolute;
+  left: 95%;
+  top: 35%;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s;
+  z-index: 101;
+  fill: white;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 12px;
+}
+.UACompletedlistwrapper {
+width: 100%;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 150px;
+  position: relative;
+  left: 0px;
+
+
+}
+.olikedlist{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ocplist{
+  display: flex;
+  align-items: center;
+}
+.UARevCard {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+  max-width: auto;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  padding: 20px;
+  max-height: auto;
+  transition: opacity 0.5s;
+  width: 70%;
+  opacity: 0;
+  animation: opacity 0.5s both;
+}
+@keyframes opacity {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.UARevCard::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 1px;
+  background-color: grey;
+  top: 0%;
+  left: 0%;
+  animation: coverup 2s both;
+}
+@keyframes coverup {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+.UARevCard.notactive {
+  animation: adios 1s both;
+}
+@keyframes adios {
+  0% {
+    opacity: 0;
+    position: relative;
+  }
+  100% {
+    opacity: 0;
+    position: absolute;
+    top: -100%;
+  }
+}
+.UAComImg {
+  height: 200px;
+  width: auto;
+  border-radius: 5px;
+  border: 1px transparent solid;
+  transition: border 0.5s;
+  filter: drop-shadow(0px 0px 1.5px white);
+}
+.UAComImg:hover {
+  border: 1px white solid;
+}
+.UArevcontents {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+}
+.UArevtitleandstars {
+  font-family: "Montserrat";
+  font-weight: 600;
+  font-size: 22px;
+  position: absolute;
+  top: 25%;
+}
+.UAComRev {
+  font-family: "Montserrat";
+  font-weight: 400;
+  position: absolute;
+  top: 55%;
+}
+.UAllcloserevbox {
+  position: absolute;
+  left: 90%;
+  top: 10%;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.UAllcloserevbox:hover {
+  animation: bellring 0.5s linear;
+}
+.UAbtbutton1 {
+  position: absolute;
+  top: 5%;
+  left: 79%;
+  z-index: 1111111111111;
+}
