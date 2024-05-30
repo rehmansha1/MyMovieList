@@ -109,6 +109,7 @@ export default function MovieDetails() {
   }, [window.innerWidth]);
   const handleImageLoad = () => {
     setImageLoaded(true);
+    document.getElementById('nameortitle').click()
   };
   function NumToTime(num) {
     var hours = Math.floor(num / 60);
@@ -416,6 +417,7 @@ export default function MovieDetails() {
     getvideo(id);
     getcredits(id);
     fetchData(id);
+
   }, [id]);
 
   useEffect(() => {
@@ -583,24 +585,8 @@ export default function MovieDetails() {
               {isPC && (
                 <div className="detes">
                   <div>
-                    {/*  <div className="starwithnum">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="gold"
-          height="34"
-          viewBox="0 -960 960 960"
-          width="24"
-        >
-          <path d="m233-80 65-281L80-550l288-25 112-265 112 265 288 25-218 189 65 281-247-149L233-80Z" />
-        </svg>
-        <div>
-          {tren
-            ? tren[randomNumber].vote_average.toFixed(1)
-            : "null"}
-        </div>
-      </div> */}
 
-                    <h1>{tren.name || tren.title}</h1>
+                    <h1  id="nameortitle" onClick={()=>document.title=`${tren.name || tren.title}`}>{tren.name || tren.title}</h1>
                     <div className="detesdetes1">
                       {tren && (
                         <div id="imdbrating">
