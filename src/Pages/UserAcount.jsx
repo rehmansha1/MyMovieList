@@ -172,18 +172,17 @@ export default function UserAcount() {
     const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
 
     if (username) {
-      const response = await axios
-        .post(`https://mymovielistserver.onrender.com/removecompleted`, {
+      const response = await axios.post(`https://mymovielistserver.onrender.com/removecompleted`, {
           username,
           id,
-          movie: btstate == "movies" ? "true" : "false",
+          movie: btstate1 == "movies" ? "true" : "false",
         })
         .then(() => {
           document
             .querySelectorAll(".UARevCard")
             [index].classList.add("notactive");
-        });
-      console.log(response.data);
+        },(error)=>{console.log(error)});
+      console.log(response);
     }
   };
   const deletesavedimages = async (id) => {

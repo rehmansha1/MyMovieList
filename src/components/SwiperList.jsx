@@ -367,11 +367,9 @@ export default function SwiperList({
                         }`}
                         alt={item.title || "Image Alt Text"}
                       />
-                      <a
-                        href={`http://localhost:5173/detes/${item.id}?m=${movies}`}
-                        id="clickthis"
-                      ></a>
+               
                     </div>
+                    <a id="clickthishref" href={`https://mymovielist-mkra.onrender.com/detes/${item.id}?m=${movies}`} >
                     <div className="trndetes">
                       <div id="listcon">
                         <div>{item.title || item.name}</div>
@@ -395,6 +393,7 @@ export default function SwiperList({
                         {item.vote_average ? item.vote_average.toFixed(1) : ""}
                       </div>
                     </div>
+                    </a>
                   </div>
                 </SwiperSlide>
               )

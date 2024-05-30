@@ -2481,11 +2481,13 @@ article {
 }
 #blackboxiga {
   position: fixed;
-  transform: translate(-50%, -50%);
+
+
+  transform: translate(-60%, -43%);
   left: 120%;
 
-  background-color: transparent;
-  height: 10%;
+  background-color: black;
+  height: 20%;
   width: 500px;
   transition: all 0.5s;
   border-radius: 10px;
@@ -2502,7 +2504,21 @@ article {
   z-index: 11111111111111111111111111;
   opacity: 1 !important;
 }
-
+#goingtosend{
+position: absolute;
+height: 100%;
+width: 100%;
+  display: flex;
+  align-items: center;
+justify-content: center;
+z-index: -1;
+opacity: 0;
+}
+#goingtosend >svg{
+fill: white;
+animation: rotate 0.5s infinite forwards;
+scale: 1.5;
+}
 #innerbbimgbox {
   height: 80%;
 

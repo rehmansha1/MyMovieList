@@ -34,7 +34,6 @@ export default function Switchbutton({setbtstate,images}) {
         let bt1 = document.getElementById("moviebt");
         bt1.style.background = "black";
         bt1.style.color = "white";
-        console.log('adawed')
       }}
     >
       {images ? 'posters' : 'series'}
