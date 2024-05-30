@@ -372,14 +372,11 @@ app.post("/removecompleted", async (req, res) => {
     );
     var username = decryptedBytes.toString(CryptoJS.enc.Utf8);
     const user = await User.findOne({ username });
-    console.log("came");
     if (user) {
-      console.log("came user");
       if (movie == "true") {
         user.Completed.movies = user.Completed.movies.filter(
           (item) => item.id.toString() !== id.toString()
         );
-        console.log("came true");
 
 
         await user.save();
