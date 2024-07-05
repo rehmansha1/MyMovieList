@@ -68,6 +68,19 @@ const UserSchema = new mongoose.Schema({
       },
     ],
   },
+  Playlist: [
+    {
+      name: String,
+      items: [
+        {
+          name: String,
+          URL: String,
+          id: String,
+          movie:String,
+        },
+      ],
+    },
+  ],
   Notify: [
     {
       name: String,
@@ -378,10 +391,8 @@ app.post("/removecompleted", async (req, res) => {
           (item) => item.id.toString() !== id.toString()
         );
 
-
         await user.save();
         res.status(201).json("Movie removed successfully");
-
       } else {
         user.Completed.series = user.Completed.series.filter(
           (item) => item.id.toString() !== id.toString()
@@ -587,6 +598,215 @@ app.post("/putPublicReview", async (req, res) => {
     await existingReview.save();
   }
 });
+app.post("/getplaylist", async (req, res) => {
+  const encryptedText = req.body.username;
+  var decryptedBytes = CryptoJS.AES.decrypt(
+    encryptedText,
+    `${process.env.SERVER_ENCRYPT_KEY}`
+  );
+  var username = decryptedBytes.toString(CryptoJS.enc.Utf8);
+  let existingUser = await User.findOne({ username });
+  if (existingUser.Playlist.length >= 0) {
+    let list = [];
+    for (let i = 0; i < existingUser.Playlist.length; i++) {
+      list.push(existingUser.Playlist[i].name);
+    }
+
+    res.json(list);
+  }
+});
+app.post("/addtoexistingplaylist", async (req, res) => {
+  const number = req.body.playlistname;
+  console.log(number);
+  const id = req.body.id;
+  const url = req.body.url;
+  const title = req.body.title;
+  const movie = req.body.movie;
+  const encryptedText = req.body.username;
+  var decryptedBytes = CryptoJS.AES.decrypt(
+    encryptedText,
+    `${process.env.SERVER_ENCRYPT_KEY}`
+  );
+
+  var username = decryptedBytes.toString(CryptoJS.enc.Utf8);
+  let existingUser = await User.findOne({ username });
+  const s = {
+    name: title,
+    URL: url,
+    id: id,
+    movie:movie,
+  };
+
+  if (existingUser) {
+    if (existingUser.Playlist) {
+      for (let i = 0; i < existingUser.Playlist.length; i++) {
+        if (i == number) {
+          
+          let exists = existingUser.Playlist[i].items.some((item)=>item.id === s.id)
+          if (exists == false){
+          existingUser.Playlist[i].items.push(s);
+          res.json('added to list')
+          console.log('added to the list')
+          break
+          }
+          else{
+            res.json(`already exists on the ${ existingUser.Playlist[i].name}`)
+            console.log('already exists on the list')
+          break
+          }
+          
+        }
+      }
+    }
+    existingUser.save();
+  } else {
+    console.log("playlist doesnt exist what? ");
+  }
+});
+app.post("/deleteplaylistname", async (req, res) => {
+
+  const index = req.body.index;
+  let name = req.body.name;
+  const encryptedText = req.body.username;
+  var decryptedBytes = CryptoJS.AES.decrypt(
+    encryptedText,
+    `${process.env.SERVER_ENCRYPT_KEY}`
+  );
+  var username = decryptedBytes.toString(CryptoJS.enc.Utf8);
+  let existingUser = await User.findOne({ username });
+  console.log(index,name)
+  if (existingUser) {
+    if (existingUser.Playlist) {
+      for (let i = 0; i < existingUser.Playlist.length; i++) {
+        if (i == index ) {
+          
+          existingUser.Playlist.splice(index, 1);
+          res.status(200).json(`deleted playlist ${name}`)
+          console.log('deleted playlist ',name)
+          break
+          }
+          
+          
+        }
+    
+
+        
+        
+      }
+    }
+    existingUser.save();
+  } );
+app.post("/getlistpl", async (req, res) => {
+  const number = req.body.namepl;
+  const encryptedText = req.body.username;
+  var decryptedBytes = CryptoJS.AES.decrypt(
+    encryptedText,
+    `${process.env.SERVER_ENCRYPT_KEY}`
+  );
+  var username = decryptedBytes.toString(CryptoJS.enc.Utf8);
+  let existingUser = await User.findOne({ username });
+  if (existingUser) {
+    if (existingUser.Playlist) {
+      for (let i = 0; i < existingUser.Playlist.length; i++) {
+        if (i == number) {
+          res.json(existingUser.Playlist[i].items);
+        }
+      }
+    }
+  }
+});
+app.post("/sendplaylistnew", async (req, res) => {
+  const name = req.body.playlistname;
+  const id = req.body.id;
+  const url = req.body.url;
+  const title = req.body.title;
+  const movie = req.body.movie;
+  const encryptedText = req.body.username;
+  var decryptedBytes = CryptoJS.AES.decrypt(
+    encryptedText,
+    `${process.env.SERVER_ENCRYPT_KEY}`
+  );
+  var username = decryptedBytes.toString(CryptoJS.enc.Utf8);
+  let existingUser = await User.findOne({ username });
+  const s = {
+    name: name,
+    items: [{ name: title, URL: url, id: id,movie:movie }],
+  };
+  let t = false;
+  if (existingUser) {
+    if (existingUser.Playlist.length >= 1) {
+      for (let i = 0; i < existingUser.Playlist.length; i++) {
+        if (name === existingUser.Playlist[i].name) {
+          console.log("already exists");
+          t = true;
+          break;
+        }
+      }
+      if (!t) {
+        existingUser.Playlist.push(s);
+        existingUser.save();
+        res.status(200).json("created playlist")
+        console.log("playlist saved ", name);
+      }
+    } else {
+      existingUser.Playlist.push(s);
+      existingUser.save();
+      res.status(200).json("created playlist")
+      console.log("playlist saved ", name);
+    }
+  }
+});
+app.post("/deleteformplaylistitem", async (req, res) => {
+  const name = req.body.playlistname;
+  const title = req.body.title;
+  const id = req.body.id;
+  const index  = req.body.index;
+  console.log(title,id,index)
+ const encryptedText = req.body.username;
+  var decryptedBytes = CryptoJS.AES.decrypt(
+    encryptedText,
+    `${process.env.SERVER_ENCRYPT_KEY}`
+  );
+  var username = decryptedBytes.toString(CryptoJS.enc.Utf8);
+  let existingUser = await User.findOne({ username });
+
+  if (existingUser) {
+    if (existingUser.Playlist.length >= 1) {
+          for (let j = 0; j < existingUser.Playlist[index].items.length; j++)
+            {
+              console.log(existingUser.Playlist[index].items[j].name,title)
+            if (existingUser.Playlist[index].items[j].name === title && existingUser.Playlist[index].items[j].id == id ){
+              existingUser.Playlist[index].items.splice(j,1);
+              existingUser.save();
+              res.status(200).json('deleted')
+              console.log('deleted')
+              break;
+            }
+            }
+        
+        }
+      }
+  
+    } );
+    app.post("/renameplaylist", async (req, res) => {
+      const index  = req.body.index;
+      const renametext = req.body.renametext;
+     const encryptedText = req.body.username;
+      var decryptedBytes = CryptoJS.AES.decrypt(
+        encryptedText,
+        `${process.env.SERVER_ENCRYPT_KEY}`
+      );
+      var username = decryptedBytes.toString(CryptoJS.enc.Utf8);
+      let existingUser = await User.findOne({ username });
+    
+      if (existingUser) {
+        if (existingUser.Playlist[index]) {
+              existingUser.Playlist[index].name = renametext;
+              existingUser.save();
+              res.status(200).json('renamed')
+            }
+        }
+        });
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

@@ -4,14 +4,18 @@
 }
 .UAmenu {
   position: fixed;
-  height: 100vh;
+  height: 100%;
   width: 25%;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: transparent;
 }
+.UAmenu::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Opera */
+}
 .UaINNERINNERMENU {
+  position: relative;
   height: 80%;
   display: flex;
   flex-direction: column;
@@ -23,42 +27,460 @@
   text-align: left;
   text-wrap: nowrap;
 }
-.UaINNERINNERMENU > div {
+.UaINNERINNERMENU > div,#watchlistplaylist > div {
   cursor: pointer;
   transition: all 0.3s;
+  
 }
-.UaINNERINNERMENU > div:hover {
+@keyframes  {
+  
+}
+.UAwatchlist > div{
+
+}
+.UaINNERINNERMENU > div:hover,#watchlistplaylist > div:hover {
   margin-left: 5%;
   color: yellow;
+}
+#dasd{
+  position: absolute;
+  color: white;
+  top: 4%;
+  font-family: "Montserrat";
+
+}
+.allplitems{
+  position: relative;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.cancelplaylist{
+  fill: transparent;
+  background-color: black;
+  transition: fill 0.3s;
+}
+.cancelplaylist:hover{
+  fill: red !important;
+}
+.editplaylist{
+  fill: transparent;
+  transition: all 0.3s; 
+  border-radius: 50%;
+  scale: 0.8;
+  padding: 5px;
+  margin-left: -5px;
+}
+.editplaylist:hover{
+fill: black !important;
+background-color: white;
+
+}
+@keyframes dd {
+  0%{
+    
+  }
+}
+.allplitems:hover > .cancelplaylist,.allplitems:hover > .editplaylist{
+  
+  fill: white;
 }
 .UAinnermenu {
   height: 500px;
 
   background-color: transparent;
 }
-
-/* USER ACCOUNT TAG BAR */
-
-.useraccounttag {
-  position: absolute;
-  left: 55%;
-  transform: translateX(-50%);
-  width: 70%;
-  height: 5vh;
+.allpitemsinner{
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+#removeplbox{
+  height: 215px;
+  width: 510px;
+  position: fixed;
   background-color: black;
-margin-bottom: 10px;
+  display: flex;
+  top: 60% ;
+  left: 62% ;
+  transform: translate(-50%, -50%);
+  z-index: 1234234;
+border-radius: 3%;
+color: white;
+font-family: "Montserrat";
+flex-direction: column;
+animation: upup 0.5s both;
+opacity: 0;
+padding: 50px;
+}
+#removeplitem{
+  height: 215px;
+  width: 510px;
+  position: fixed;
+  background-color: black;
+  display: flex;
+  top: 60% ;
+  left: 62% ;
+  transform: translate(-50%, -50%);
+  z-index: 1234234;
+border-radius: 3%;
+color: white;
+font-family: "Montserrat";
+flex-direction: column;
+animation: upup 0.5s both;
+opacity: 0;
+padding: 50px;
+}
+.plynbox{
+  display: flex;
+  flex-direction: row;
+  gap: 50%;
+  padding-top: 50px;
+  justify-content: center;
+
+}
+.plynbox>div{
+  transition: color 0.3s;
+  cursor: pointer;
+  font-size: 19px;
+
+}
+.plynbox > div:hover{
+  color: gold;
+} 
+.gotolink3{
+  position: absolute;
+  top: -8%;
+  left: -40%;
+  width: 20px;
+  fill: grey;
+  height: 20px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 30px;
+  transition: all 0.5s;
+z-index: 1;
+  background-color: black;
+  cursor: pointer;
+  transform: scaleX(1);
+  padding: 8px;
+  opacity: 0;
+animation: fadein34234 0.5s 1s both;
+}
+.rmbox1{
+position: absolute;
+fill: white;
+left: 90%;
+top: 10%;
+transition: rotate 0.3s;
+cursor: pointer;
+}
+.rmbox1:hover{
+  rotate: 90deg;
+}
+.gotolink3:hover{
+  background-color: white;
+  fill: black;
+}
+#watchlistplaylist{
+  top: 40%;
+  position: absolute;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  gap: 5%;
   font-family: "Montserrat";
-  border-radius: 10px;
-  animation: uuppp 1s 0.5s both;
-  border: 1px white solid;
+  font-weight: 600;
   color: white;
-  padding: 10px;
+  text-align: left;
+  text-wrap: nowrap;
+ pointer-events: none;
+  opacity: 0;
+  transition: all 0.5s;
+  
+}
+#boxRenamePl{
+  height: 215px;
+  width: 510px;
+  position: fixed;
+  background-color: black;
+  display: flex;
+  top: 60% ;
+  left: 62% ;
+  transform: translate(-50%, -50%);
+  z-index: 1234234;
+border-radius: 3%;
+color: white;
+font-family: "Montserrat";
+flex-direction: column;
+animation: upup 0.5s both;
+opacity: 0;
+padding: 50px; 
+}
+#boxofplaylist{
+  height: 215px;
+  width: 510px;
+  position: fixed;
+  background-color: black;
+  display: flex;
+  top: 60% ;
+  left: 62% ;
+  transform: translate(-50%, -50%);
+  z-index: 1234234;
+border-radius: 3%;
+color: white;
+font-family: "Montserrat";
+flex-direction: column;
+animation: upup 0.5s both;
+opacity: 0;
+padding: 50px;
+}
+#playlistclose{
+  position: absolute;
+  top: 10%;
+  left: 90%;
+  transition: rotate 0.3s;
+   cursor: pointer;
+}
+#playlistclose:hover{
+  rotate:  90deg;
 }
 
+.overlay3213123{
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: transparent;
+  backdrop-filter: blur( 0px );
+  -webkit-backdrop-filter: blur( 4px );
+  border-radius: 10px;
+  border: 1px solid rgba( 255, 255, 255, 0.1 ); 
+   z-index: 2;
+  animation: transistionforglass 0.5s both;
+
+}
+@keyframes transistionforglass {
+  0%{
+    backdrop-filter: blur( 0px );
+background-color: transparent;
+  }
+  100%{
+    backdrop-filter: blur( 4px );
+   /* turn blur on in prod */
+    background: rgba( 255, 255, 255, 0.01 );
+
+
+  }
+}
+@keyframes transistionforglassbackup {
+  0%{
+    backdrop-filter: blur( 4px );
+    background: rgba( 255, 255, 255, 0.01 );
+  }
+  100%{
+    backdrop-filter: blur( 0px );
+   /* turn blur on in prod */
+background-color: transparent;
+
+  }
+}
+@keyframes upup {
+  0%{
+    top: 60%;
+    opacity: 0;
+  }
+  100%{top: 50%;
+  opacity: 1;}
+}
+@keyframes downdown {
+  0%{
+    top:50%;
+    opacity: 1;
+
+  }
+  100%{
+    top: 60%;
+    opacity: 0;
+  }
+}
+.bopboxinner{
+ 
+  display: flex;
+  flex-direction:row;
+  align-items: center;
+  gap: 50px;
+
+}
+.daw{
+  background-color: transparent;
+  color: white;
+  font-family: "Montserrat";
+width: auto;
+outline: none;
+border: none;
+border: 1px solid grey;
+border-radius: 1px;
+border-top: transparent solid ;
+border-left: transparent;
+border-right: transparent;
+
+height: 30px;
+}
+#boxofplaylist1{
+  height: 315px;
+  width: 610px;
+  position: fixed;
+  background-color: black;
+  display: flex;
+  top: 50% ;
+  left: 62% ;
+  transform: translate(-50%, -50%);
+  z-index: 1234234;
+border-radius: 3%;
+color: white;
+font-family: "Montserrat";
+flex-direction: column; 
+animation: upup 0.5s both;
+padding: 50px;
+
+}
+.itemsofllp{
+  cursor: pointer;
+ transition: color 0.4s; 
+ font-family: "Montserrat";
+ text-wrap: nowrap;
+
+}
+.takethisout{
+  position: absolute;
+  left: 84.5%;
+  top: 10px;
+  opacity: 0;
+  transition: color 0.3s;
+}
+.takethisout:hover{
+  fill: red ;
+}
+.itemsofllp:hover{
+  color: gold;
+}
+.boxplaylistinner1{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 50px;
+flex-wrap:wrap ;
+height:100px;
+}
+#sendtobackendplaylist{
+  cursor: pointer;
+transition: color 0.3s;
+position: absolute;
+top: 83%;
+left: 80%;
+}
+#sendtobackendplaylist:hover{
+color: gold;
+}
+@keyframes backupdrake {
+  0%{
+    left: 0px;
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  100%{
+    opacity: 0;
+  left: -20px;
+    pointer-events: none;
+  }
+}
+@keyframes backupdrake1 {
+  0%{
+    left: -20px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  100%{
+    opacity: 1;
+  left: 0px;
+    pointer-events: all;
+  }
+}
+@keyframes kendrick {
+  0%{
+    
+    opacity: 0;
+    left: 30%;
+    pointer-events: all;
+  }
+
+  100%{
+    opacity: 1;
+  left: 40%;
+    pointer-events:all;
+  }
+}
+@keyframes kendrick1 {
+  0%{
+opacity: 1;
+left: 40%;
+pointer-events: all;
+  }
+
+  100%{
+    opacity: 0;
+    left: 30%;
+    pointer-events: none;
+  }
+}
+/* USER ACCOUNT TAG BAR */
+
+.useraccounttag {
+  position: fixed;
+  left: 0.5%;
+  height: 5vh;
+  background-color: transparent;
+  z-index: -1;
+margin-bottom: 10px;
+
+  gap: 10px;
+
+  font-family: "Montserrat";
+
+  animation: uuppp 1s 0.5s both;
+  color: white;
+  padding: 10px;
+  display: flex;
+align-items: center;
+}
+.childaccount{
+  border: 1px solid transparent;
+  background: transparent;
+  border-radius: 10px;
+  padding: 10px;
+  transition: all 0.3s;
+color: transparent;
+margin-left: -20px;
+}
+
+#svgaccount{
+transition: fill 0.3s;
+}
+#svgaccount:hover{
+  fill: white;
+  cursor: pointer;
+}
+
+#svgaccount:hover ~ .childaccount{
+  color: white;
+background-color: transparent;
+border: 1px solid rgba( 255, 255, 255, 0.18 );
+margin-left: 0px;
+z-index: 10;
+
+} 
 #drage111{
   cursor: pointer;
 }
@@ -82,6 +504,7 @@ margin-bottom: 10px;
   margin-left: 25%;
   background-color: black;
   border-bottom-color: transparent;
+overflow-y: auto;
 
 }
 .UAouteroflikedposts {
@@ -91,6 +514,7 @@ margin-bottom: 10px;
   position: absolute;
   top: 50px;
   left: 79%;
+  transition: all 0.5s;
 }
 .UAouterwatchlist {
   display: flex;
@@ -110,7 +534,7 @@ margin-bottom: 10px;
   align-items: center;
 }
 .UAwatchlist > div {
-scale: 0;
+/*scale: 0; */
 }
 #clickthishref{
   text-decoration: none;
@@ -157,7 +581,9 @@ font-size: 16px !important;
   animation: scaleup 0.5s both;
   z-index: 1;
 }
+#boxofrmplitem{
 
+}
 #UAviewimgreal {
   position: fixed;
   width: auto;

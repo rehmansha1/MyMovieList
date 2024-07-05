@@ -172,6 +172,7 @@ body{
     transform: translate(1px, -2px) rotate(-1deg);
     opacity: 0;
     pointer-events: none;
+
   }
 }
 
@@ -623,7 +624,8 @@ body{
 #tdots {
   opacity: 0;
   position: absolute;
-  top: 1%;
+  top: 9px;
+  
   left: 85%;
   transition: opacity 0.2s;
   filter: drop-shadow(0px 0px 1px black);
@@ -1072,7 +1074,109 @@ body{
 .checksvg:hover {
   fill: gold;
 }
+#addtoplaylist{
+  height: 0px;
+  width: 120px;
+  position: absolute;
+  top: 2px;
+  left: 5px;
+  background-color: transparent;
+  transition: all 0.35s;
+  border-radius: 10px;
+  border-top: 10px;
+color: transparent;
+font-size: 12px;
+padding: 20px;
+text-wrap: nowrap;
+display: flex;
+flex-direction: column;
 
+pointer-events: none;
+user-select: none;
+
+}
+#closeadtoplaylist{
+  position: relative;
+  
+  padding: 5px;
+  top: -15px;
+  left: -20px;
+  rotate: 45deg;
+  transition: rotate 0.5s;
+}
+
+@keyframes close212312312 {
+  0%{
+    rotate: 90deg;
+
+  }
+  50%{
+    rotate: 45deg;
+
+  }
+  100%{
+    rotate:45deg;
+    fill: transparent;
+  }
+}
+.pllayer1{
+  height: 10%;
+  
+}
+.pllayer2{
+  padding-top: 15px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+@keyframes plaanimation {
+  0%{
+    height: 0px;
+  }
+  100%{
+    height: 50px;
+    opacity: 1;
+    background-color: black;
+    pointer-events: all;
+    color: white;
+  }
+}
+@keyframes plaanimationbackup {
+  0%{
+    height: 50px;
+    opacity: 1;
+    background-color: black;
+    pointer-events: all;
+    color: transparent;
+    fill: transparent;
+  }
+  100%{
+height: 0px;
+pointer-events: none;
+color: transparent;
+fill: white;
+
+  }
+}
+
+.asda{
+  transition: color 0.1s;
+}
+.asda:hover{
+  color: yellow;
+}
+.playlistadd{
+  position: absolute;
+  opacity: 0;
+  left: 5px;
+  top: 6px;
+  padding: 5px;
+  fill: white;
+  rotate: 45deg;
+  filter: drop-shadow(0px 0px 1px black);
+
+}
 .rvmybox {
   position: fixed;
   top: 0px;
@@ -2355,7 +2459,7 @@ article {
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) !important;
 
   z-index: 10000;
   transition: width 0.5s;

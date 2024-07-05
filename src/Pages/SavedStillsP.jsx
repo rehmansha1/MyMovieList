@@ -41,7 +41,6 @@ export default function SavedStillsP() {
         const response = await axios.get(
           `http://localhost:3001/getstillslist?username=${encodedUsername}`
         );
-        console.log(response.data);
         setresult(response.data);
       } else {
         console.log("username is empty");

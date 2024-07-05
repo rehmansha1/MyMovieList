@@ -23,9 +23,10 @@ export default function GBTT() {
           if (response1.data.email) {
             var ciphertext = CryptoJS.AES.encrypt(response1.data.email, import.meta.env.VITE_ENCRPYT_KEY_ENV);
     
-            document.cookie = `${import.meta.env.VITE_COOKIENAME_ENV}=${ciphertext}; path=/; samesite=strict; max-age=${5 * 60 * 60  }; secure`;
-           window.location.reload();
-    
+            document.cookie = `${import.meta.env.VITE_COOKIENAME_ENV}=${ciphertext}; path=/; samesite=strict; max-age=${10 * 60 * 60  }; secure`;
+           
+            window.location.reload();
+
             console.log("success cookie is been set");
           }
         } catch (error) {
