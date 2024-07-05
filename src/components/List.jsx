@@ -39,7 +39,7 @@ export default function List({
   const  renameplaylistfunc = async () => {
     const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
     console.log(set);
-   /* const resp = await axios.post("http://localhost:3001/deleteformplaylistitem", {
+   /* const resp = await axios.post("https://mymovielistserver.onrender.com/deleteformplaylistitem", {
       username,
       index:activebt,
     
@@ -60,7 +60,7 @@ getpllist(activebt)
   };
   const  removeplitemfunc = async () => {
     const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
-    const resp = await axios.post("http://localhost:3001/deleteformplaylistitem", {
+    const resp = await axios.post("https://mymovielistserver.onrender.com/deleteformplaylistitem", {
       username,
       index:activebt,
       playlistname: npl,
@@ -84,7 +84,7 @@ getpllist(activebt)
   };
   const sendingplaylistname = async () => {
     const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
-    const resp = await axios.post("http://localhost:3001/sendplaylistnew", {
+    const resp = await axios.post("https://mymovielistserver.onrender.com/sendplaylistnew", {
       username,
       playlistname: npl,
       id: set.id,
@@ -102,7 +102,7 @@ getpllist(activebt)
               }, 500);
               setTimeout(async() => {
                 const responseofpl = await axios.post(
-                  `http://localhost:3001/getplaylist`,
+                  `https://mymovielistserver.onrender.com/getplaylist`,
                   { username }
                 );
                 setplaylist(responseofpl.data);
@@ -113,7 +113,7 @@ getpllist(activebt)
   const addtoexistinglist = async () => {
     const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
     const resp = await axios.post(
-      "http://localhost:3001/addtoexistingplaylist",
+      "https://mymovielistserver.onrender.com/addtoexistingplaylist",
       {
         username,
         playlistname: nametemp,

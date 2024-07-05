@@ -38,7 +38,7 @@ export default function UserAcount() {
   const  renameplaylistfunc = async () => {
     const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
     console.log(set);
-   const resp = await axios.post("http://localhost:3001/renameplaylist", {
+   const resp = await axios.post("https://mymovielistserver.onrender.com/renameplaylist", {
       username,
       index:activebt,
       renametext:renametext,
@@ -59,7 +59,7 @@ export default function UserAcount() {
     setTimeout( async() => {
 
     const responseofpl = await axios.post(
-      `http://localhost:3001/getplaylist`,
+      `https://mymovielistserver.onrender.com/getplaylist`,
       { username }
     );
     setplaylist(responseofpl.data)
@@ -68,7 +68,7 @@ export default function UserAcount() {
   const rmplformserver = async (index, name) => {
     const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
     const response = await axios.post(
-      `http://localhost:3001/deleteplaylistname`,
+      `https://mymovielistserver.onrender.com/deleteplaylistname`,
       {
         username,
         index,
@@ -88,7 +88,7 @@ export default function UserAcount() {
 
     }
     const responseofpl = await axios.post(
-      `http://localhost:3001/getplaylist`,
+      `https://mymovielistserver.onrender.com/getplaylist`,
       { username }
     );
     setplaylist(responseofpl.data);
@@ -96,7 +96,7 @@ export default function UserAcount() {
   };
   const getpllist = async (namepl) => {
     const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
-    const response = await axios.post(`http://localhost:3001/getlistpl`, {
+    const response = await axios.post(`https://mymovielistserver.onrender.com/getlistpl`, {
       username,
       namepl,
     });
@@ -105,7 +105,7 @@ export default function UserAcount() {
   };
   const sendtheplaylistname = async () => {
     const response = await axios.post(
-      `https://localhost:3001/sendplaylistnew`,
+      `https://mymovielistserver.onrender.com/sendplaylistnew`,
       {
         username,
         id,
@@ -201,7 +201,7 @@ export default function UserAcount() {
       if (username) {
         const encodedUsername = encodeURIComponent(username);
         const responseofpl = await axios.post(
-          `http://localhost:3001/getplaylist`,
+          `https://mymovielistserver.onrender.com/getplaylist`,
           { username }
         );
 
@@ -601,7 +601,7 @@ export default function UserAcount() {
       </div>
 
       <div className="UAcontent">
-        {!watchlist && !cplist && !likedlist && !pllist.results[0] && (
+        {!watchlist && !cplist && !likedlist && (
           <div className="rotateandroate">
             <svg
               xmlns="http://www.w3.org/2000/svg"
