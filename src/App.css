@@ -2466,7 +2466,15 @@ article {
   color: white;
   padding: 0px;
   border-radius: 10px;
-  transition: opacity 0.5s;
+  transition: dasda 0.3s;
+}
+@keyframes dasda {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
 }
 @keyframes opacityanddown {
   0%{
