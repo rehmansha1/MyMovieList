@@ -85,6 +85,22 @@ background-color: white;
   
   fill: white;
 }
+.k{
+  opacity: 0;
+  position: relative;
+  left: -20%;
+  animation: opa 0.8s 0.5s both;
+}
+@keyframes opa {
+  0%{
+    opacity: 0;
+    left: -20%;
+  }
+  100%{
+    opacity: 1;
+    left: 0%;
+  }
+}
 .UAinnermenu {
   height: 500px;
 

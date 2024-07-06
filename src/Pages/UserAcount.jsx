@@ -460,6 +460,7 @@ export default function UserAcount() {
         <div className="UAinnermenu">
           <div className="UaINNERINNERMENU" id="uainnerinnermenu">
             <div
+            className="k"
               id="clickthisonstart"
               onClick={() => {
                 getuserwatchlist();
@@ -473,8 +474,8 @@ export default function UserAcount() {
             >
               Watchlist
             </div>
-            <div onClick={() => fetchCompletedlist()}>Your Reviews </div>
-            <div>reminderList</div>
+            <div className="k" onClick={() => fetchCompletedlist()}>Your Reviews </div>
+            <div className="k">reminderList</div>
             {false && <div onClick={() => getLikedPosts()}>liked posts</div>}
           </div>
 
@@ -507,10 +508,9 @@ export default function UserAcount() {
             {playlist.map((item, index) => {
               return (
                 <>
-                  <div className="allplitems">
-                    <div
-                      onClick={() => {
-                        getpllist(index);
+                  <div className="allplitems" onClick={()=>
+                  {
+                    getpllist(index);
                         if (activebt != index) {
                           document.querySelectorAll(".allplitems")[
                             activebt
@@ -520,6 +520,10 @@ export default function UserAcount() {
                         document.querySelectorAll(".allplitems")[
                           index
                         ].style.color = "gold";
+                  }}>
+                    <div
+                      onClick={() => {
+                       
                       }}
                       className="allpitemsinner"
                     >
