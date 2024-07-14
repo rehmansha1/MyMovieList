@@ -1354,11 +1354,12 @@ article {
 }
 .saimgs {
   height: 300px;
-  border-radius: 15px;
+  border-radius: 5px;
   transition: all 0.5s;
 }
 .notimgs{
 height: 300px;
+width: 220px;
 position: relative;
 display: flex;
 align-items: center;
