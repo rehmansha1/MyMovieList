@@ -313,6 +313,7 @@ body{
   height: 100%;
 
   width: 100%;
+
 }
 .darkcorner::before,
 .darkcorner::after {
@@ -347,6 +348,7 @@ body{
   animation-timeline: view();
   animation-range: exit 0px;
   z-index: -1;
+
 }
 @keyframes fadedout {
   0% {
@@ -839,6 +841,7 @@ body{
 
   display: flex;
   flex-direction: column;
+  transition: opacity 0.3s;
 }
 .ov1box {
   opacity: 0;
@@ -886,6 +889,8 @@ body{
   align-items: center;
   justify-content: center;
 }
+
+
 .searchdisplay {
   opacity: 0;
   display: flex;
@@ -2467,6 +2472,7 @@ article {
   padding: 0px;
   border-radius: 10px;
   transition: dasda 0.3s;
+
 }
 @keyframes dasda {
   0%{

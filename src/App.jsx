@@ -502,16 +502,15 @@ gsap.to('#notibar',{duration:0.5,opacity:1,y:-50})
                 </div>
 
                 {overlay && (
-                  <div className="overlayinner">
-                    <div className="ovainput" id="ovai">
+                  <div className="overlayinner" id="overlayinnerid">
+                    <div className="ovainput" id="ovai" >
                       <svg
                         id="close"
                         onClick={() => {
-                          setoverlay(false);
                           const c = document.getElementById("oy");
-
-                          c.style.height = "0vh";
-                          setsl("");
+                          document.getElementById('overlayinnerid').style.opacity = 0;
+                          setTimeout(()=>{c.style.height = "0vh";  setsl(""); setoverlay(false);},300)
+                         
                         }}
                         xmlns="http://www.w3.org/2000/svg"
                         height="27"
@@ -562,7 +561,7 @@ gsap.to('#notibar',{duration:0.5,opacity:1,y:-50})
                               "90deg";
                           }}
                         ></div>
-                        <div className="btmvser">
+                        <div className="btmvser" onClick={()=>{document.getElementById("nextsymbol").style.rotate ="0deg"}} >
                           <div
                             id="mvbt"
                             onClick={() => {
@@ -597,7 +596,7 @@ gsap.to('#notibar',{duration:0.5,opacity:1,y:-50})
 
                     {searchList.results && searchList.results[0] ? (
                       <div className="displaysearch">
-                        <div className="searchdisplay">
+                        <div className="searchdisplay" >
                           <List tren={searchList} movies={movies} />
                         </div>
                       </div>
