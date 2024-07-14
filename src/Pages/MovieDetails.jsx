@@ -420,14 +420,31 @@ export default function MovieDetails() {
 
   }, [id]);
 
-  useEffect(() => {
+ /* useEffect(() => {
     gsap.to(".recommds_list > div", {
       scrollTrigger: { trigger: ".recommds_list > div" },
       opacity: 1,
       duration: 0.1,
       stagger: 0.1,
     });
-  }, [document.querySelectorAll(".recommds_list > div")]);
+  }, );*/
+  const RecomImgs  = [document.querySelectorAll(".recommds_list > div")]
+  useEffect(() => {
+
+    const images = gsap.utils.toArray(".recommds_list > div");
+    images.forEach((image) => {
+      gsap.to(image, {
+        opacity: 1,
+        scale: 1,
+        duration: 0.1,
+        scrollTrigger: {
+          trigger: image,
+          start: "top 100%", // Start the animation when the top of the image reaches 80% of the viewport height
+          toggleActions: "play none none none", // Actions for enter, leave, enter back, and leave back
+        },
+      });
+    });
+  }, [RecomImgs]);
   const [overlay, setoverlay] = useState(false);
   const [indexforimg, setindexfimg] = useState("nothing");
 
