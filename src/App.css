@@ -1357,6 +1357,28 @@ article {
   border-radius: 15px;
   transition: all 0.5s;
 }
+.notimgs{
+height: 300px;
+position: relative;
+display: flex;
+align-items: center;
+justify-content: center;
+
+}
+.notimgs > svg{
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+.notimgs::after{
+  content: 'not available';
+  position: absolute;
+  top: 60%;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.notimgs > svg:hover,.notimgs:hover:after{
+  opacity: 1;
+}
 .saimgs:hover {
 }
 
