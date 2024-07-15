@@ -37,7 +37,7 @@ export default function Searchkeyword() {
 
       setresult(response1.data);
       setresult2(response2.data);
-      console.log(response1.data);
+      //console.log(response1.data);
     } catch (error) {
       console.error("error:", error);
     }

@@ -39,7 +39,7 @@ export default function List({
   
   const  renameplaylistfunc = async () => {
     const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
-    console.log(set);
+   // console.log(set);
    /* const resp = await axios.post("https://mymovielistserver.onrender.com/deleteformplaylistitem", {
       username,
       index:activebt,
@@ -80,7 +80,7 @@ getpllist(activebt)
     }
     setTimeout(() => {
       getpllist(activebt)
-      console.log('deletedf')
+     // console.log('deletedf')
     }, 500);
   };
   const sendingplaylistname = async () => {
@@ -169,7 +169,7 @@ getpllist(activebt)
         stars: starsvalue,
       });
 
-      console.log(response);
+     // console.log(response);
     } catch (error) {
       console.error("error:", error);
     }
@@ -200,7 +200,7 @@ getpllist(activebt)
               onClick={() => {
                 setreviewmy(!reviewmy);
                 setreviewarray([]);
-                console.log(reviewarray);
+               // console.log(reviewarray);
               }}
               fill="white"
               height="24"
@@ -305,7 +305,7 @@ getpllist(activebt)
                 "transistionforglassbackup 0.5s  both";
               setTimeout(() => {
                 setboxForRmPlItem(!boxForRmPlItem);
-                console.log(activebt)
+              //  console.log(activebt)
               }, 500);
             }}
             xmlns="http://www.w3.org/2000/svg"
@@ -382,7 +382,7 @@ getpllist(activebt)
               onClick={() => {
                 if (npl != "") {
                   sendingplaylistname();
-                  console.log("text");
+                 // console.log("text");
                 } else {
                   console.log("empty str cant be sent");
                 }
@@ -443,7 +443,7 @@ getpllist(activebt)
             id="sendtobackendplaylist"
             onClick={() => {
               addtoexistinglist();
-              console.log("text");
+             // console.log("text");
             }}
           >
             Add
@@ -584,7 +584,7 @@ getpllist(activebt)
                                 name: item.title || item.name,
                               });
                               setboxtoaddplaylist1(!boxtoaddplaylist1);
-                              console.log(boxtoaddplaylist1);
+                             // console.log(boxtoaddplaylist1);
                             }}
                           >
                             Add to existing playlist
@@ -598,7 +598,7 @@ getpllist(activebt)
                                 name: item.title || item.name,
                               });
                               setboxtoaddplaylist(!boxtoaddplaylist);
-                              console.log(boxtoaddplaylist);
+                             // console.log(boxtoaddplaylist);
                             }}
                           >
                             Add to a new playlist

@@ -93,7 +93,7 @@ export default function MovieDetails() {
             date: date,
           }
         );
-        console.log(resp.data);
+        //console.log(resp.data);
       }
     } catch (error) {
       console.log("Error: ", error);
@@ -109,7 +109,7 @@ export default function MovieDetails() {
     window.addEventListener("resize", handleResize);
 
     handleResize();
-    console.log(isPC);
+   // console.log(isPC);
   }, [window.innerWidth]);
   const handleImageLoad = () => {
     setImageLoaded(true);
@@ -182,7 +182,7 @@ export default function MovieDetails() {
         document.getElementById('alreadywatched').click()
        }, 1500); 
   
-      console.log(response);
+      //console.log(response);
     } catch (error) {
       console.error("error:", error);
     }
@@ -207,7 +207,7 @@ export default function MovieDetails() {
           movie: paramValue,
         }
       );
-      console.log(response.data);
+      //console.log(response.data);
       return response;
     } catch (error) {
       console.error("error:", error);
@@ -227,7 +227,7 @@ export default function MovieDetails() {
     try {
       const response1 = await axios.get(url, { ...options });
       settrend1(response1.data);
-      console.log(tren);
+      //console.log(tren);
     } catch (error) {
       console.error("error:", error);
     }
@@ -302,7 +302,7 @@ export default function MovieDetails() {
       const videosres = await axios.get(videourl, { ...options });
       setvideo(videosres.data.results);
 
-      console.log(videosres.data.results[1].key);
+     // console.log(videosres.data.results[1].key);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -350,7 +350,7 @@ export default function MovieDetails() {
             title: title,
           }
         );
-        console.log(resp);
+       // console.log(resp);
         document.getElementById(
           "remindnotifycard"
         ).innerHTML = `${resp.data.message}`;
@@ -385,7 +385,7 @@ export default function MovieDetails() {
             name: name,
           }
         );
-        console.log(resp);
+      //  console.log(resp);
         document.getElementById(
           "remindnotifycard"
         ).innerHTML = `${resp.data.message}`;
@@ -482,7 +482,7 @@ export default function MovieDetails() {
   if (document.getElementById("oy").style.height == "110vh") {
     document.getElementById("nextsymbol").style.rotate = "0deg";
   }
-  console.log(document.getElementById("oy").style.height);
+ // console.log(document.getElementById("oy").style.height);
 };
 
 
@@ -505,7 +505,7 @@ const searchmovies = async () => {
   const url = movies == "true" ? urlForMovie : urlFortv;
   try {
     const response = await axios.get(url, { params, ...options });
-    console.log(response.data);
+   // console.log(response.data);
     setTimeout (()=>setsl(response.data),500)
   } catch (error) {
     console.error("error:", error);
@@ -527,7 +527,6 @@ useEffect(() => {
     { opacity: 0 },
     { opacity: 1, duration: 0.5, delay: 0.5 }
   );
-  console.log('asdawd')
 }, [searchList]);
 
   useEffect(() => {
@@ -623,7 +622,7 @@ useEffect(() => {
            
                           setoverlaysearch(true);
                           const c = document.getElementById("oy");
-                          console.log(c)
+                          //console.log(c)
                           c.style.height = "50vh";
                         }}
                         fill="white"
@@ -1052,7 +1051,7 @@ useEffect(() => {
                           </svg>
                         </div>
                       </div>
-                      {console.log(tren.seasons )}
+                      {/*console.log(tren.seasons )*/}
 
                       {tren.seasons.map((item, index) => {
                         return ( 
@@ -1114,7 +1113,7 @@ useEffect(() => {
                             className="swiper-button-next-media"
                             onClick={() => {
                               navigate(`/media?id=${id}&m=${paramValue}`);
-                              console.log("ckuc");
+                             // console.log("ckuc");
                             }}
                           >
                             <div className="svgbackg">

@@ -97,7 +97,6 @@ function App() {
           id: id,
         }
       );
-      console.log(resp);
       window.location.reload();
     } catch {
       console.log("Error: ", error);
@@ -112,9 +111,9 @@ function App() {
       );
       if (response.data) {
         setnoticontents(response.data);
-        console.log(response.data);
+      //  console.log(response.data);
       }
-      console.log(response);
+     // console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -137,7 +136,7 @@ function App() {
     if (document.getElementById("oy").style.height == "110vh") {
       document.getElementById("nextsymbol").style.rotate = "0deg";
     }
-    console.log(document.getElementById("oy").style.height);
+   // console.log(document.getElementById("oy").style.height);
   };
   function NumToTime(num) {
     var hours = Math.floor(num / 60);
@@ -166,7 +165,7 @@ function App() {
     const url = movies == "true" ? urlForMovie : urlFortv;
     try {
       const response = await axios.get(url, { params, ...options });
-      console.log(response.data);
+     // console.log(response.data);
       setsl(response.data);
     } catch (error) {
       console.error("error:", error);
@@ -223,7 +222,7 @@ function App() {
 
     try {
       const response1 = await axios.get(urltvseriesrecommds, { ...options });
-      console.log(response1.data);
+     // console.log(response1.data);
       setUserRecomds(response1.data);
     } catch (error) {
       console.error("error:", error);
@@ -242,7 +241,7 @@ function App() {
           name: name,
         }
       );
-      console.log(resp.data);
+    //  console.log(resp.data);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -261,7 +260,7 @@ function App() {
           }
         );
 
-        console.log(resp);
+       // console.log(resp);
         document.getElementById(
           "remindnotifycard"
         ).innerHTML = `${resp.data.message}`;
@@ -295,7 +294,7 @@ function App() {
           },
         }
       );
-      console.log(resp.data);
+     // console.log(resp.data);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -310,7 +309,7 @@ function App() {
     window.addEventListener("resize", handleResize);
 
     handleResize();
-    console.log(isPC);
+   // console.log(isPC);
   }, [window.innerWidth]);
   useEffect(() => {
 
@@ -367,7 +366,7 @@ gsap.to('#notibar',{duration:0.5,opacity:1,y:-50})
 
       cookiesArray.forEach((cookie) => {
         const [name, value] = cookie.split("=");
-        console.log(`${name}: ${value}`);
+      //  console.log(`${name}: ${value}`);
       });
     } else {
       console.log("No cookies found.");

@@ -37,7 +37,7 @@ export default function UserAcount() {
   const navigate = useNavigate();
   const  renameplaylistfunc = async () => {
     const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
-    console.log(set);
+   // console.log(set);
    const resp = await axios.post("https://mymovielistserver.onrender.com/renameplaylist", {
       username,
       index:activebt,
@@ -45,7 +45,7 @@ export default function UserAcount() {
     
 
     });
-    console.log(resp)
+   // console.log(resp)
     if(resp){
       document.getElementById("boxRenamePl").style.animation =
                 "downdown 0.5s both ";
@@ -101,7 +101,7 @@ export default function UserAcount() {
       namepl,
     });
     setpllist({ results: response.data });
-    console.log(response);
+   // console.log(response);
   };
   const sendtheplaylistname = async () => {
     const response = await axios.post(
@@ -113,7 +113,7 @@ export default function UserAcount() {
         url,
       }
     );
-    console.log(response);
+   // console.log(response);
 
     setmylist(response.data);
   };
@@ -234,7 +234,7 @@ export default function UserAcount() {
         `https://mymovielistserver.onrender.com/getCompletedList`,
         { username }
       );
-      console.log(response.data.list.movies);
+    //  console.log(response.data.list.movies);
       setcplist(response.data.list);
     }
   };
@@ -249,7 +249,7 @@ export default function UserAcount() {
         `https://mymovielistserver.onrender.com/getstillslist?username=${encodedUsername}`
       );
       setlikedlist(response.data);
-      console.log(response.data);
+    //  console.log(response.data);
     }
   };
   const deleteindb = async (id) => {
@@ -265,7 +265,7 @@ export default function UserAcount() {
           },
         }
       );
-      console.log(resp.data);
+      //console.log(resp.data);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -290,7 +290,7 @@ export default function UserAcount() {
             console.log(error);
           }
         );
-      console.log(response);
+     // console.log(response);
     }
   };
   const deletesavedimages = async (id) => {
@@ -303,7 +303,7 @@ export default function UserAcount() {
           imageUrl: id,
         }
       );
-      console.log(resp.data);
+     // console.log(resp.data);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -545,7 +545,7 @@ export default function UserAcount() {
                     </svg>
                     <svg
                       className="editplaylist"
-                      onClick={() =>{ setboxformepl1(!boxformepl1); console.log('clicked')}}
+                      onClick={() =>{ setboxformepl1(!boxformepl1);}}
                       xmlns="http://www.w3.org/2000/svg"
                       height="24px"
                       viewBox="0 -960 960 960"

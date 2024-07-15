@@ -65,7 +65,7 @@ export default function SearchComponent({movieName,handleInputChange,searchList,
                     "90deg";
                 }}
               ></div>
-              <div className="btmvser" onClick={()=>{document.getElementById("nextsymbol").style.rotate ="0deg";console.log('sdasd')}} >
+              <div className="btmvser" onClick={()=>{document.getElementById("nextsymbol").style.rotate ="0deg";}} >
                 <div
                   id="mvbt"
                   onClick={() => {
