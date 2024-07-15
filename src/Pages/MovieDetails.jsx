@@ -13,6 +13,7 @@ import { gsap } from "gsap";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Scrollbar, Navigation } from "swiper/modules";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import SearchComponent from '../components/SearchComponent';
 
 import "swiper/css";
 import GBTT from "../components/GBTT";
@@ -33,6 +34,9 @@ export default function MovieDetails() {
   const [imageUrl, setimageurl] = useState('');
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isPC, setPC] = useState(true);
+  const [overlaysearch, setoverlaysearch] = useState(false);
+  const [searchList, setsl] = useState("");
+  const [movieName, setMovieName] = useState("");
   const currentDate = new Date();
   const year = currentDate.getFullYear();
   const month = (currentDate.getMonth() + 1).toString().padStart(2, "0"); // Adding 1 because getMonth() returns zero-based month (0 for January, 11 for December)
@@ -457,10 +461,102 @@ export default function MovieDetails() {
     target.style.pointerEvents = newOverlay ? "all" : "none";
     setindexfimg(newOverlay && index >= 0 ? index : "nothing");
   }
+
+
+
+
+
+
+
+
+
+
+
+
+/* seach component's components */
+
+
+
+ const handleInputChange = (event) => {
+  setMovieName(event.target.value);
+  if (document.getElementById("oy").style.height == "110vh") {
+    document.getElementById("nextsymbol").style.rotate = "0deg";
+  }
+  console.log(document.getElementById("oy").style.height);
+};
+
+
+const searchmovies = async () => {
+  const urlForMovie = "https://api.themoviedb.org/3/search/movie";
+  const urlFortv = "https://api.themoviedb.org/3/search/tv";
+  const params = {
+    query: movieName,
+    include_adult: false,
+    language: "en-US",
+    page: 1,
+  };
+
+  const options = {
+    headers: {
+      accept: "application/json",
+      Authorization: import.meta.env.VITE_GAPI_KEY_ENV,
+    },
+  };
+  const url = movies == "true" ? urlForMovie : urlFortv;
+  try {
+    const response = await axios.get(url, { params, ...options });
+    console.log(response.data);
+    setTimeout (()=>setsl(response.data),500)
+  } catch (error) {
+    console.error("error:", error);
+  }
+};
+
+
+
+
+
+
+const [movies, setmovies] = useState("true");
+
+
+
+useEffect(() => {
+  gsap.fromTo(
+    ".searchdisplay",
+    { opacity: 0 },
+    { opacity: 1, duration: 0.5, delay: 0.5 }
+  );
+  console.log('asdawd')
+}, [searchList]);
+
+  useEffect(() => {
+    gsap.from("#ovai", { opacity: 0, duration: 0.5, delay: 0.5 });
+    let input = document.getElementById("inputbox");
+    let send = document.getElementById("nextsymbol1");
+
+    if (input && send) {
+      input.addEventListener("keyup", (e) => {
+        if (e.key === "Enter") {
+          send.click();
+        }
+      });
+    }
+  }, [overlaysearch]);
+
+
+/* end of search component's components */
+
   return (
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLEID_KEY_ENV}>
       <>
-        {tren && (
+      <div className="overlay" id="oy">
+      {overlaysearch && 
+      <SearchComponent movieName ={movieName} handleInputChange ={handleInputChange} searchList={searchList} setsl={setsl} searchmovies={searchmovies} List = {List} movies={movies} setmovies={setmovies} overlaysearch = {overlaysearch} setoverlaysearch ={ setoverlaysearch} MovieDetailSearch={true} />
+      }
+      
+      </div>
+      {tren && !searchList && (
           <>
             <div id="remindnotifycard">
               {checkCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`)
@@ -519,6 +615,24 @@ export default function MovieDetails() {
                   }}
                 >
                   <div className="opexpand" id="opexpan">
+                  <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        onClick={() => {
+                          setmenu(false);
+
+           
+                          setoverlaysearch(true);
+                          const c = document.getElementById("oy");
+                          console.log(c)
+                          c.style.height = "50vh";
+                        }}
+                        fill="white"
+                        height="24"
+                        viewBox="0 -960 960 960"
+                        width="24"
+                      >
+                        <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
+                      </svg>
                     <svg
                       fill="white"
                       onClick={() => navigate("/")}
@@ -530,24 +644,8 @@ export default function MovieDetails() {
                       <path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z" />
                     </svg>
 
-                    {/*<svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      onClick={() => {
-                        setmenu(false);
-                        const c1 = document.getElementById("menu");
-                        c1.style.width = "0vw";
-                        setoverlay(true);
-                        const c = document.getElementById("oy");
-                        c.style.height = "50vh";
-                      }}
-                      fill="white"
-                      height="24"
-                      viewBox="0 -960 960 960"
-                      width="24"
-                    >
-                      <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
-                    </svg>
-
+                   
+ {/*
                     <svg
                       onClick={async () => {
                         setmenu(false);

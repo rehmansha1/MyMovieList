@@ -23,7 +23,8 @@ export default function List({
   getpllist,
   set,
   setset,
-  setplaylist
+  setplaylist,
+  MovieDetailSearch,
 
 }) {
   const navigate = useNavigate();
@@ -136,7 +137,11 @@ getpllist(activebt)
     }
   };
   const handleButtonClick = (id,movie) => {
+  
     navigate(`/detes/${id}?m=${!pl?movies:movie}`);
+    if (MovieDetailSearch === true){
+      window.location.reload();
+    }
     //window.open(`/detes/${id}?m=${movies}`, '_blank')
     //window.location.href=`/detes/${id}?m=${movies}`;
   };
