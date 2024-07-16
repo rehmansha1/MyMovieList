@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import AddNewPlaylist from "./AddNewPlaylist";
+import AddToExistingPlaylist from "./AddToExistingPlaylist";
 
 export default function List({
   tren,
@@ -343,113 +345,10 @@ getpllist(activebt)
           </div>
         </div>
       )}
-
-      {boxtoaddplaylist && (
-        <div id="boxofplaylist">
-          <h1>Add "{set.name}" to a new playlist?</h1>
-          <svg
-            onClick={() => {
-              document.getElementById("boxofplaylist").style.animation =
-                "downdown 0.5s both ";
-              document.getElementById("glassoverlay").style.animation =
-                "transistionforglassbackup 0.5s  both";
-              setTimeout(() => {
-                setboxtoaddplaylist(!boxtoaddplaylist);
-              }, 500);
-
-            }}
-            id="playlistclose"
-            xmlns="http://www.w3.org/2000/svg"
-            height="24"
-            viewBox="0 -960 960 960"
-            width="24"
-            fill="white"
-          >
-            <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-          </svg>
-          <div className="bopboxinner">
-            {" "}
-            <input
-              className="daw"
-              value={npl}
-              onChange={(event) => {
-                setnpl(event.target.value);
-              }}
-              placeholder="Enter Playlist Name"
-            />
-            <div
-              id="sendtobackendplaylist"
-              onClick={() => {
-                if (npl != "") {
-                  sendingplaylistname();
-                 // console.log("text");
-                } else {
-                  console.log("empty str cant be sent");
-                }
-              }}
-            >
-              Add
-            </div>
-          </div>
-        </div>
-      )}
-      {boxtoaddplaylist1 && (
-        <div id="boxofplaylist1">
-          <svg
-            onClick={() => {
-              document.getElementById("boxofplaylist1").style.animation =
-                "downdown 0.5s both ";
-              document.getElementById("glassoverlay").style.animation =
-                "transistionforglassbackup 0.5s  both";
-              setTimeout(() => {
-                setboxtoaddplaylist1(!boxtoaddplaylist1);
-              }, 500);
-            }}
-            id="playlistclose"
-            xmlns="http://www.w3.org/2000/svg"
-            height="24"
-            viewBox="0 -960 960 960"
-            width="24"
-            fill="white"
-          >
-            <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-          </svg>
-          <h1>Add "{set.name}" to a existing playlist?</h1>
-          <div className="boxplaylistinner1">
-            {playlist.map((item, index) => {
-              return (
-                <div
-                  className="itemsofllp"
-                  onClick={() => {
-                    if (nametemp == index) {
-                      setnametemp(null);
-                      document.querySelectorAll(".itemsofllp")[
-                        index
-                      ].style.color = "white";
-                    } else {
-                      setnametemp(index);
-                      document.querySelectorAll(".itemsofllp")[
-                        index
-                      ].style.color = "gold";
-                    }
-                  }}
-                >
-                  {item}
-                </div>
-              );
-            })}
-          </div>
-          <div
-            id="sendtobackendplaylist"
-            onClick={() => {
-              addtoexistinglist();
-             // console.log("text");
-            }}
-          >
-            Add
-          </div>
-        </div>
-      )}
+{<AddNewPlaylist sendingplaylistname ={sendingplaylistname} setboxtoaddplaylist={setboxtoaddplaylist} boxtoaddplaylist={boxtoaddplaylist} set={set} setnpl={setnpl} npl={npl} />
+ }
+     { <AddToExistingPlaylist  boxtoaddplaylist1={boxtoaddplaylist1} setboxtoaddplaylist1={setboxtoaddplaylist1} set={set} playlist={playlist} setnametemp={setnametemp} addtoexistinglist={addtoexistinglist} nametemp ={nametemp } />
+     }
       {tren.results &&
         tren.results.map(
           (item, index) =>

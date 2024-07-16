@@ -65,7 +65,6 @@ function App() {
   const [moverlay, setmoverlay] = useState(false);
   const [notification, setnoti] = useState(false);
   const [noticontents, setnoticontents] = useState();
-
   function getCookie(cookieName) {
     const cookies = document.cookie.split("; ");
 
@@ -567,6 +566,10 @@ gsap.to('#notibar',{duration:0.5,opacity:1,y:-50})
                       let value = !menureal;
                       const c = document.getElementById("opexpan");
                       c.style.width = value ? "300px" : "0px";
+                      const d = document.querySelectorAll("#opexpan > svg");
+                      d.forEach((item)=>item.style.pointerEvents =  value ? 'all' : 'none')
+                      
+
                     }}
                   >
                     <div className="opexpand" id="opexpan">
@@ -642,16 +645,8 @@ gsap.to('#notibar',{duration:0.5,opacity:1,y:-50})
                         </svg>
                       )}
                       {LoggedIn && (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          onClick={() => navigate("/useraccount")}
-                          fill="white"
-                          height="24"
-                          viewBox="0 -960 960 960"
-                          width="24"
-                        >
-                          <path d="M160-200v-360q0-19 8.5-36t23.5-28l240-180q21-16 48-16t48 16l240 180q15 11 23.5 28t8.5 36v360q0 33-23.5 56.5T720-120H600q-17 0-28.5-11.5T560-160v-200q0-17-11.5-28.5T520-400h-80q-17 0-28.5 11.5T400-360v200q0 17-11.5 28.5T360-120H240q-33 0-56.5-23.5T160-200Z" />
-                        </svg>
+                        <svg onClickCapture={()=>navigate('/useraccount')} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"/></svg>
+
                       )}
                       <svg
                         onClick={() => {

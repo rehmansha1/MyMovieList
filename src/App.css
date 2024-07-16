@@ -482,7 +482,49 @@ body{
   backdrop-filter: blur(3.5px);
   -webkit-backdrop-filter: blur(3.5px);
   border: 1px solid rgba(255, 255, 255, 0.18);
+  transition: all 0.5s;
 }
+#splaybt{
+  height: 6vh;
+  width: 8vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  font-size: 0.9vw;
+  cursor: pointer;
+  gap: 5%;
+  font-weight: bold;
+  background: rgba(255, 213, 213, 0.02);
+  backdrop-filter: blur(3.5px);
+  -webkit-backdrop-filter: blur(3.5px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  transition: all 0.5s;
+  
+}
+#splaybtsvg{
+  transition: fill 0.5s;
+}
+
+#watchbt2 {
+  transition: fill 0.5s;
+}
+                    #watchbt:hover > #watchbt2{
+                  fill: black;
+                  } 
+#watchbt:hover{
+  background-color: white;
+  color: black;
+}
+
+            #splaybt:hover > #splaybtsvg {
+                fill: black;
+              }
+#splaybt:hover{
+  background-color: white;
+  color: black;
+}
+
 #remindmebt {
   height: 6vh;
   width: 8vw;
@@ -582,13 +624,6 @@ body{
   100% {
     top: -20%;
   }
-}
-#watchbt2 {
-  transition: all 0.5s;
-}
-
-#watchbt:hover > #watchbt2 {
-  rotate: 180deg;
 }
 
 .secpage {
@@ -693,12 +728,83 @@ body{
   z-index: -1;
 }
 
+
+
+  .mdplaylist{
+    position: absolute;
+    top: 60%;
+    opacity: 0;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    height: 200px;
+    z-index: 1111111111;
+    width: 400px;
+    background-color: black;
+    color: white;
+    font-family: "Montserrat";
+    border-radius: 10px;
+    padding: 50px;
+    transition: all 0.5s;
+animation: upupupup12 0.5s both;
+  }
+  @keyframes upupupup12 {
+    0%{
+      top: 60%;
+    opacity: 0;
+    }
+    100%{
+      top: 50%;
+      opacity: 1;
+    }
+  }
+  @keyframes upupupup13 {
+    0%{
+      top: 50%;
+    opacity: 1;
+    }
+    100%{
+      top: 60%;
+      opacity: 0;
+    }
+  }
+  .mdplaylist{
+    top: 50%;
+    opacity: 1;
+  }
+  .mdpltwo{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 20px;
+  }
+  .mdpltwo > div{
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+.mdpltwo > div:hover{
+  color: yellow;
+}
+
+
+
 .trenlist {
   display: flex;
   flex-direction: row;
 }
 .trenlist > div {
   cursor: pointer;
+}
+.opexpand > svg{
+  transition: all 0.3s; 
+  border-radius: 50%;
+  scale:1 !important;
+  padding: 5px;
+  margin-left: -5px;
+  pointer-events: none;
+}
+.opexpand  > svg:hover{
+  fill: black;
+  background-color: white;
 }
 .overlay {
   position: absolute;
@@ -2462,21 +2568,23 @@ justify-content: center;
 #textnotfound {
   opacity: 0.5;
 }
+.notisvgouter{
+  position: relative;
+}
 #notificationsvg {
   cursor: pointer;
   position: relative;
+  
+  
 }
 #notificationNumber {
-  position: absolute;
-  top: 0%;
-  left: 0%;
-  font-size: 12px;
-  font-family: harabara;
-  border: #ffff 1px solid;
-  padding: 1.5px;
-  color: black;
-  border-radius: 50%;
-  background-color: white;
+position: absolute;
+top: 0%;
+left: 90%;
+
+  padding: 0px;
+  color: white;
+
 }
 #notificationsvg:hover {
 }
@@ -2618,6 +2726,12 @@ justify-content: center;
   border: 1px solid rgba(255, 255, 255, 0.18);
 
 }
+#closeinfinite{
+  position: absolute;
+  top: 5%;
+  left: 90%;
+  cursor: pointer;
+}
 #ok{
   color: white;
 }
@@ -2625,7 +2739,7 @@ justify-content: center;
   position: fixed;
 
 
-  transform: translate(-60%, -43%);
+  transform: translate(-60%, -23%);
   left: 120%;
 
   background-color: black;
@@ -2635,6 +2749,7 @@ justify-content: center;
   border-radius: 10px;
   opacity: 0;
   display: flex;
+  
 }
 .adaw {
   color: white;

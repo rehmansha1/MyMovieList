@@ -17,6 +17,9 @@ import SearchComponent from '../components/SearchComponent';
 
 import "swiper/css";
 import GBTT from "../components/GBTT";
+import LogOutbt from "../components/LogOutbt";
+import AddNewPlaylist from "../components/AddNewPlaylist";
+import AddToExistingPlaylist from "../components/AddToExistingPlaylist";
 export default function MovieDetails() {
   const [tren, settrend1] = useState();
   const [recomds, setrecomds] = useState([]);
@@ -27,23 +30,34 @@ export default function MovieDetails() {
   const [media1, setmedia] = useState();
   const [keywords, setkeywords] = useState([]);
   const [isScaled, setIsScaled] = useState(false);
+  const [boxOfExistAdd,setboxOfExistAdd] = useState(false);
   const [credits, setcredits] = useState([]);
   const [video, setvideo] = useState();
   const [rt, setrt] = useState();
   const [sentreview, setsentreview] = useState(false);
   const [imageUrl, setimageurl] = useState('');
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [reviewbox,setreviewbox] = useState(false);
   const [isPC, setPC] = useState(true);
   const [overlaysearch, setoverlaysearch] = useState(false);
   const [searchList, setsl] = useState("");
   const [movieName, setMovieName] = useState("");
+  const [boxofchoiceopen,setboxofchoiceopen] = useState(false);
+  const [npl,setnpl] = useState('');
+  const [set,setset] = useState({});
+  const [boxtoaddplaylist,setboxtoaddplaylist] = useState(false);
+  const [boxtoaddplaylist1,setboxtoaddplaylist1] = useState(false);
+  const [playlist,setplaylist] = useState([])
+  const [nametemp,setnametemp] = useState(null)
   const currentDate = new Date();
   const year = currentDate.getFullYear();
   const month = (currentDate.getMonth() + 1).toString().padStart(2, "0"); // Adding 1 because getMonth() returns zero-based month (0 for January, 11 for December)
   const day = currentDate.getDate().toString().padStart(2, "0");
   const ymd = `${year}${month}${day}`;
   const { id } = useParams();
+  const [isLogged,setIsLogged] = useState(false);
   const urlParams = new URLSearchParams(window.location.search);
+  
   let paramValue = urlParams.get("m");
   function checkCookie(name) {
     const cookies = document.cookie.split("; ");
@@ -60,6 +74,36 @@ export default function MovieDetails() {
 
     return false; // Cookie not found
   }
+  const sendingplaylistname = async () => {
+    const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
+    console.log(paramValue)
+    const resp = await axios.post("https://mymovielistserver.onrender.com/sendplaylistnew", {
+      username,
+      playlistname: npl,
+      id: set.id,
+      url: set.url,
+      title: set.name,
+      movie:paramValue,
+    });
+    if(resp){
+      document.getElementById("boxofplaylist").style.animation =
+                "downdown 0.5s both ";
+              document.getElementById("glassoverlay").style.animation =
+                "transistionforglassbackup 0.5s  both";
+              setTimeout(() => {
+                setboxtoaddplaylist(false);
+              }, 500);
+              setTimeout(async() => {
+                const responseofpl = await axios.post(
+                  `https://mymovielistserver.onrender.com/getplaylist`,
+                  { username }
+                );
+                setplaylist(responseofpl.data);
+            
+              }, 500);
+    }
+  };
+
   const printstars = (ratings) => {
     const stars = [];
 
@@ -406,7 +450,9 @@ export default function MovieDetails() {
       console.error("Error:", error);
     }
   };
-
+  useEffect(() => {
+    setIsLogged(  getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`) );
+  },[]);
   useEffect(() => {
     settrend1();
     setmedia();
@@ -518,9 +564,6 @@ const searchmovies = async () => {
 
 
 const [movies, setmovies] = useState("true");
-
-
-
 useEffect(() => {
   gsap.fromTo(
     ".searchdisplay",
@@ -546,9 +589,82 @@ useEffect(() => {
 
 /* end of search component's components */
 
+
+/* new add playlist box funcs */
+ const choiceofboxclose =()=>{
+  document.getElementById('mdpl12').style.animation  = 'upupupup13 0.4s both';
+ }
+const glassOut = ()=>{
+  document.getElementById("glassoverlay").style.animation =
+  "transistionforglassbackup 0.5s  both";
+}
+
+/* end of new add playlist box funcs */
+/* add to existing playlist */
+const addtoexistinglist = async () => {
+  const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
+  const resp = await axios.post(
+    "https://mymovielistserver.onrender.com/addtoexistingplaylist",
+    {
+      username,
+      playlistname: nametemp,
+      id: set.id,
+      url: set.url,
+      title: set.name,
+      movie:paramValue
+    }
+  );
+  if (resp){
+    document.getElementById("boxofplaylist1").style.animation =
+    "downdown 0.5s both ";
+   document.getElementById("glassoverlay").style.animation =
+    "transistionforglassbackup 0.5s  both";
+   
+    setTimeout(() => {
+    setboxtoaddplaylist1(!boxtoaddplaylist1);
+   }, 500);
+   
+  }
+};
+const gettingUserplaylists =async()=>{
+  const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
+const res = await axios.post(
+  `https://mymovielistserver.onrender.com/getplaylist`,
+  { username }
+);
+setplaylist(res.data)
+console.log(res);}
+/* end of add to existing playlist */
+const md = true
   return (
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLEID_KEY_ENV}>
       <>
+      {(boxtoaddplaylist || boxofchoiceopen || boxtoaddplaylist1  ) && (
+        <div className="overlay3213123" id="glassoverlay"></div>
+      )}
+    { boxofchoiceopen &&
+      <div className="mdplaylist" id="mdpl12">
+        <h1>Add To a playlist?</h1>
+        <div className="choicebox"onClick={()=>{
+          choiceofboxclose();
+          glassOut();
+          setTimeout(()=>{setboxofchoiceopen(false); },400)}}>x</div>
+     <div className="mdpltwo">
+        <div onClick={()=>{
+          choiceofboxclose();
+          setTimeout(()=>{setboxofchoiceopen(false); setboxtoaddplaylist1(true); gettingUserplaylists()} ,400)}}>existing playlist</div>
+        <div onClick={()=>{
+          choiceofboxclose();          
+          setTimeout(()=>{setboxofchoiceopen(false); setboxtoaddplaylist(true);} ,400)}}>Add to new playlist</div>
+      </div>
+      </div>
+    }
+    {
+<AddToExistingPlaylist md={md} nametemp={nametemp} boxtoaddplaylist1={boxtoaddplaylist1} setboxtoaddplaylist1={setboxtoaddplaylist1} set={set} playlist={playlist} setnametemp={setnametemp} addtoexistinglist={addtoexistinglist}  />
+    }
+    {
+      <AddNewPlaylist md={md} boxtoaddplaylist={boxtoaddplaylist} setboxtoaddplaylist={setboxtoaddplaylist} set={set} setnpl={setnpl} npl={npl} sendingplaylistname={sendingplaylistname} />
+    }
       <div className="overlay" id="oy">
       {overlaysearch && 
       <SearchComponent movieName ={movieName} handleInputChange ={handleInputChange} searchList={searchList} setsl={setsl} searchmovies={searchmovies} List = {List} movies={movies} setmovies={setmovies} overlaysearch = {overlaysearch} setoverlaysearch ={ setoverlaysearch} MovieDetailSearch={true} />
@@ -610,7 +726,10 @@ useEffect(() => {
                     setmenu(!menu);
                     let value = !menu;
                     const c = document.getElementById("opexpan");
-                    c.style.width = value ? "200px" : "0px";
+                    c.style.width = value ? "300px" : "0px";
+                    const d = document.querySelectorAll("#opexpan > svg");
+                      d.forEach((item)=>item.style.pointerEvents =  value ? 'all' : 'none')
+                      
                   }}
                 >
                   <div className="opexpand" id="opexpan">
@@ -644,29 +763,12 @@ useEffect(() => {
                     </svg>
 
                    
- {/*
-                    <svg
-                      onClick={async () => {
-                        setmenu(false);
-                        const c1 = document.getElementById("menu");
-                        c1.style.width = "0%";
+                    {isLogged && (
+                      
+                      <svg onClickCapture={()=>navigate('/useraccount')} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"/></svg>
 
-                        setoverlay(true);
-                        const c = document.getElementById("oy");
-                        c.style.height = "100%";
-                        setTimeout(() => {
-                          navigate("/mylist");
-                        }, 500);
-                      }}
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="white"
-                      height="24"
-                      viewBox="0 -960 960 960"
-                      width="24"
-                    >
-                      <path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Z" />
-                    </svg>
-                    */}
+                      )}
+                      {isLogged ? <LogOutbt fill={'white'} /> : <GBTT />}
                     <svg
                       onClick={() => {
                         setmenu(false);
@@ -731,6 +833,7 @@ useEffect(() => {
                         paramValue == "false") && (
                         <>
                           <div id="alreadywatched"   onClick={() => {
+                            setreviewbox(!reviewbox);
                                 setreviewarray([
                                   `${tren.poster_path || tren.URL}`,
                                   tren.title || tren.name,
@@ -751,6 +854,7 @@ useEffect(() => {
                               <path d="m424-296 282-282-56-56-226 226-114-114-56 56 170 170Zm56 216q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
                             </svg>
                           </div>
+                          
                           <div id="blackboxiga">
                             {!rt && !sentreview && (
                               <>
@@ -762,6 +866,7 @@ useEffect(() => {
                                   />
                                 </div>
                                 <div id="restbbbox">
+                                <div id="closeinfinite" onClick={()=>{document.getElementById('alreadywatched').click(); glassOut()} }>X</div>
                                   <div id="titleofrevbox">
                                     {tren.name || tren.title}
                                   </div>
@@ -856,7 +961,7 @@ useEffect(() => {
                                 </div>
                               </>
                             )}
-                            {!sentreview &&<div id="goingtosend"> <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M480-160q-134 0-227-93t-93-227q0-134 93-227t227-93q69 0 132 28.5T720-690v-110h80v280H520v-80h168q-32-56-87.5-88T480-720q-100 0-170 70t-70 170q0 100 70 170t170 70q77 0 139-44t87-116h84q-28 106-114 173t-196 67Z"/></svg></div>}
+                            {!sentreview &&<div id="goingtosend"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M480-160q-134 0-227-93t-93-227q0-134 93-227t227-93q69 0 132 28.5T720-690v-110h80v280H520v-80h168q-32-56-87.5-88T480-720q-100 0-170 70t-70 170q0 100 70 170t170 70q77 0 139-44t87-116h84q-28 106-114 173t-196 67Z"/></svg></div>}
                             {sentreview && <div id="checkbox"><svg xmlns="http://www.w3.org/2000/svg" height="74px" viewBox="0 -960 960 960" width="74px" fill="#e8eaed"><path d="m424-296 282-282-56-56-226 226-114-114-56 56 170 170Zm56 216q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>{sentreview}</div>}
                           </div>
                         </>
@@ -914,6 +1019,35 @@ useEffect(() => {
                             <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
                           </svg>{" "}
                           Watchlist
+                        </div>
+                      }
+                      {
+                        <div
+                          id="splaybt"
+                          onClick={() => {
+                            setboxofchoiceopen(true)
+                            
+                            setset({
+                                id: tren.id,
+                                url: tren.poster_path || tren.URL,
+                                name: tren.title || tren.name,
+                              });
+                               document.getElementById("glassoverlay").style.animation =
+      "transistionforglassbackup 0.5s  both";
+                          }}
+
+                        >
+                          <svg
+                            fill="white"
+                            id="splaybtsvg"
+                            xmlns="http://www.w3.org/2000/svg"
+                            height="24"
+                            viewBox="0 -960 960 960"
+                            width="24"
+                          >
+                            <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                          </svg>{" "}
+                         playlist
                         </div>
                       }
                       {paramValue == "true" &&

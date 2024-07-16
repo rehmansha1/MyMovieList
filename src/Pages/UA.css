@@ -32,8 +32,14 @@
   transition: all 0.3s;
   
 }
-@keyframes  {
-  
+
+.choicebox{
+  position: absolute;
+  top: 10%;
+  left: 90%;
+  scale: 1.5;
+  cursor: pointer;
+
 }
 .UAwatchlist > div{
 
@@ -84,6 +90,25 @@ background-color: white;
 .allplitems:hover > .cancelplaylist,.allplitems:hover > .editplaylist{
   
   fill: white;
+}
+#centerandrotate{
+display: flex;
+align-items: center;
+justify-content:center ;
+flex-direction: column;
+scale: 1.1;
+
+}
+#centerandrotate > svg{
+animation: rdr 0.5s infinite;
+}
+@keyframes  rdr {
+  0%{
+    rotate: 0deg;
+  }
+  100%{
+    rotate: 360deg;
+  }
 }
 .k{
   opacity: 0;
@@ -339,12 +364,11 @@ border-radius: 1px;
 border-top: transparent solid ;
 border-left: transparent;
 border-right: transparent;
-
 height: 30px;
 }
 #boxofplaylist1{
-  height: 315px;
-  width: 610px;
+  height: auto;
+  width: auto;
   position: fixed;
   background-color: black;
   display: flex;
