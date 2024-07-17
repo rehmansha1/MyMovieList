@@ -221,10 +221,11 @@ export default function MovieDetails() {
         stars: starsvalue,
       });
       setsentreview(response.data);
-      
        setTimeout(() => {
-        document.getElementById('alreadywatched').click()
-       }, 1500); 
+        document.getElementById('blackboxiga').style.animation = 'pulldown123123 0.5s both';
+
+        setreviewbox(false);
+      }, 1500); 
   
       //console.log(response);
     } catch (error) {
