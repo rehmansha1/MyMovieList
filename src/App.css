@@ -326,10 +326,10 @@ body{
   pointer-events: none;
   z-index: 1;
 
-  background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2));
-
-/*background: linear-gradient(to right, rgba(0, 0, 0, 0.3) 5%, transparent 100%);
+ /* background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2));
 */
+background: linear-gradient(to right, rgba(0, 0, 0, 0.3) 5%, transparent 100%);
+
 animation: fadedout linear;
   animation-timeline: view();
   animation-range: exit 0px;
@@ -379,6 +379,7 @@ animation: fadedout linear;
   padding-left: 5.2vw;
   color: white;
   scale: 1;
+  
 }
 
 @font-face {
@@ -2294,9 +2295,9 @@ justify-content: center;
     width: 100%;
     object-fit: cover;
     position: absolute;
-    top: 0;
+    top: -20%;
     left: 0;
-    opacity: 0;
+    opacity: 1;
   }
   .darkcorner {
     position: absolute;
@@ -2304,12 +2305,13 @@ justify-content: center;
     z-index: -1;
     height: 50vh;
     width: 100%;
+  
   }
   .darkcorner::before,
   .darkcorner::after {
     content: "";
     position: absolute;
-    top: 0%;
+    top: -20%;
     left: 0;
 
     width: 100%;

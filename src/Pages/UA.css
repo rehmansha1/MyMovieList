@@ -97,6 +97,8 @@ align-items: center;
 justify-content:center ;
 flex-direction: column;
 scale: 1.1;
+height: 70%;
+
 
 }
 #centerandrotate > svg{
@@ -278,7 +280,7 @@ padding: 50px;
 }
 #playlistclose{
   position: absolute;
-  top: 10%;
+  top: 8%;
   left: 90%;
   transition: rotate 0.3s;
    cursor: pointer;

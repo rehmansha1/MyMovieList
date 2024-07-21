@@ -517,9 +517,6 @@ export default function MovieDetails() {
 
 
 
-
-
-
 /* seach component's components */
 
 
@@ -661,7 +658,7 @@ const md = true
       </div>
     }
     {
-<AddToExistingPlaylist md={md} nametemp={nametemp} boxtoaddplaylist1={boxtoaddplaylist1} setboxtoaddplaylist1={setboxtoaddplaylist1} set={set} playlist={playlist} setnametemp={setnametemp} addtoexistinglist={addtoexistinglist}  />
+<AddToExistingPlaylist isLogged={isLogged} md={md} nametemp={nametemp} boxtoaddplaylist1={boxtoaddplaylist1} setboxtoaddplaylist1={setboxtoaddplaylist1} set={set} playlist={playlist} setnametemp={setnametemp} addtoexistinglist={addtoexistinglist}  />
     }
     {
       <AddNewPlaylist md={md} boxtoaddplaylist={boxtoaddplaylist} setboxtoaddplaylist={setboxtoaddplaylist} set={set} setnpl={setnpl} npl={npl} sendingplaylistname={sendingplaylistname} />
@@ -1149,7 +1146,7 @@ const md = true
                       spaceBetween={0}
                       modules={[Navigation, Scrollbar]}
                       slidesPerView={
-                        tren.seasons.length > 10 ? 5 : tren.seasons.length 
+                        tren.seasons.length > 6 ? 5 : tren.seasons.length 
                       
                       }
                       scrollbar={{ draggable: true }}
