@@ -1,0 +1,70 @@
+      
+#dawd{
+    color: white;
+}
+#mobileOverlayId{
+    position: absolute;
+    height: 0px;
+    width: 100%;
+    animation: full 0.5s both;
+    background-color: green;
+    transition: height 0.5s;
+}
+@keyframes full {
+    0%{
+        height: 0px;
+        width: 100%;
+    }
+    100%{
+        height: 100%;
+        width: 100%;
+    }
+}
+@keyframes downMobileOverlay {
+    0%{
+        height: 100%;
+        width: 100%;
+    }
+    100%{
+        height: 0%;
+        width: 100%;
+    }
+}
+.mgridOfitems{
+    display: flex;
+    flex-wrap: wrap;
+    
+    height: 100vh;
+    width: 100%;
+}
+.mFirstgrid{
+width: 100%;
+height: 50%;
+display: flex;
+}
+.mFirstgrid > div{
+    flex: 1;
+display:flex ;
+align-items: center;
+justify-content: center;
+    
+}
+.mFirstgrid > div > svg {
+    scale: 3;
+    transition: opacity 0.3s;
+}
+.mSecondgrid{
+    width: 100%;
+    height: 50%;
+    display: flex;
+
+}
+.mSecondgrid > div{
+flex: 1;
+}
+.minput{
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

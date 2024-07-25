@@ -1186,6 +1186,24 @@ animation: upupupup12 0.5s both;
   filter: drop-shadow(0px 0px 1px black);
 
 
+
+}
+#loading123333333{
+  transition: color 0.1s ;
+fill: white;
+  animation: loadinganimation123 0.5s ease infinite;
+
+}
+#watchbt:hover > #loading123333333{
+fill: black ;
+}
+@keyframes loadinganimation123 {
+  0%{
+    rotate: 0deg;
+  }
+  100%{
+    rotate: 360deg;
+  }
 }
 .checksvg:hover {
   fill: gold;
@@ -1455,6 +1473,10 @@ article {
   gap: 100px;
   display: flex;
   padding-top: 30px;
+  
+}
+.seasonsarray > div{
+  padding-left: 10px;
 }
 .saih1 {
   padding: 10px;
@@ -1475,6 +1497,9 @@ position: relative;
 display: flex;
 align-items: center;
 justify-content: center;
+border: 1px solid white;
+margin-left: -10px;
+border-radius: 10px;
 
 }
 .notimgs > svg{
@@ -1744,7 +1769,7 @@ justify-content: center;
   padding-right: 5px;
 }
 .castname > div:nth-child(1) {
-  font-size: 10px;
+  font-size: 14px;
 }
 .castname > div:nth-child(2) {
   opacity: 0.5;
@@ -1822,12 +1847,14 @@ justify-content: center;
   padding-left: 7vw;
 }
 .castdetes {
-  padding: 100px;
+  padding: 200px;
+  padding-left: 100px;
   color: white;
   display: flex;
   gap: 100px;
   font-size: 20px;
   align-items: center;
+
 }
 .castnameandbio {
   display: flex;
@@ -1873,9 +1900,7 @@ justify-content: center;
   align-self: flex-start; /* Align the img to the top of the flex container */
   transition: all 0.5s;
 }
-.imgofcast1:hover {
-  transform: scale(1.5);
-}
+
 .arrayofimgcast {
   height: 100%;
   width: 100%;

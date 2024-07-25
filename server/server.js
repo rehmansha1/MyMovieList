@@ -239,7 +239,10 @@ app.get("/getIDS", async (req, res) => {
 app.get("/getNOTFIYLIST", async (req, res) => {
   try {
     const encryptedText = req.query.username;
-
+if(!encryptedText){
+  res.json('no noti list');
+}
+else if(encryptedText){
     if (!encryptedText.includes("gmail.com")) {
       const urldecodedEncryptedText = decodeURIComponent(encryptedText);
       var decryptedBytes = CryptoJS.AES.decrypt(
@@ -253,12 +256,12 @@ app.get("/getNOTFIYLIST", async (req, res) => {
       });
       if (filteredItems.length > 0) {
         res.json(filteredItems);
-        console.log(filteredItems);
       } else {
         res.status(204).send();
         console;
       }
     }
+  }
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
@@ -541,6 +544,7 @@ app.post("/putstill", async (req, res) => {
 });
 app.post("/getuserrecommadations", async (req, res) => {
   const encryptedText = req.body.username;
+  if(encryptedText){
   var decryptedBytes = CryptoJS.AES.decrypt(
     encryptedText,
     `${process.env.SERVER_ENCRYPT_KEY}`
@@ -558,6 +562,7 @@ app.post("/getuserrecommadations", async (req, res) => {
   } else {
     console.log("User not found.");
   }
+}
 });
 
 app.post("/putPublicReview", async (req, res) => {

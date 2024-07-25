@@ -47,6 +47,7 @@ export default function MovieDetails() {
   const [set,setset] = useState({});
   const [boxtoaddplaylist,setboxtoaddplaylist] = useState(false);
   const [boxtoaddplaylist1,setboxtoaddplaylist1] = useState(false);
+  const [watchbtloading,setwatchbtloading] = useState(false)
   const [playlist,setplaylist] = useState([])
   const [nametemp,setnametemp] = useState(null)
   const currentDate = new Date();
@@ -243,7 +244,7 @@ export default function MovieDetails() {
       const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
 
       const response = await axios.post(
-        "http://localhost:3001/putPublicReview",
+        "https://mymovielistserver.onrender.com/putPublicReview",
         {
           id: arrayImgNameId[2],
           name: username,
@@ -383,7 +384,7 @@ export default function MovieDetails() {
 
   const putInDbMovies = async (id, url, title) => {
     const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
-
+setwatchbtloading(true);
     try {
       if (username) {
         const resp = await axios.post(
@@ -400,6 +401,7 @@ export default function MovieDetails() {
           "remindnotifycard"
         ).innerHTML = `${resp.data.message}`;
         document.getElementById("remindnotifycard").style.top = "5%";
+        setwatchbtloading(false)
         setTimeout(() => {
           document.getElementById("remindnotifycard").style.top = "-10%";
         }, 1500);
@@ -408,6 +410,7 @@ export default function MovieDetails() {
           "You are not Logged in";
 
         document.getElementById("remindnotifycard").style.top = "5%";
+        setwatchbtloading(false)
         setTimeout(() => {
           document.getElementById("remindnotifycard").style.top = "-10%";
         }, 1500);
@@ -418,8 +421,8 @@ export default function MovieDetails() {
   };
   const putInDbSeries = async (id, url, name) => {
     const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
-
-    try {
+    setwatchbtloading(true)
+    try { 
       if (username) {
         const resp = await axios.post(
           "https://mymovielistserver.onrender.com/putIDSeries",
@@ -435,6 +438,8 @@ export default function MovieDetails() {
           "remindnotifycard"
         ).innerHTML = `${resp.data.message}`;
         document.getElementById("remindnotifycard").style.top = "5%";
+        setwatchbtloading(false)
+
         setTimeout(() => {
           document.getElementById("remindnotifycard").style.top = "-10%";
         }, 1500);
@@ -442,7 +447,10 @@ export default function MovieDetails() {
         document.getElementById("remindnotifycard").innerHTML =
           "You have not Logged in";
 
+
         document.getElementById("remindnotifycard").style.top = "5%";
+        setwatchbtloading(false)
+
         setTimeout(() => {
           document.getElementById("remindnotifycard").style.top = "-10%";
         }, 1500);
@@ -1005,7 +1013,8 @@ const md = true
                             }
                           }}
                         >
-                          <svg
+                        { !watchbtloading && 
+                          <><svg
                             fill="white"
                             id="watchbt2"
                             xmlns="http://www.w3.org/2000/svg"
@@ -1015,7 +1024,12 @@ const md = true
                           >
                             <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
                           </svg>{" "}
-                          Watchlist
+                          <div>Watchlist</div></>}
+                          {
+                            watchbtloading &&
+                            <svg id="loading123333333" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="white"><path d="M480-160q-134 0-227-93t-93-227q0-134 93-227t227-93q69 0 132 28.5T720-690v-110h80v280H520v-80h168q-32-56-87.5-88T480-720q-100 0-170 70t-70 170q0 100 70 170t170 70q77 0 139-44t87-116h84q-28 106-114 173t-196 67Z"/></svg>
+
+                          }
                         </div>
                       }
                       {
