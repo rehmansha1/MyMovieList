@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import logo from "../assets/Logonetflix.png";
 import imdb from "../assets/imdb.png";
 import ec from "../assets/ec.png";
-
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import "./md.css";
@@ -749,7 +748,9 @@ const md = true
                           const c = document.getElementById("oy");
                           //console.log(c)
                           c.style.height = "50vh";
-                        }}
+
+window.scrollTo({top:0,behavior:'smooth'});
+                        }}  
                         fill="white"
                         height="24"
                         viewBox="0 -960 960 960"
@@ -791,7 +792,9 @@ const md = true
                   <div className="line"></div>
                   <div className="line"></div>
                   <div className="line"></div>
+                 
                 </div>
+                
               </div>
               <div className="darkcorner">
                 <img
