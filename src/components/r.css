@@ -90,3 +90,69 @@ display: flex;
 #overlayforreview > svg:hover{
   rotate: 180deg;
 }
+ 
+
+
+
+
+
+
+/* Review box starts here */
+#close-revbox{
+  position: absolute;
+top:10%;
+right: 10%;
+scale: 1;
+cursor: pointer;
+
+}
+
+#rev-box{
+  opacity: 0;
+  position: fixed;
+  height: 400px;
+  width: 500px;
+  background-color: black;
+  z-index: 12;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  border-radius: 20px;
+  color: white;
+  font-family: "Montserrat";
+  padding: 50px;
+  animation: upupRevBox 0.5s both;
+}
+@keyframes upupRevBox {
+  0%{
+top: 60%;
+opacity: 0;
+
+  }
+  100%{
+    top: 50%;
+    opacity: 1;
+  }
+
+}
+@keyframes downdownRevBox {
+  0%{
+top: 50%;
+opacity: 1;
+
+  }
+  100%{
+    top: 60%;
+    opacity: 0;
+  }
+
+}
+#revbox-sendsvg{
+  position: absolute;
+  top: 80%;
+  right: 8%;
+  cursor: pointer;
+}
+#revbox-sendsvg:hover{
+  fill: yellow;
+}

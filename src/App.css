@@ -2866,6 +2866,12 @@ scale: 1.5;
   color: white;
   width: 90%;
   height: 50%;
+  font-family: "Montserrat";
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 10px;
+  outline: none;
+
 }
 #tagsbbox {
   display: flex;
