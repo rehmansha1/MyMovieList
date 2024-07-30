@@ -92,7 +92,7 @@ const [watchbtloading,setwatchbtloading] = useState(false);
           // Try to parse the cookie value as JSON
           return JSON.parse(decodedValue);
         } catch (error) {
-          // If parsing fails, return the original value
+          // If parsing fails, return the originGOal value
           return decodedValue;
         }
       }

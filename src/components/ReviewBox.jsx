@@ -7,7 +7,7 @@ export default function ReviewBox({ setreviewbox }) {
   };
   return (
     <div id="rev-box">
-      <h1>Review for this Movie</h1>
+      <h1>Review for this Movie/Series</h1>
 
       <svg
         id="close-revbox"
