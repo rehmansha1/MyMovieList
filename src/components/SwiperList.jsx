@@ -23,7 +23,8 @@ export default function SwiperList({
   const [cid, setcid] = useState("");
 
   const handleButtonClick = (id) => {
-    navigate(`/detes/${id}?m=${movies}`);
+    document.getElementById('wholewe').style.opacity = 0;
+    setTimeout(()=>navigate(`/detes/${id}?m=${movies}`),200)
 
     // window.location.href=`/detes/${id}?m=${movies}`;
   };

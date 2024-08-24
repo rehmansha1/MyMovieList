@@ -2,6 +2,9 @@
 .UA {
   display: flex;
 }
+#uaMain{
+  transition: opacity 0.5s;
+}
 .UAmenu {
   position: fixed;
   height: 100%;

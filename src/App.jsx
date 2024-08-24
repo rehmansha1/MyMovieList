@@ -43,6 +43,7 @@ import "swiper/css/scrollbar";
 import LogOutbt from "./components/LogOutbt";
 import GBTT from "./components/GBTT";
 import Uppercard from "./components/Uppercard";
+import Layers from "./components/Layer";
 function App() {
   const [tren, settrend] = useState([]);
   const [tren1, settrend1] = useState([]);
@@ -52,6 +53,7 @@ function App() {
   const [movies, setmovies] = useState("true");
   const [randomNumber, setrandom] = useState();
   const [movieName, setMovieName] = useState("");
+  const [count,setCount]= useState(0);
   const [searchList, setsl] = useState("");
   const [LoggedIn, setlogged] = useState(false);
   const [isPC, setPC] = useState(true);
@@ -492,7 +494,7 @@ end of mobile functions
                   })}
                 </div>
               )}
-              <div className="wholeweb ">
+              <div className="wholeweb " id="wholewe">
                 <div className="overlay" id="oy">
                   <div id="menu">
                     {menu && (
@@ -647,29 +649,7 @@ end of mobile functions
                         >
                           <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
                         </svg>
-                        {LoggedIn && (
-                          <svg
-                            onClick={async () => {
-                              setmenu(false);
-                              const c1 = document.getElementById("menu");
-                              c1.style.width = "0%";
-
-                              setoverlay1(true);
-                              const c = document.getElementById("oy");
-                              c.style.height = "100%";
-                              setTimeout(() => {
-                                navigate("/mylist");
-                              }, 500);
-                            }}
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="white"
-                            height="24"
-                            viewBox="0 -960 960 960"
-                            width="24"
-                          >
-                            <path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Z" />
-                          </svg>
-                        )}
+                        
                         {LoggedIn ? <LogOutbt fill={"white"} /> : <GBTT />}
 
                         {noticontents && (
@@ -1054,6 +1034,9 @@ end of mobile functions
                   </div>
                 )}
               </div>
+              
+                {/*<Layers count={count} setCount={setCount} trendingMovies ={trn} />*/}
+              
             </>
           )}
         </>

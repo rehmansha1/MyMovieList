@@ -1,8 +1,31 @@
 import React from 'react'
 
-export default function AddNewPlaylist({md,sendingplaylistname,setboxtoaddplaylist,boxtoaddplaylist,set,setnpl,npl}) {
+export default function AddNewPlaylist({setwatchbtloading,md,sendingplaylistname,setboxtoaddplaylist,boxtoaddplaylist,set,setnpl,npl}) {
+  function getCookie(cookieName) {
+    const cookies = document.cookie.split("; ");
+
+    for (const cookie of cookies) {
+      const [name, encodedValue] = cookie.split("=");
+
+      if (name === cookieName) {
+        const decodedValue = decodeURIComponent(encodedValue);
+
+        try {
+          // Try to parse the cookie value as JSON
+          return JSON.parse(decodedValue);
+        } catch (error) {
+          // If parsing fails, return the original value
+          return decodedValue;
+        }
+      }
+    }
+
+    return null; // Return null if the cookie with the specified name is not found
+  }
   return (
+ 
  <>
+ 
 {boxtoaddplaylist && (
         <div id="boxofplaylist" style={md ? { left: '50%' } : null}>
           <h1>Add "{set.name}" to a new playlist?</h1>
@@ -42,7 +65,19 @@ export default function AddNewPlaylist({md,sendingplaylistname,setboxtoaddplayli
               id="sendtobackendplaylist"
          
               onClick={() => {
-                if (npl != "") {
+                
+                if (npl != ""  ) {
+                  const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
+                  console.log(username)
+                  if (!username){
+                  document.getElementById("remindnotifycard").innerHTML =
+        "You are not Logged in";
+
+      document.getElementById("remindnotifycard").style.top = "5%";
+      setwatchbtloading(false)
+      setTimeout(() => {
+        document.getElementById("remindnotifycard").style.top = "-10%";
+      }, 1500);}
                   sendingplaylistname();
                  // console.log("text");
                 } else {

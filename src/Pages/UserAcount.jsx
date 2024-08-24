@@ -335,7 +335,7 @@ export default function UserAcount() {
   }, [likedImages]);
 
   return (
-    <div className="UA">
+    <div className="UA" id="uaMain">
       {(boxtoaddplaylist ||
         boxtoaddplaylist1 ||
         boxformepl || boxForRmPlItem ||

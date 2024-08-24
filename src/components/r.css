@@ -100,7 +100,7 @@ display: flex;
 /* Review box starts here */
 #close-revbox{
   position: absolute;
-top:10%;
+top:8%;
 right: 10%;
 scale: 1;
 cursor: pointer;

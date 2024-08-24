@@ -666,10 +666,10 @@ const md = true
       </div>
     }
     {
-<AddToExistingPlaylist isLogged={isLogged} md={md} nametemp={nametemp} boxtoaddplaylist1={boxtoaddplaylist1} setboxtoaddplaylist1={setboxtoaddplaylist1} set={set} playlist={playlist} setnametemp={setnametemp} addtoexistinglist={addtoexistinglist}  />
+<AddToExistingPlaylist  isLogged={isLogged} md={md} nametemp={nametemp} boxtoaddplaylist1={boxtoaddplaylist1} setboxtoaddplaylist1={setboxtoaddplaylist1} set={set} playlist={playlist} setnametemp={setnametemp} addtoexistinglist={addtoexistinglist}  />
     }
     {
-      <AddNewPlaylist md={md} boxtoaddplaylist={boxtoaddplaylist} setboxtoaddplaylist={setboxtoaddplaylist} set={set} setnpl={setnpl} npl={npl} sendingplaylistname={sendingplaylistname} />
+      <AddNewPlaylist checkCookie={checkCookie} setwatchbtloading={setwatchbtloading} md={md} boxtoaddplaylist={boxtoaddplaylist} setboxtoaddplaylist={setboxtoaddplaylist} set={set} setnpl={setnpl} npl={npl} sendingplaylistname={sendingplaylistname} />
     }
       <div className="overlay" id="oy">
       {overlaysearch && 
@@ -713,8 +713,7 @@ const md = true
             </div>
         }
             <div
-              className="wholedivofmoviedetes"
-              style={{ display: imageLoaded ? "block" : "none" }}
+              className="wholedivofmoviedetes" id="wdom"
             >
               <div className="header1">
                 <img
