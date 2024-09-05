@@ -447,7 +447,7 @@ export default function UserAcount() {
       )}
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        onClick={() => navigate("/")}
+        onClick={() =>{document.getElementById('uaMain').style.opacity = 0; setTimeout(()=>navigate("/"),200);}}
         className="gotolink2"
         height="1px"
         viewBox="0 -960 960 960"

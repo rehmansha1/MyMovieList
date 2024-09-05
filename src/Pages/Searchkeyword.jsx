@@ -55,7 +55,7 @@ export default function Searchkeyword() {
     gsap.to('.boxks > div',{opacity:1,duration:0.5,stagger:0.1})
   },[document.querySelectorAll('#trengallary')])
   return (
-    <div className="wholepageofkeywordsearch">
+    <div className="wholepageofkeywordsearch" id="wpks">
       {results && (
         <div>
           <div className="boxthathastbt">

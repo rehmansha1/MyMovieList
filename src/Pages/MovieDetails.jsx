@@ -764,7 +764,7 @@ window.scrollTo({top:0,behavior:'smooth'});
                       </svg>
                     <svg
                       fill="white"
-                      onClick={() => navigate("/")}
+                      onClick={() =>{document.getElementById('wdom').style.opacity = 0; setTimeout(()=>navigate('/'),200);}}
                       xmlns="http://www.w3.org/2000/svg"
                       height="24"
                       viewBox="0 -960 960 960"
@@ -776,7 +776,7 @@ window.scrollTo({top:0,behavior:'smooth'});
                    
                     {isLogged && (
                       
-                      <svg onClickCapture={()=>navigate('/useraccount')} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"/></svg>
+                      <svg onClickCapture={()=>{document.getElementById('wdom').style.opacity = 0; setTimeout(()=>navigate('/useraccount'),200);}} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"/></svg>
 
                       )}
                       {isLogged ? <LogOutbt fill={'white'} /> : <GBTT />}
@@ -1198,10 +1198,10 @@ window.scrollTo({top:0,behavior:'smooth'});
                                 (item, index) =>
                                   index < 25 && (
                                     <div
-                                      onClick={() =>
-                                        navigate(
+                                      onClick={() =>{ document.getElementById('wdom').style.opacity = 0;
+                                        setTimeout(()=>navigate(
                                           `/searchbykeyword?id=${item.id}&name=${item.name}`
-                                        )
+                                        ),200);}
                                       }
                                     >
                                       {item.name}
@@ -1266,7 +1266,8 @@ window.scrollTo({top:0,behavior:'smooth'});
                                     <div
                                       className="cardofcast"
                                       onClick={() => {
-                                        navigate(`/castdetes?p=${item.id}`);
+                                        document.getElementById('wdom').style.opacity = 0;
+                                        setTimeout(()=>navigate(`/castdetes?p=${item.id}`),200);
                                       }}
                                     >
                                       <div className="imgofcast">

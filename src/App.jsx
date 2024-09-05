@@ -680,9 +680,11 @@ end of mobile functions
                             </text>
                           </svg>
                         )}
+
                         {LoggedIn && (
+
                           <svg
-                            onClickCapture={() => navigate("/useraccount")}
+                            onClickCapture={() => {document.getElementById('wholewe').style.opacity=0;setTimeout(()=>navigate("/useraccount"),200)}}
                             xmlns="http://www.w3.org/2000/svg"
                             height="24px"
                             viewBox="0 -960 960 960"
