@@ -10,6 +10,17 @@ import fs from "fs";
 dotenv.config();
 const app = express();
 
+
+
+
+
+
+
+
+
+
+
+
 const currentDate = new Date();
 const year = currentDate.getFullYear();
 const month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
@@ -309,7 +320,7 @@ app.delete("/delete", async (req, res) => {
     const index = dataArray.findIndex((item) => item.id === id);
 
     if (index === -1) {
-      return res.status(404).json({ message: "ID not found" });
+      return res.status(404).json({ message: "Item not found" });
     }
 
     dataArray.splice(index, 1);
@@ -317,7 +328,7 @@ app.delete("/delete", async (req, res) => {
     await user.save();
 
     console.log("Deleted " + id);
-    return res.json({ message: "ID deleted successfully" });
+    return res.json({ message: `${type == 'movies' ? 'Movie' : 'Series'} removed from your watchlist` });
   } catch (error) {
     console.error("Error:", error);
     return res.status(500).json({ message: "An error occurred" });
@@ -812,6 +823,46 @@ app.post("/deleteformplaylistitem", async (req, res) => {
             }
         }
         });
+
+app.post("/existsmovie", async (req, res) => {
+          const encryptedText = req.body.username;
+          var decryptedBytes = CryptoJS.AES.decrypt(
+            encryptedText,
+            `${process.env.SERVER_ENCRYPT_KEY}`
+          );
+          var username = decryptedBytes.toString(CryptoJS.enc.Utf8);
+          let existingUser = await User.findOne({ username });
+          let movie = req.body.movie;
+          let id = req.body.id;
+          if(existingUser){
+            if (movie == 'true'){
+          const a = existingUser.Movies.find(movie => movie.id === id);
+ 
+          if(a){
+            res.status(200).json('exists');
+          }
+          else{
+            res.status(200).json('not exists');
+          }
+        }
+          else{
+            const a = existingUser.Series.find(movie => movie.id === id);
+       
+            if(a){
+              res.status(200).json('exists');
+            }
+            else{
+              res.status(404).json('not exists');
+            }
+          }
+          }
+          
+        });
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+
+
+
+

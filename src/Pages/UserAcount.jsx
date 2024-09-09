@@ -508,10 +508,10 @@ export default function UserAcount() {
             {playlist.map((item, index) => {
               return (
                 <>
-                  <div className="allplitems" onClick={()=>
+                  <div className="allplitems" onClick={ async()=>
                   {
-                    getpllist(index);
-                        if (activebt != index) {
+                    document.getElementsByClassName('UAwatchlist')[0].style.opacity = 0;
+                    if (activebt != index) {
                           document.querySelectorAll(".allplitems")[
                             activebt
                           ].style.color = "white";
@@ -520,7 +520,15 @@ export default function UserAcount() {
                         document.querySelectorAll(".allplitems")[
                           index
                         ].style.color = "gold";
-                  }}>
+                    await getpllist(index);
+                   
+                       setTimeout(()=>{
+                        
+                       
+                        document.getElementsByClassName('UAwatchlist')[0].style.opacity = 1;
+                       },50); 
+
+                      }}>
                     <div
                       onClick={() => {
                        
@@ -631,7 +639,7 @@ export default function UserAcount() {
             </h1>
             <div></div>
             {!pllist && (
-              <div className="UAwatchlist">
+              <div className="UAwatchlist" >
                 {btstate == "movies" ? (
                   <List
                     tren={movies}
@@ -666,7 +674,7 @@ export default function UserAcount() {
               </div>
             )}
             {pllist && (
-              <div className="UAwatchlist">
+              <div className="UAwatchlist" id="UAWwatchlit">
                 <List
                   tren={pllist}
                   mylist={true}

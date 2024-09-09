@@ -577,9 +577,12 @@ overflow-y: auto;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+
+transition: opacity 0.3s; 
 }
+
 .UAwatchlist > div {
-/*scale: 0; */
+
 }
 #clickthishref{
   text-decoration: none;

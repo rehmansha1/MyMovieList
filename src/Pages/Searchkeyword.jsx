@@ -44,6 +44,7 @@ export default function Searchkeyword() {
   };
   useEffect(() => {
     fetchData();
+    document.title = 'MyMovieList';
   }, []);
   useEffect(() => {
     fetchData();
@@ -51,9 +52,23 @@ export default function Searchkeyword() {
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
-  useEffect(()=>{
-    gsap.to('.boxks > div',{opacity:1,duration:0.5,stagger:0.1})
-  },[document.querySelectorAll('#trengallary')])
+  useEffect(() => {
+
+    const images = gsap.utils.toArray(".boxks > div");
+    images.forEach((image) => {
+      gsap.to(image, {
+        opacity: 1,
+        scale: 1,
+        duration: 0.1,
+        scrollTrigger: {
+          trigger: image,
+          start: "top 100%", // Start the animation when the top of the image reaches 80% of the viewport height
+          toggleActions: "play none none none", // Actions for enter, leave, enter back, and leave back
+        },
+      });
+    });
+  }, [document.querySelectorAll('.boxks > div')]);
+
   return (
     <div className="wholepageofkeywordsearch" id="wpks">
       {results && (
@@ -169,6 +184,7 @@ export default function Searchkeyword() {
           )}
         </div>
       )}
+
     </div>
   );
 }

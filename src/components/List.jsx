@@ -518,6 +518,9 @@ getpllist(activebt)
                         else if(document.getElementById('overlayinnerid')){
                           document.getElementById('overlayinnerid').style.opacity = 0;
                         }
+                        else if(document.getElementById('wpks')){
+                          document.getElementById('wpks').style.opacity = 0;
+                        }
                setTimeout(()=>handleButtonClick(item.id,pl?item.movie:null),200);
                     }}
                     src={`https://image.tmdb.org/t/p/w600_and_h900_bestv2${

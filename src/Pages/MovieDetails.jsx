@@ -48,8 +48,10 @@ export default function MovieDetails() {
   const [boxtoaddplaylist,setboxtoaddplaylist] = useState(false);
   const [boxtoaddplaylist1,setboxtoaddplaylist1] = useState(false);
   const [watchbtloading,setwatchbtloading] = useState(false)
-  const [playlist,setplaylist] = useState([])
-  const [nametemp,setnametemp] = useState(null)
+  const [playlist,setplaylist] = useState([]);
+  const [nametemp,setnametemp] = useState(null);
+  const [alreadyExists,SetAlreadyExists] = useState(false);
+
   const currentDate = new Date();
   const year = currentDate.getFullYear();
   const month = (currentDate.getMonth() + 1).toString().padStart(2, "0"); // Adding 1 because getMonth() returns zero-based month (0 for January, 11 for December)
@@ -58,7 +60,6 @@ export default function MovieDetails() {
   const { id } = useParams();
   const [isLogged,setIsLogged] = useState(false);
   const urlParams = new URLSearchParams(window.location.search);
-  
   let paramValue = urlParams.get("m");
   function checkCookie(name) {
     const cookies = document.cookie.split("; ");
@@ -353,6 +354,37 @@ export default function MovieDetails() {
       console.error("Error:", error);
     }
   };
+  const deleteindb = async (id) => {
+    const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
+    setwatchbtloading(true);
+    try {
+      const resp = await axios.delete(
+        "https://mymovielistserver.onrender.com/delete",
+        {
+          data: {
+            username,
+            id: id,
+            type: paramValue == 'true' ? 'movies' : 'series',
+          },
+        }
+      );
+      if(resp){
+        document.getElementById(
+          "remindnotifycard"
+        ).innerHTML = `${resp.data.message}`;
+        document.getElementById("remindnotifycard").style.top = "5%";
+        SetAlreadyExists(false);
+        setwatchbtloading(false);
+        setTimeout(() => {
+          document.getElementById("remindnotifycard").style.top = "-10%";
+        }, 1500);
+
+      }
+      //console.log(resp.data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
   const getrecommds = async (id) => {
     const urlmovierecommds = `https://api.themoviedb.org/3/movie/${id}/recommendations`;
     const urlmoviereviews = `https://api.themoviedb.org/3/movie/${id}/reviews`;
@@ -396,7 +428,10 @@ setwatchbtloading(true);
             title: title,
           }
         );
-       // console.log(resp);
+        console.log(resp);
+if(resp.data){
+SetAlreadyExists(true);
+}
         document.getElementById(
           "remindnotifycard"
         ).innerHTML = `${resp.data.message}`;
@@ -433,7 +468,10 @@ setwatchbtloading(true);
             name: name,
           }
         );
-      //  console.log(resp);
+        console.log(resp);
+        if(resp.data){
+          SetAlreadyExists(true);
+          }
         document.getElementById(
           "remindnotifycard"
         ).innerHTML = `${resp.data.message}`;
@@ -447,7 +485,6 @@ setwatchbtloading(true);
         document.getElementById("remindnotifycard").innerHTML =
           "You have not Logged in";
 
-
         document.getElementById("remindnotifycard").style.top = "5%";
         setwatchbtloading(false)
 
@@ -459,10 +496,33 @@ setwatchbtloading(true);
       console.error("Error:", error);
     }
   };
+const existsMovie= async(movie,id)=>{
+  const username = getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`);
+  const resp = await axios.post(
+    "https://mymovielistserver.onrender.com/existsmovie",
+    {
+      username,
+      id: id,
+      movie: movie,
+    });
+    console.log(resp);
+    if(resp.data  == 'not exists'){
+      SetAlreadyExists(false);
+      
+    }else{
+      SetAlreadyExists(true);
+    }
+
+
+}
   useEffect(() => {
+
     setIsLogged(  getCookie(`${import.meta.env.VITE_COOKIENAME_ENV}`) );
+
+  
   },[]);
   useEffect(() => {
+
     settrend1();
     setmedia();
     setkeywords([]);
@@ -478,7 +538,11 @@ setwatchbtloading(true);
     fetchData(id);
 
   }, [id]);
+  useEffect(() => {
 
+    existsMovie(paramValue,id);  
+  
+  },[id]);
  /* useEffect(() => {
     gsap.to(".recommds_list > div", {
       scrollTrigger: { trigger: ".recommds_list > div" },
@@ -891,7 +955,7 @@ window.scrollTo({top:0,behavior:'smooth'});
                       >
                         Watch Trailer
                       </a>{" "}
-                      {
+                      { !alreadyExists &&
                         <div
                           id="watchbt"
                           onClick={() => {
@@ -928,6 +992,23 @@ window.scrollTo({top:0,behavior:'smooth'});
                             <svg id="loading123333333" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="white"><path d="M480-160q-134 0-227-93t-93-227q0-134 93-227t227-93q69 0 132 28.5T720-690v-110h80v280H520v-80h168q-32-56-87.5-88T480-720q-100 0-170 70t-70 170q0 100 70 170t170 70q77 0 139-44t87-116h84q-28 106-114 173t-196 67Z"/></svg>
 
                           }
+                        </div>
+                      }{ alreadyExists &&
+                      <div
+                          id="alreadywatchbt"
+                        onClick={()=>{deleteindb(id)}}
+                        >
+                          {!watchbtloading && 
+                            <><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/></svg>
+                          
+                          <div>Saved</div></>
+                          }
+                        {
+                            watchbtloading &&
+                            <svg id="loading123333333" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="white"><path d="M480-160q-134 0-227-93t-93-227q0-134 93-227t227-93q69 0 132 28.5T720-690v-110h80v280H520v-80h168q-32-56-87.5-88T480-720q-100 0-170 70t-70 170q0 100 70 170t170 70q77 0 139-44t87-116h84q-28 106-114 173t-196 67Z"/></svg>
+
+                          }
+
                         </div>
                       }
                       {
