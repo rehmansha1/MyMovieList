@@ -115,7 +115,24 @@ export default function MoreImagesP() {
     });
   }
   return (
-    <>
+    <div id="mmediaImages">
+     <svg
+              xmlns="http://www.w3.org/2000/svg"
+              onClick={(event) => {
+                
+                document.getElementById('mmediaImages').style.opacity = 0;
+                document.getElementById('gl4').style.opacity = 0;
+                setTimeout(()=>window.history.back(),300);
+              }}
+              className="gotolink4"
+              id="gl4"
+              height="1px"
+              viewBox="0 -960 960 960"
+              width="1px"
+              fill="white"
+            >
+              <path d="M760-200v-160q0-50-35-85t-85-35H273l144 144-57 56-240-240 240-240 57 56-144 144h367q83 0 141.5 58.5T840-360v160h-80Z" />
+            </svg>
 <Uppercard/>
       <div className="mmpage">
         <div id="mediapagetitle">
@@ -186,6 +203,6 @@ export default function MoreImagesP() {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 }

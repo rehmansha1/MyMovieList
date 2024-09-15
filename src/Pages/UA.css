@@ -213,6 +213,31 @@ z-index: 1;
   opacity: 0;
 animation: fadein34234 0.5s 1s both;
 }
+.gotolink4{
+  position: absolute;
+  top: 5%;
+  left: 2%;
+  width: 20px;
+  fill: grey;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s;
+z-index: 1;
+  background-color: black;
+  cursor: pointer;
+  transform: scaleX(1);
+  scale: 1.2;
+  padding: 8px;
+  opacity: 0;
+animation: fadein34234 0.5s 0.5s both;
+}
+.gotolink4:hover{
+  background-color: white;
+  fill: black;
+}
 .rmbox1{
 position: absolute;
 fill: white;
