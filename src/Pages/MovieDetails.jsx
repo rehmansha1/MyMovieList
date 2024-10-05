@@ -717,6 +717,7 @@ const md = true
         <h1>Add To a playlist?</h1>
         <div className="choicebox"onClick={()=>{
           choiceofboxclose();
+
           
           glassOut();
           setTimeout(()=>{setboxofchoiceopen(false); },400)}}>x</div>
