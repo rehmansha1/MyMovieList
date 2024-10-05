@@ -363,7 +363,7 @@ export default function SwiperList({
                         onClick={() => {
                           handleButtonClick(item.id);
                         }}
-                        src={`https://image.tmdb.org/t/p/w600_and_h900_bestv2${
+                        src={`https://image.tmdb.org/t/p/w300${
                           item.poster_path || item.URL
                         }`}
                         alt={item.title || "Image Alt Text"}
