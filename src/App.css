@@ -738,9 +738,9 @@ transition: opacity 0.3s;
 }
 #trengallary > div > img {
   height:auto;
-  width: 110%;
+  width: 105%;
   object-fit: cover;
-  border-radius: 20px;
+  border-radius: 10px;
   transition: all 0.5s;
   z-index: 1;
   cursor: pointer;
