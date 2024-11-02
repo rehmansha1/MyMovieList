@@ -23,7 +23,7 @@ export default function GBTT() {
           if (response1.data.email) {
             var ciphertext = CryptoJS.AES.encrypt(response1.data.email, import.meta.env.VITE_ENCRPYT_KEY_ENV);
     
-            document.cookie = `${import.meta.env.VITE_COOKIENAME_ENV}=${ciphertext}; path=/; samesite=strict; max-age=${10 * 60 * 60  }; secure`;
+            document.cookie = `${import.meta.env.VITE_COOKIENAME_ENV}=${ciphertext}; path=/; samesite=strict; max-age=${15 * 60 * 60  }; secure`;
            
             window.location.reload();
 
